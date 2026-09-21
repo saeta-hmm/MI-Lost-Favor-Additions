@@ -1,0 +1,25 @@
+package dev.saeta.milf.registries;
+
+import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.ClayCrucibleBlockEntity;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+public class MILFBlockEntities {
+
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MILostFavor.MOD_ID);
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<ClayCrucibleBlockEntity>> CLAY_CRUCIBLE = BLOCK_ENTITIES.register(
+            "clay_crucible", () -> BlockEntityType.Builder.of(ClayCrucibleBlockEntity::new, MILFBlocks.CLAY_CRUCIBLE.get()).build(null)
+    );
+
+    public static void register(IEventBus eventBus){
+        BLOCK_ENTITIES.register(eventBus);
+    }
+
+}

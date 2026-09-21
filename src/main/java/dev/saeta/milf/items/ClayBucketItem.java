@@ -25,8 +25,8 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public class ClayBucket extends Item implements ItemCapabilityProvider {
-    public ClayBucket(Properties properties) {
+public class ClayBucketItem extends Item implements ItemCapabilityProvider {
+    public ClayBucketItem(Properties properties) {
         super(properties);
     }
 

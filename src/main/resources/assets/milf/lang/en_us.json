@@ -6,5 +6,9 @@
   "milf.configuration.section.milf.common.toml.title": "MI:LF Mod Configs",
 
   "item.milf.clay_bucket" : "Clay Bucket",
+  "item.milf.firestarter" : "Firestarter",
+
+  "block.milf.clay_crucible" : "Clay Crucible",
+
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB"
 }

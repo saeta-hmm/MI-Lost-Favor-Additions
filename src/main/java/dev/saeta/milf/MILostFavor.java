@@ -1,9 +1,7 @@
 package dev.saeta.milf;
 
 import com.mojang.logging.LogUtils;
-import dev.saeta.milf.registries.MILFDataComponents;
-import dev.saeta.milf.registries.MILFFluids;
-import dev.saeta.milf.registries.MILFItems;
+import dev.saeta.milf.registries.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -28,11 +26,12 @@ public class MILostFavor {
 
         NeoForge.EVENT_BUS.register(this);
 
+        MILFBlocks.register(modEventBus);
         MILFItems.register(modEventBus);
+        MILFBlockEntities.register(modEventBus);
         MILFFluids.register(modEventBus);
         MILFDataComponents.register(modEventBus);
-
-        modEventBus.addListener(this::addCreative);
+        MILFCreativeModeTabs.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -43,12 +42,6 @@ public class MILostFavor {
 
     private void commonSetup(FMLCommonSetupEvent event) {
 
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES){
-            event.accept(MILFItems.CLAY_BUCKET);
-        }
     }
 
     @SubscribeEvent
