@@ -1,8 +1,10 @@
 {
   "itemGroup.milf": "MI Lost Favor",
 
-  "examplemod.configuration.title": "MI:LF Mod Configs",
-  "examplemod.configuration.section.examplemod.common.toml": "MI:LF Mod Configs",
-  "examplemod.configuration.section.examplemod.common.toml.title": "MI:LF Mod Configs",
+  "milf.configuration.title": "MI:LF Mod Configs",
+  "milf.configuration.section.milf.common.toml": "MI:LF Mod Configs",
+  "milf.configuration.section.milf.common.toml.title": "MI:LF Mod Configs",
 
+  "item.milf.clay_bucket" : "Clay Bucket",
+  "milf.tooltip.fluid": "%1$s: %2$s / %3$smB"
 }
