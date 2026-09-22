@@ -1,23 +1,14 @@
 modLoader="javafml"
-
 loaderVersion="${loader_version_range}"
-
 license="${mod_license}"
-
 issueTrackerURL="https://github.com/saeta-hmm/MI-Lost-Favor-Additions/issues"
 
 [[mods]]
-
 modId="${mod_id}"
-
 version="${mod_version}"
-
 displayName="${mod_name}"
-
 displayURL="https://github.com/saeta-hmm/MI-Lost-Favor-Additions"
-
 logoFile="assets/milf/icon.png"
-
 authors="Sæta"
 
 description='''
@@ -30,17 +21,23 @@ Some additional stuff for the MI:LF modpack.
 #[[accessTransformers]]
 #file="META-INF/accesstransformer.cfg"
 
-[[dependencies.milf]]
+[[dependencies."${mod_id}"]]
     modId="neoforge"
     type="required"
     versionRange="[${neo_version},)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.milf]]
+[[dependencies."${mod_id}"]]
     modId="minecraft"
     type="required"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 
+[[dependencies."${mod_id}"]]
+    modId = "modern_industrialization"
+    type = "required"
+    versionRange = "${modern_industrialization_version_range}"
+    ordering = "AFTER"
+    side = "BOTH"

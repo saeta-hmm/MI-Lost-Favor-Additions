@@ -44,7 +44,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = mod_id + "_additions"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -144,6 +144,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            modern_industrialization_version           : modern_industrialization_version,
+            modern_industrialization_version_range     : modern_industrialization_version_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
