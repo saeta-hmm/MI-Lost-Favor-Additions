@@ -12,6 +12,14 @@ public class ItemCapability {
     public static void registerItemCapabilities(RegisterCapabilitiesEvent event){
 
         ((ItemCapabilityProvider) MILFItems.CLAY_BUCKET.get()).registerCapabilities(event);
+
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_AXE.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_HAMMER.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_HOE.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_INGOT.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_PICKAXE.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_SWORD.get()).registerCapabilities(event);
+        ((ItemCapabilityProvider) MILFItems.CLAY_MOLD_SHOVEL.get()).registerCapabilities(event);
     }
 
 }

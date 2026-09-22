@@ -1,6 +1,8 @@
 package dev.saeta.milf;
 
 import dev.saeta.milf.blocks.ClayCrucibleBlockEntityRenderer;
+import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
+import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFFluids;
 import net.neoforged.api.distmarker.Dist;
@@ -11,6 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
@@ -35,5 +38,11 @@ public class MILostFavorClient {
                 MILFBlockEntities.CLAY_CRUCIBLE.get(),
                 ClayCrucibleBlockEntityRenderer::new
         );
+    }
+
+    @SubscribeEvent
+    private static void registerClientTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
+
+        event.register(MILFSteamDrillTooltipData.class, SteamDrillTooltipComponent::new);
     }
 }

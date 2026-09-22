@@ -6,9 +6,26 @@
   "milf.configuration.section.milf.common.toml.title": "MI:LF Mod Configs",
 
   "item.milf.clay_bucket" : "Clay Bucket",
+
+  "item.milf.clay_mold_axe" : "Clay Axe Mold",
+  "item.milf.clay_mold_hammer" : "Clay Hammer Mold",
+  "item.milf.clay_mold_hoe" : "Clay Hoe Mold",
+  "item.milf.clay_mold_pickaxe" : "Clay Pickaxe Mold",
+  "item.milf.clay_mold_shovel" : "Clay Shovel Mold",
+  "item.milf.clay_mold_sword" : "Clay Sword Mold",
+  "item.milf.clay_mold_ingot" : "Clay Ingot Mold",
+
+
   "item.milf.firestarter" : "Firestarter",
+
+  "item.milf.clunky_drill" : "Clunky Drill",
+  "item.milf.big_bulky_drill" : "Big Bulky Drill",
 
   "block.milf.clay_crucible" : "Clay Crucible",
 
-  "milf.tooltip.fluid": "%1$s: %2$s / %3$smB"
+  "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
+
+  "milf.clunky_drill.horizontal":  "(horizontal)",
+  "milf.clunky_drill.vertical":  "(vertical)",
+  "milf.clunky_drill.mode":  "Drill mode changed!"
 }

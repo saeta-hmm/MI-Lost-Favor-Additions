@@ -1,8 +1,10 @@
 package dev.saeta.milf.registries;
 
+import com.mojang.serialization.Codec;
 import dev.saeta.milf.MILostFavor;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -16,6 +18,13 @@ public class MILFDataComponents {
             "fluid", () -> DataComponentType.<SimpleFluidContent>builder()
                     .persistent(SimpleFluidContent.CODEC)
                     .networkSynchronized(SimpleFluidContent.STREAM_CODEC)
+                    .build()
+    );
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_HORIZONTAL = DATA_COMPONENTS.register(
+            "is_horizontal", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL)
+                    .networkSynchronized(ByteBufCodecs.BOOL)
                     .build()
     );
 
