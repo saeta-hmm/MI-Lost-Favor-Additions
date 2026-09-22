@@ -1,6 +1,6 @@
 package dev.saeta.milf.items;
 
-import dev.saeta.milf.blocks.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -43,6 +43,8 @@ public class FirestarterItem extends Item {
 
             if(blockEntity == null) return stack;
             if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return stack;
+
+            if(!clayCrucibleBlockEntity.isFull()) return stack;
 
             stack.hurtAndBreak(1, serverLevel, player, item -> {
                 player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(stack));

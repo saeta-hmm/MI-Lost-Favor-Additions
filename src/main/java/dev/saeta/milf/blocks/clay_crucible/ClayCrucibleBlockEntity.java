@@ -1,56 +1,46 @@
-package dev.saeta.milf.blocks;
+package dev.saeta.milf.blocks.clay_crucible;
 
+import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
+import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ClayCrucibleBlockEntity extends BlockEntity {
 
-    public static final int MAX_PROGRESS = 109;
     private static final int INPUT_SLOT = 0;
-    private static final int FUEL_SLOT  = 1;
+    private static final int FUEL_SLOT = 1;
 
+    private int currentRecipeTime = 109;
     private boolean isFull;
     private boolean isLit;
     private boolean hasFluid;
     private int progress;
-
-    private Set<String> CRUSHED_ORES = Set.of(
-            "minecraft:raw_iron"
-    );
-
-    private Set<String> COALS = Set.of(
-            "minecraft:coal"
-    );
-
-    private Map<String, String> RESULT_MAP = Map.of(
-            "minecraft:raw_iron", "minecraft:lava"
-    );
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
         @Override
@@ -62,13 +52,27 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty()) return false;
             if (!fluidTank.isEmpty()) return false;
+            if (level == null) return false;
 
-            String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+            RecipeManager recipeManager = level.getRecipeManager();
 
-            if (slot == INPUT_SLOT) return CRUSHED_ORES.contains(itemId);
-            if (slot == FUEL_SLOT) return COALS.contains(itemId);
+            HashSet<Ingredient> validInputs = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE).stream().map(
+                    clayCrucibleRecipeRecipeHolder -> clayCrucibleRecipeRecipeHolder.value().getInput().ingredient()
+            ).collect(Collectors.toCollection(HashSet::new));
+
+            HashSet<Ingredient> validFuels = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE).stream().map(
+                    clayCrucibleRecipeRecipeHolder -> clayCrucibleRecipeRecipeHolder.value().getFuel().ingredient()
+            ).collect(Collectors.toCollection(HashSet::new));
+
+            switch (slot){
+                case INPUT_SLOT:
+                    return validInputs.stream().anyMatch(ingredient -> ingredient.test(stack));
+                case FUEL_SLOT:
+                    return validFuels.stream().anyMatch(ingredient -> ingredient.test(stack));
+            }
 
             return false;
+
         }
 
         @Override
@@ -116,15 +120,27 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
     }
 
     public void checkAndSetIfFull(){
-        setFull(isInventoryFull());
+        Optional<RecipeHolder<ClayCrucibleRecipe>> recipeHolder = getCurrentRecipe();
+        if(recipeHolder.isPresent()){
+            setFull(true);
+            currentRecipeTime = recipeHolder.get().value().getTime();
+            return;
+        }
+        setFull(false);
     }
 
-    private boolean isInventoryFull() {
-        ItemStack stack0 = itemHandler.getStackInSlot(INPUT_SLOT);
-        if (stack0.isEmpty()) return false;
-        ItemStack stack1 = itemHandler.getStackInSlot(FUEL_SLOT);
-        if (stack1.isEmpty()) return false;
-        return stack0.getCount() + stack1.getCount() >= 12;
+    private Optional<RecipeHolder<ClayCrucibleRecipe>> getCurrentRecipe() {
+
+        if(level == null) return Optional.empty();
+
+        ItemStack inputStack = itemHandler.getStackInSlot(INPUT_SLOT);
+        if (inputStack.isEmpty()) return Optional.empty();
+        ItemStack fuelStack = itemHandler.getStackInSlot(FUEL_SLOT);
+        if (fuelStack.isEmpty()) return Optional.empty();
+
+        ClayCrucibleRecipeInput clayCrucibleRecipeInput = new ClayCrucibleRecipeInput(inputStack, fuelStack);
+
+        return level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, clayCrucibleRecipeInput, level);
     }
 
     public ItemStack insertAnywhere(ItemStack stack) {
@@ -140,27 +156,37 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
     }
 
     private void tick(){
+        if(level == null) return;
         if(!isLit) return;
 
         progress++;
 
-        if(progress >= MAX_PROGRESS){
+        if(progress >= currentRecipeTime){
             progress = 0;
 
-            ItemStack inputStack = itemHandler.getStackInSlot(0);
+            ItemStack inputStack = itemHandler.getStackInSlot(INPUT_SLOT);
+            ItemStack fuelStack = itemHandler.getStackInSlot(FUEL_SLOT);
 
-            String inputId = BuiltInRegistries.ITEM.getKey(inputStack.getItem()).toString();
-            String fluidId = RESULT_MAP.get(inputId);
+            ClayCrucibleRecipeInput clayCrucibleRecipeInput = new ClayCrucibleRecipeInput(inputStack, fuelStack);
 
-            if(fluidId == null) return;
+            Optional<RecipeHolder<ClayCrucibleRecipe>> optionalClayCrucibleRecipeRecipeHolder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, clayCrucibleRecipeInput, level);
 
-            Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluidId));
-            FluidStack fluidStack = new FluidStack(fluid, 1000);
+            if(optionalClayCrucibleRecipeRecipeHolder.isEmpty()) {
+                isLit = false;
+                isFull = false;
+
+                setChanged();
+                return;
+            }
+
+            ClayCrucibleRecipe clayCrucibleRecipe = optionalClayCrucibleRecipeRecipeHolder.get().value();
+
+            FluidStack fluidStack = clayCrucibleRecipe.getOutput();
 
             fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
 
-            itemHandler.extractItem(0,8,false);
-            itemHandler.extractItem(1,4,false);
+            itemHandler.extractItem(INPUT_SLOT,clayCrucibleRecipe.getInput().count(),false);
+            itemHandler.extractItem(FUEL_SLOT,clayCrucibleRecipe.getFuel().count(),false);
 
             isLit = false;
             isFull = false;
@@ -196,6 +222,8 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
         tag.putBoolean("hasFluid", hasFluid);
 
         tag.putInt("progress", progress);
+
+        tag.putInt("currentRecipeTime", currentRecipeTime);
     }
 
     @Override
@@ -232,6 +260,10 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
 
         if (tag.contains("progress")) {
             progress = tag.getInt("progress");
+        }
+
+        if (tag.contains("currentRecipeTime")) {
+            currentRecipeTime = tag.getInt("currentRecipeTime");
         }
 
     }

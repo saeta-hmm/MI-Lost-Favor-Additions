@@ -1,6 +1,6 @@
 package dev.saeta.milf;
 
-import dev.saeta.milf.blocks.ClayCrucibleBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntityRenderer;
 import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFBlockEntities;

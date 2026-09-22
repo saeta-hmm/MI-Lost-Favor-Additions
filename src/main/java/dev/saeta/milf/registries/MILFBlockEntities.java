@@ -1,12 +1,10 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.ClayCrucibleBlockEntity;
-import net.minecraft.core.component.DataComponentType;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 

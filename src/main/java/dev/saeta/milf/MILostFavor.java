@@ -32,6 +32,8 @@ public class MILostFavor {
         MILFFluids.register(modEventBus);
         MILFDataComponents.register(modEventBus);
         MILFCreativeModeTabs.register(modEventBus);
+        MILFRecipeTypes.register(modEventBus);
+        MILFRecipeSerializers.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

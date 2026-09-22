@@ -1,4 +1,4 @@
-package dev.saeta.milf.blocks;
+package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -22,7 +22,6 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import org.antlr.v4.runtime.atn.BlockStartState;
 import org.joml.Matrix4f;
 
 import java.util.function.BiConsumer;

@@ -1,7 +1,7 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.ClayCrucibleBlock;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
