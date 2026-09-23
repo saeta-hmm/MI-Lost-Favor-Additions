@@ -219,8 +219,6 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
 
         tag.putBoolean("isLit", isLit);
 
-        tag.putBoolean("hasFluid", hasFluid);
-
         tag.putInt("progress", progress);
 
         tag.putInt("currentRecipeTime", currentRecipeTime);
@@ -252,10 +250,6 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
 
         if (tag.contains("isLit")) {
             isLit = tag.getBoolean("isLit");
-        }
-
-        if (tag.contains("hasFluid")) {
-            hasFluid = tag.getBoolean("hasFluid");
         }
 
         if (tag.contains("progress")) {

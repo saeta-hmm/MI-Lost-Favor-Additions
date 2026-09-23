@@ -1,15 +1,23 @@
 package dev.saeta.milf.items;
 
+import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -90,6 +98,47 @@ public class ClayBucketItem extends Item implements ItemCapabilityProvider {
         }
 
         return InteractionResultHolder.pass(stack);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+
+        if (level.isClientSide()) return InteractionResult.CONSUME;
+        BlockPos pos = context.getClickedPos();
+        BlockState state = level.getBlockState(pos);
+        Player player = context.getPlayer();
+        if(state.is(BlockTags.DIRT ) && player.isShiftKeyDown()){
+
+            BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
+            ItemStack bucketStack = context.getItemInHand();
+
+            var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
+
+            BlockPlaceContext placeContext = new BlockPlaceContext(context);
+            InteractionResult result = crucibleBlock.place(placeContext);
+
+            if(result.consumesAction()){
+
+                if(optionalFluidStack.isPresent()){
+
+                    FluidStack fluidStack = optionalFluidStack.get();
+
+                    BlockPos blockPos = placeContext.getClickedPos();
+                    ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
+
+                    if(clayCrucibleBlockEntity != null){
+                        clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    }
+
+                }
+
+                return result;
+            }
+
+        }
+
+        return InteractionResult.PASS;
     }
 
     @Override

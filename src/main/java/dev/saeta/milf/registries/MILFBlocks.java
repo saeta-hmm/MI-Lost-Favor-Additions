@@ -18,7 +18,7 @@ public class MILFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MILostFavor.MOD_ID);
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
-            .strength(2,1)
+            .strength(1,1)
             .sound(SoundType.DECORATED_POT)
     ));
 

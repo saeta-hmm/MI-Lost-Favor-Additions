@@ -2,6 +2,7 @@ package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFDataComponents;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,7 +25,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,7 +118,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
 
-        if(state.is(newState.getBlock())){
+        if(!state.is(newState.getBlock())){
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
             if(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity){
@@ -124,6 +130,19 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
                         Block.popResource(level, pos, stack);
                     }
                 }
+
+                FluidTank fluidTank = clayCrucibleBlockEntity.getFluidTank();
+                FluidStack fluidStack = fluidTank.getFluid();
+
+                ItemStack gucket = new ItemStack(MILFItems.CLAY_BUCKET.get());
+
+                if(!fluidStack.isEmpty()){
+                    FluidHandlerItemStack handler = (FluidHandlerItemStack) FluidUtil.getFluidHandler(gucket).orElseThrow();
+
+                    handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                }
+
+                Block.popResource(level, pos, gucket);
             }
         }
 
