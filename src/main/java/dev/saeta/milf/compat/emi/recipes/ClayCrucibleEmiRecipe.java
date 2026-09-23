@@ -70,7 +70,7 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 
     @Override
     public int getDisplayHeight() {
-        return 80;
+        return 64;
     }
 
     @Override
@@ -78,41 +78,27 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(0), 13,60);
+//        widgets.addSlot(getInputs().get(0), 13,60);
+//        widgets.addSlot(getInputs().get(1), 33,60);
 
-        widgets.addSlot(getInputs().get(1), 33,60);
-
-        ItemStack inputStack = input.getItems()[0];
-        ItemStack fuelStack = fuel.getItems()[0];
-
-        int inputCount = inputStack.getCount();
-        int fuelCount = fuelStack.getCount();
-
-
-
-        int seed = input.hashCode();
-
-        widgets.addDrawable(0,0,64,64, (guiGraphics, mouseX, mouseY, delta ) -> {
-
-            RandomSource random = RandomSource.create(seed);
-
-            for (int i = 0; i < fuelCount; i++) {
-                guiGraphics.renderFakeItem(fuelStack, 14 + i * 6 + random.nextInt( 2), 4 + random.nextInt(5));
-            }
-
-            for (int i = 0; i < inputCount; i++) {
-                guiGraphics.renderFakeItem(inputStack, 14 + i % 4 * 6 + random.nextInt( 2), 20 + ( i / 4) * 13 + random.nextInt(-2, 5));
-            }
+//        widgets.addSlot(getInputs().get(0), 14,14).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
+//        widgets.addSlot(getInputs().get(1), 32,14).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
+//
+//        widgets.addSlot(14, 32).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
+//        widgets.addSlot(32, 32).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
 
 
 
+        widgets.addSlot(getInputs().get(1), 14,14).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18, 36, 18);
+        widgets.addSlot(getInputs().get(0), 14,32).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18,36, 18);
 
-        });
+
+
 
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 76,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addTank(getOutputs().get(0), 76 + 14, 16, 36, 35, 1000).recipeContext(this).drawBack(false);
+        widgets.addTank(getOutputs().get(0), 76 + 14, 14, 36, 36, 1000).recipeContext(this).drawBack(false);
 
         widgets.addFillingArrow(58, 24, time /20 * 1000)
                 .tooltip(((something, noIdea) -> Collections.singletonList(

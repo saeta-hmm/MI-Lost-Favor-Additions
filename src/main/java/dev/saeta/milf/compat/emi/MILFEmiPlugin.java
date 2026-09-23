@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.ClayCrucibleEmiRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -28,6 +29,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE);
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
     }
 
     private void registerRecipes(EmiRegistry registry){

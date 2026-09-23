@@ -7,6 +7,8 @@ import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -119,6 +121,10 @@ public class ClayBucketItem extends Item implements ItemCapabilityProvider {
             InteractionResult result = crucibleBlock.place(placeContext);
 
             if(result.consumesAction()){
+
+                level.playSound(null, pos,
+                        SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
+                        1f, 1f);
 
                 if(optionalFluidStack.isPresent()){
 
