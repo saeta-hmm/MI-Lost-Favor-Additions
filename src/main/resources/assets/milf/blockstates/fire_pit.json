@@ -1,0 +1,23 @@
+{
+  "multipart": [
+    {
+      "when": { "logs": "1" },
+      "apply": { "model": "milf:block/fire_pit_logs_1" }
+    },
+    {
+      "when": { "logs": "2" },
+      "apply": { "model": "milf:block/fire_pit_logs_2" }
+    },
+    {
+      "when": { "logs": "3" },
+      "apply": { "model": "milf:block/fire_pit_logs_3" }
+    },
+    {
+      "when": { "logs": "4" },
+      "apply": { "model": "milf:block/fire_pit_logs_4" }
+    },
+    {
+      "apply": { "model": "milf:block/fire_pit" }
+    }
+  ]
+}

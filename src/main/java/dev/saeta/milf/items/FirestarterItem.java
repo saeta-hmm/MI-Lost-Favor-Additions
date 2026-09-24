@@ -1,8 +1,10 @@
 package dev.saeta.milf.items;
 
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.FlammableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,15 +44,17 @@ public class FirestarterItem extends Item {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
             if(blockEntity == null) return stack;
-            if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return stack;
+            if(!(blockEntity instanceof FlammableBlockEntity flammableBlockEntity)) return stack;
 
-            if(!clayCrucibleBlockEntity.isFull()) return stack;
+            if(!flammableBlockEntity.canBeIgnited()) return stack;
 
             stack.hurtAndBreak(1, serverLevel, player, item -> {
                 player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(stack));
             });
 
-            clayCrucibleBlockEntity.setLit(true);
+            level.playSound(null, blockPos, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1,1);
+
+            flammableBlockEntity.ignite();
 
         }
 

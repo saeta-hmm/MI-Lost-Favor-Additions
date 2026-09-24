@@ -1,6 +1,8 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
+import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import net.minecraft.core.component.DataComponents;
@@ -8,12 +10,10 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -29,6 +29,14 @@ public class MILFBlocks {
 
     public static final DeferredBlock<Block> BURNING_COAL = registerBlock("burning_coal_block", () -> new Block(BlockBehaviour.Properties.of()));
 
+    public static final DeferredBlock<FirePitBlock> FIRE_PIT = registerBlock("fire_pit",
+            () -> new FirePitBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.ROOTED_DIRT)
+                    .strength(0.6F,0.8f)
+                    .noOcclusion()),
+            (block) -> new FirePitBlockItem(block.get(), new Item.Properties())
+    );
+
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
             .strength(1,1)
             .sound(SoundType.DECORATED_POT)
@@ -36,9 +44,9 @@ public class MILFBlocks {
 
     public static final DeferredBlock<KilnBlock> KILN = registerBlock("kiln",
             () -> new KilnBlock(BlockBehaviour.Properties.of()
-                .strength(1,1)
-                .sound(SoundType.DECORATED_POT)
-                .noOcclusion()),
+                    .strength(1,1)
+                    .sound(SoundType.DECORATED_POT)
+                    .noOcclusion()),
             (block) -> new BlockItem(block.get(), new Item.Properties()
                     .stacksTo(1)
                     .component(DataComponents.UNBREAKABLE, new Unbreakable(false))

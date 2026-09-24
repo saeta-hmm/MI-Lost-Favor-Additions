@@ -33,6 +33,8 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.BIG_BULKY_DRILL);
 
                         output.accept(MILFBlocks.KILN);
+                        output.accept(MILFBlocks.FIRE_PIT);
+
 
                     })).build());
 

@@ -1,6 +1,6 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
-import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.FlammableBlockEntity;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ClayCrucibleBlockEntity extends BlockEntity {
+public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlockEntity {
 
     private static final int INPUT_SLOT = 0;
     private static final int FUEL_SLOT = 1;
@@ -110,8 +110,18 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
         setChanged();
     }
 
+    @Override
+    public boolean canBeIgnited() {
+        return isFull && !isLit;
+    }
+
     public boolean isLit(){
         return isLit;
+    }
+
+    @Override
+    public void ignite() {
+        isLit = true;
     }
 
     public boolean isFull() {

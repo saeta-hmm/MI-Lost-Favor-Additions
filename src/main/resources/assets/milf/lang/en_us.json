@@ -23,6 +23,7 @@
 
   "block.milf.clay_crucible" : "Clay Crucible",
   "block.milf.kiln" : "Kiln",
+  "block.milf.fire_pit" : "Fire Pit",
 
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
 
