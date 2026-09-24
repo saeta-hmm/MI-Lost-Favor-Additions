@@ -39,7 +39,6 @@ public class ClayCrucibleBlockEntity extends BlockEntity {
     private int currentRecipeTime = 109;
     private boolean isFull;
     private boolean isLit;
-    private boolean hasFluid;
     private int progress;
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(2) {

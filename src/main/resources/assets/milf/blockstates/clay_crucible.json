@@ -1,5 +1,10 @@
 {
   "variants": {
-    "": { "model": "milf:block/clay_crucible" }
+    "kiln_part=false": {
+      "model": "milf:block/clay_crucible"
+    },
+    "kiln_part=true": {
+      "model": "milf:block/clay_crucible_kiln_part"
+    }
   }
 }

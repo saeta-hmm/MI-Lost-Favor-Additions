@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "milf:block/kiln" },
+    "facing=south": { "model": "milf:block/kiln", "y": 180 },
+    "facing=west":  { "model": "milf:block/kiln", "y": 270 },
+    "facing=east":  { "model": "milf:block/kiln", "y": 90 }
+  }
+}

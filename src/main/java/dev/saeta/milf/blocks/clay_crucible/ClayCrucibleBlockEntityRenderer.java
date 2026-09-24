@@ -3,6 +3,7 @@ package dev.saeta.milf.blocks.clay_crucible;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -37,6 +38,8 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
     private final static float MAX_Z = (float) 12 /16;
     private final static float MIN_Y = (float) 2 /16;
 
+    private final static float KILN_PART_Y_OFFSET = ClayCrucibleBlock.KILN_PART_Y_OFFSET;
+
     public ClayCrucibleBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         blockRenderDispatcher = context.getBlockRenderDispatcher();
         itemRenderer = context.getItemRenderer();
@@ -44,9 +47,15 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
     @Override
     public void render(ClayCrucibleBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+
+
+
         FluidTank fluidTank = blockEntity.getFluidTank();
 
         if(!fluidTank.isEmpty()){
+
+            poseStack.pushPose();
+            applyKilnOffset(poseStack, blockEntity.getBlockState());
             FluidStack fluidStack = fluidTank.getFluid().copy();
 
             IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
@@ -70,14 +79,18 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
             consumer.addVertex(matrix, MIN_X, maxY, MAX_Z).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
             consumer.addVertex(matrix, MAX_X, maxY, MAX_Z).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
             consumer.addVertex(matrix, MAX_X, maxY, MIN_Z).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+
+            poseStack.popPose();
         }
 
         ItemStackHandler itemHandler = blockEntity.getItemHandler();
 
         if(blockEntity.isFull()){
-            BlockState blockToRender = blockEntity.isLit() ? Blocks.MAGMA_BLOCK.defaultBlockState() : Blocks.COAL_BLOCK.defaultBlockState();
+            BlockState blockToRender = blockEntity.isLit() ? MILFBlocks.BURNING_COAL.get().defaultBlockState() : Blocks.COAL_BLOCK.defaultBlockState();
 
             poseStack.pushPose();
+            applyKilnOffset(poseStack, blockEntity.getBlockState());
+
             poseStack.translate(0.25, 0, 0.25);
             poseStack.scale(0.5F, 0.5F, 0.5F);
 
@@ -125,19 +138,31 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
         ItemStack stack0 = itemHandler.getStackInSlot(0);
 
         if(!stack0.isEmpty()){
+            poseStack.pushPose();
+            applyKilnOffset(poseStack, blockEntity.getBlockState());
             for (int i = 0; i < stack0.getCount(); i++) {
                 renderSingleItem.accept(stack0, i);
                 itemNumber++;
             }
+            poseStack.popPose();
         }
 
         ItemStack stack1 = itemHandler.getStackInSlot(1);
 
         if(!stack1.isEmpty()){
+            poseStack.pushPose();
+            applyKilnOffset(poseStack, blockEntity.getBlockState());
             for (int i = itemNumber; i < stack1.getCount() + itemNumber; i++) {
                 renderSingleItem.accept(stack1, i);
             }
+            poseStack.popPose();
         }
+
+    }
+
+    private void applyKilnOffset(PoseStack poseStack, BlockState state){
+        if(state.getValue(ClayCrucibleBlock.KILN_PART)) poseStack.translate(0, KILN_PART_Y_OFFSET, 0);
+
     }
 
 }

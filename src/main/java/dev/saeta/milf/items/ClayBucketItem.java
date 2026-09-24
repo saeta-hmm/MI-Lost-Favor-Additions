@@ -58,7 +58,7 @@ public class ClayBucketItem extends Item implements ItemCapabilityProvider {
 
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
 
-        if (hitResult.getType() != HitResult.Type.BLOCK) {
+        if (hitResult.getType() != HitResult.Type.BLOCK || player.isShiftKeyDown()) {
             return InteractionResultHolder.pass(stack);
         }
 
@@ -105,44 +105,81 @@ public class ClayBucketItem extends Item implements ItemCapabilityProvider {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
+        Player player = context.getPlayer();
 
-        if (level.isClientSide()) return InteractionResult.CONSUME;
+        if (level.isClientSide() || player == null ) return InteractionResult.PASS;
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
-        Player player = context.getPlayer();
-        if(state.is(BlockTags.DIRT ) && player.isShiftKeyDown()){
 
-            BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
-            ItemStack bucketStack = context.getItemInHand();
+        if(player.isShiftKeyDown()){
+            if(state.is(BlockTags.DIRT )){
 
-            var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
+                BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
+                ItemStack bucketStack = context.getItemInHand();
 
-            BlockPlaceContext placeContext = new BlockPlaceContext(context);
-            InteractionResult result = crucibleBlock.place(placeContext);
+                var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
 
-            if(result.consumesAction()){
+                BlockPlaceContext placeContext = new BlockPlaceContext(context);
+                InteractionResult result = crucibleBlock.place(placeContext);
 
-                level.playSound(null, pos,
-                        SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
-                        1f, 1f);
+                if(result.consumesAction()){
 
-                if(optionalFluidStack.isPresent()){
+                    level.playSound(null, pos,
+                            SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
+                            1f, 1f);
 
-                    FluidStack fluidStack = optionalFluidStack.get();
+                    if(optionalFluidStack.isPresent()){
 
-                    BlockPos blockPos = placeContext.getClickedPos();
-                    ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
+                        FluidStack fluidStack = optionalFluidStack.get();
 
-                    if(clayCrucibleBlockEntity != null){
-                        clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        BlockPos blockPos = placeContext.getClickedPos();
+                        ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
+
+                        if(clayCrucibleBlockEntity != null){
+                            clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        }
+
                     }
 
+                    return InteractionResult.SUCCESS;
                 }
 
-                return result;
             }
 
+            if(state.is(MILFBlocks.KILN)){
+                BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
+                ItemStack bucketStack = context.getItemInHand();
+
+                var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
+                BlockPos targetPos = pos.above();
+                BlockPlaceContext placeContext = BlockPlaceContext.at(new BlockPlaceContext(context), targetPos, Direction.UP);
+
+                InteractionResult result = crucibleBlock.place(placeContext);
+
+                if(result.consumesAction()){
+
+                    level.playSound(null, pos,
+                            SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
+                            1f, 1f);
+
+                    if(optionalFluidStack.isPresent()){
+
+                        FluidStack fluidStack = optionalFluidStack.get();
+
+                        BlockPos blockPos = placeContext.getClickedPos();
+                        ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
+
+                        if(clayCrucibleBlockEntity != null){
+                            clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        }
+
+                    }
+
+                    return InteractionResult.SUCCESS;
+                }
+            }
         }
+
 
         return InteractionResult.PASS;
     }

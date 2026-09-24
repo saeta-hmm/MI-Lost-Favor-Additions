@@ -27,13 +27,13 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CLAY_MOLD_SWORD);
                         output.accept(MILFItems.CLAY_MOLD_SHOVEL);
 
-
                         output.accept(MILFItems.FIRESTARTER);
 
                         output.accept(MILFItems.CLUNKY_DRILL);
                         output.accept(MILFItems.BIG_BULKY_DRILL);
 
-                        output.accept(MILFBlocks.CLAY_CRUCIBLE);
+                        output.accept(MILFBlocks.KILN);
+
                     })).build());
 
     public static void register(IEventBus eventBus) {
