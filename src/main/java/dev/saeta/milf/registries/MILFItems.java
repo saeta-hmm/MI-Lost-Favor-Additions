@@ -27,6 +27,8 @@ public class MILFItems {
     public static final DeferredItem<Item> CLAY_MOLD_SWORD = ITEMS.register("clay_mold_sword", () -> new ClayMoldItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY), FluidType.BUCKET_VOLUME / 5));
     public static final DeferredItem<Item> CLAY_MOLD_INGOT = ITEMS.register("clay_mold_ingot", () -> new ClayMoldItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY), FluidType.BUCKET_VOLUME / 8));
 
+    public static final DeferredItem<Item> CLAY_PLATE = ITEMS.register("clay_plate", () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> FIRESTARTER = ITEMS.register("firestarter", () -> new FirestarterItem(new Item.Properties().stacksTo(1).durability(8)));
 
     public static final DeferredItem<Item> CLUNKY_DRILL = ITEMS.register("clunky_drill", () -> new ClunkyDrillItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.IS_HORIZONTAL, true)));

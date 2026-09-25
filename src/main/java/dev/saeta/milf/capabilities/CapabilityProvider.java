@@ -1,7 +1,7 @@
-package dev.saeta.milf.items;
+package dev.saeta.milf.capabilities;
 
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
-public interface ItemCapabilityProvider {
+public interface CapabilityProvider {
     void registerCapabilities(RegisterCapabilitiesEvent event);
 }

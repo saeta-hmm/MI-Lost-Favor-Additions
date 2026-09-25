@@ -1,6 +1,8 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
+import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFDataComponents;
@@ -11,6 +13,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +37,10 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -43,17 +50,26 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class ClayCrucibleBlock extends BaseEntityBlock {
+public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProvider {
 
     public static final MapCodec<ClayCrucibleBlock> CODEC = simpleCodec(ClayCrucibleBlock::new);
+
     public static final BooleanProperty KILN_PART = BooleanProperty.create("kiln_part");
+    public static final BooleanProperty SEALED = BooleanProperty.create("sealed");
 
     public final static float KILN_PART_Y_OFFSET = (float) -6 /16;
+
+    private static final VoxelShape GUCKET_SHAPE = Block.box(3, 0, 3, 13, 10, 13);
+    private static final VoxelShape GUCKET_SHAPE_KILN_PART = Block.box(3, 0, 3, 13, 4, 13);
+    private static final VoxelShape LID_SHAPE = Block.box(3, 10, 3, 13, 11, 13);
+    private static final VoxelShape LID_SHAPE_KILN_PART = Block.box(3, 4, 3, 13, 5, 13);
+
+
 
     public ClayCrucibleBlock(Properties properties) {
         super(properties);
 
-        registerDefaultState(defaultBlockState().setValue(KILN_PART, false));
+        registerDefaultState(defaultBlockState().setValue(KILN_PART, false).setValue(SEALED, false));
     }
 
     @Override
@@ -63,10 +79,14 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if(state.getValue(KILN_PART)){
-            return Block.box(3, 0, 3, 13, 4, 13);
+
+        VoxelShape gucketShape = state.getValue(KILN_PART) ? GUCKET_SHAPE_KILN_PART : GUCKET_SHAPE;
+        VoxelShape lidShape = state.getValue(KILN_PART) ? LID_SHAPE_KILN_PART : LID_SHAPE;
+
+        if(state.getValue(SEALED)){
+            return Shapes.or(gucketShape, lidShape);
         }
-        return Block.box(3, 0, 3, 13, 10, 13);
+        return gucketShape;
     }
 
     @Override
@@ -76,7 +96,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(KILN_PART);
+        builder.add(KILN_PART).add(SEALED);
     }
 
     @Override
@@ -93,8 +113,9 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        if(state.getValue(KILN_PART) && !level.getBlockState(pos.below()).is(MILFBlocks.KILN)) return false;
-        return true;
+        BlockState stateBelow = level.getBlockState(pos.below());
+        if(state.getValue(KILN_PART) && !stateBelow.is(MILFBlocks.KILN)) return false;
+        return stateBelow.is(BlockTags.DIRT);
     }
 
     @Override
@@ -121,16 +142,23 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
 
         if(level.isClientSide) return ItemInteractionResult.SUCCESS;
 
+        if(stack.is(MILFItems.CLAY_PLATE) && !state.getValue(SEALED)){
+            stack.shrink(1);
+            level.setBlock(pos, state.setValue(SEALED, true), Block.UPDATE_NONE);
+            level.playSound(null, pos, SoundEvents.DECORATED_POT_HIT, SoundSource.BLOCKS, 1,1);
+            return ItemInteractionResult.SUCCESS;
+        }
+
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return ItemInteractionResult.FAIL;
-        if(FluidUtil.interactWithFluidHandler(player, hand, clayCrucibleBlockEntity.getFluidTank())){
+        if(!state.getValue(SEALED) && FluidUtil.interactWithFluidHandler(player, hand, clayCrucibleBlockEntity.getFluidTank())){
             return ItemInteractionResult.SUCCESS;
         }
 
         ItemStackHandler itemHandler = clayCrucibleBlockEntity.getItemHandler();
 
-        if(!stack.isEmpty()){
+        if(!stack.isEmpty() && !state.getValue(SEALED)){
             ItemStack remainingStack = clayCrucibleBlockEntity.insertAnywhere(stack.copyWithCount(1));
 
             if(remainingStack.isEmpty()){
@@ -145,6 +173,14 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
             }
         } else {
             if(player.isShiftKeyDown() && !clayCrucibleBlockEntity.isLit()){
+
+                if(state.getValue(SEALED)){
+                    level.setBlock(pos, state.setValue(SEALED, false), Block.UPDATE_NONE);
+                    Block.popResource(level, pos, new ItemStack(MILFItems.CLAY_PLATE.get()));
+                    level.playSound(null, pos, SoundEvents.DECORATED_POT_STEP, SoundSource.BLOCKS, 1,1);
+                    return ItemInteractionResult.SUCCESS;
+                }
+
                 for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
                     ItemStack outputStack = itemHandler.extractItem(i,64, false);
 
@@ -190,6 +226,10 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
                 }
 
                 Block.popResource(level, pos, gucket);
+
+                if(state.getValue(SEALED)){
+                    Block.popResource(level, pos, new ItemStack(MILFItems.CLAY_PLATE.get()));
+                }
             }
         }
 
@@ -244,5 +284,21 @@ public class ClayCrucibleBlock extends BaseEntityBlock {
                         1f, 1f);
             }
         }
+    }
+
+    //kinda screwed that this is within Block and not BlockEntity, but I don't care (‾◡◝)
+    @Override
+    public void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                MILFBlockEntities.CLAY_CRUCIBLE.get(),
+                ( blockEntity,  direction) -> blockEntity.getItemHandler()
+        );
+
+        event.registerBlockEntity(
+                Capabilities.FluidHandler.BLOCK,
+                MILFBlockEntities.CLAY_CRUCIBLE.get(),
+                ( blockEntity,  direction) -> blockEntity.getFluidTank()
+        );
     }
 }

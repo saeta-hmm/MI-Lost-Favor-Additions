@@ -1,10 +1,26 @@
 {
-  "variants": {
-    "kiln_part=false": {
-      "model": "milf:block/clay_crucible"
+  "multipart": [
+    {
+      "when": { "kiln_part": "false" },
+      "apply": { "model": "milf:block/clay_crucible" }
     },
-    "kiln_part=true": {
-      "model": "milf:block/clay_crucible_kiln_part"
+    {
+      "when": { "kiln_part": "true" },
+      "apply": { "model": "milf:block/clay_crucible_kiln_part" }
+    },
+    {
+      "when": {
+        "kiln_part": "false",
+        "sealed": "true"
+      },
+      "apply": { "model": "milf:block/clay_crucible_lid" }
+    },
+    {
+      "when": {
+        "kiln_part": "true",
+        "sealed": "true"
+      },
+      "apply": { "model": "milf:block/clay_crucible_kiln_part_lid" }
     }
-  }
+  ]
 }

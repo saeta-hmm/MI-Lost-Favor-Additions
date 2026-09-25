@@ -3,6 +3,7 @@ package dev.saeta.milf.blocks.fire_pit;
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -32,10 +33,12 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class FirePitBlock extends BaseEntityBlock {
+public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider {
 
     public static final MapCodec<FirePitBlock> CODEC = simpleCodec(FirePitBlock::new);
 
@@ -134,7 +137,7 @@ public class FirePitBlock extends BaseEntityBlock {
 
             return ItemInteractionResult.CONSUME;
 
-        } else if(stack.isEmpty()){
+        } else if(stack.isEmpty() && !firePitBlockEntity.isLit()){
             if(level.isClientSide()) return ItemInteractionResult.CONSUME;
 
             for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
@@ -200,6 +203,16 @@ public class FirePitBlock extends BaseEntityBlock {
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         if (level.isClientSide()) return null;
         return createTickerHelper(blockEntityType, MILFBlockEntities.FIRE_PIT.get(), FirePitBlock::serverTick);
+
+    }
+
+    @Override
+    public void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                MILFBlockEntities.FIRE_PIT.get(),
+                ( blockEntity,  direction) -> blockEntity.getItemHandler()
+        );
 
     }
 }

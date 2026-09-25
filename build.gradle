@@ -29,6 +29,14 @@ sourceSets.main.resources {
 repositories {
     maven { url = "https://maven.terraformersmc.com/" } //EMI
 
+    //Jade
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+
     maven {
         name "Modmaven"
         url "https://modmaven.dev"
@@ -130,22 +138,24 @@ dependencies {
     compileOnly("dev.emi:emi-neoforge:${emi_version}")
     runtimeOnly("dev.emi:emi-neoforge:${emi_version}")
 
+    localRuntime compileOnly("curse.maven:jade-324717:${project.jade_file_id}")
+
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
-            minecraft_version      : minecraft_version,
+            minecraft_version : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            modern_industrialization_version           : modern_industrialization_version,
-            modern_industrialization_version_range     : modern_industrialization_version_range,
+            neo_version : neo_version,
+            loader_version_range : loader_version_range,
+            mod_id : mod_id,
+            mod_name : mod_name,
+            mod_license : mod_license,
+            mod_version : mod_version,
+            modern_industrialization_version : modern_industrialization_version,
+            modern_industrialization_version_range : modern_industrialization_version_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

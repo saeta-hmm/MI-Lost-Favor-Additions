@@ -26,6 +26,7 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CLAY_MOLD_PICKAXE);
                         output.accept(MILFItems.CLAY_MOLD_SWORD);
                         output.accept(MILFItems.CLAY_MOLD_SHOVEL);
+                        output.accept(MILFItems.CLAY_PLATE);
 
                         output.accept(MILFItems.FIRESTARTER);
 

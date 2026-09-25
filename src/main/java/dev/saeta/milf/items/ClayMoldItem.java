@@ -1,5 +1,6 @@
 package dev.saeta.milf.items;
 
+import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -10,14 +11,13 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ClayMoldItem extends Item implements ItemCapabilityProvider {
+public class ClayMoldItem extends Item implements CapabilityProvider {
 
     private final int capacity;
     public ClayMoldItem(Properties properties, int capacity) {
@@ -31,7 +31,7 @@ public class ClayMoldItem extends Item implements ItemCapabilityProvider {
         Optional<FluidStack> fluidStack = FluidUtil.getFluidContained(stack);
 
         fluidStack.ifPresent(fs -> {
-            tooltipComponents.add(Component.translatable("milf.tooltip.fluid", fs.getHoverName(), fs.getAmount(), FluidType.BUCKET_VOLUME));
+            tooltipComponents.add(Component.translatable("milf.tooltip.fluid", fs.getHoverName(), fs.getAmount(), capacity));
         });
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

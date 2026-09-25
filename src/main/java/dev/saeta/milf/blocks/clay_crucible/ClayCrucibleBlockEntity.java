@@ -1,11 +1,13 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,6 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -50,7 +54,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty()) return false;
-            if (!fluidTank.isEmpty()) return false;
+            if (!fluidTank.isEmpty() || getBlockState().getValue(ClayCrucibleBlock.SEALED)) return false;
             if (level == null) return false;
 
             RecipeManager recipeManager = level.getRecipeManager();
@@ -112,11 +116,16 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
 
     @Override
     public boolean canBeIgnited() {
-        return isFull && !isLit;
+        return isFull && !isLit && !getBlockState().getValue(ClayCrucibleBlock.SEALED);
     }
 
     public boolean isLit(){
         return isLit;
+    }
+
+
+    public float getCurrentProgress(){
+        return (float) progress / currentRecipeTime;
     }
 
     @Override
@@ -288,4 +297,5 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return saveWithoutMetadata(registries);
     }
+
 }

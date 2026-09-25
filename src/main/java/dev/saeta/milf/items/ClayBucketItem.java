@@ -1,7 +1,7 @@
 package dev.saeta.milf.items;
 
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.core.BlockPos;
@@ -35,7 +35,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public class ClayBucketItem extends Item implements ItemCapabilityProvider {
+public class ClayBucketItem extends Item implements CapabilityProvider {
     public ClayBucketItem(Properties properties) {
         super(properties);
     }
