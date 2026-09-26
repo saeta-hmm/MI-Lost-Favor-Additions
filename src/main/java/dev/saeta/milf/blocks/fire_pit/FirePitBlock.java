@@ -27,6 +27,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -67,7 +69,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
     public FirePitBlock(Properties properties) {
         super(properties);
 
-        registerDefaultState(defaultBlockState().setValue(LOGS, 0));
+        registerDefaultState(defaultBlockState().setValue(LOGS, 0).setValue(BlockStateProperties.LIT, false));
     }
 
     @Override
@@ -82,7 +84,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(LOGS);
+        builder.add(LOGS).add(BlockStateProperties.LIT);
     }
 
     @Override
@@ -191,10 +193,10 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
 
 
 
-            if (level.random.nextFloat() < 0.1f) {
+            if (level.random.nextFloat() < 0.07f) {
                 level.playSound(null, pos,
                         SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS,
-                        1f, 0.5f + (float) level.random.nextInt(1, 7) / 10);
+                        1f, 0.3f + (float) level.random.nextInt(1, 4) / 10);
             }
         }
     }

@@ -8,7 +8,9 @@ import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -16,10 +18,11 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class KilnBlock extends HorizontalDirectionalBlock implements Equipable {
+public class KilnBlock extends HorizontalDirectionalBlock implements Equipable, EntityBlock {
 
     public static final MapCodec<KilnBlock> CODEC = simpleCodec(KilnBlock::new);
 
@@ -131,5 +134,10 @@ public class KilnBlock extends HorizontalDirectionalBlock implements Equipable {
     @Override
     public EquipmentSlot getEquipmentSlot() {
         return EquipmentSlot.HEAD;
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new KilnBlockEntity(pos,state);
     }
 }

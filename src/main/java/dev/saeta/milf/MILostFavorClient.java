@@ -5,6 +5,8 @@ import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFFluids;
+import dev.saeta.milf.registries.client.MILFBlockEntityRenderers;
+import dev.saeta.milf.registries.client.MILFModelLayerLocations;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -34,10 +36,12 @@ public class MILostFavorClient {
 
     @SubscribeEvent
     public static void registerBER(EntityRenderersEvent.RegisterRenderers event){
-        event.registerBlockEntityRenderer(
-                MILFBlockEntities.CLAY_CRUCIBLE.get(),
-                ClayCrucibleBlockEntityRenderer::new
-        );
+        MILFBlockEntityRenderers.register(event);
+    }
+
+    @SubscribeEvent
+    public static void registerModelLayerLocations(EntityRenderersEvent.RegisterLayerDefinitions event){
+        MILFModelLayerLocations.register(event);
     }
 
     @SubscribeEvent

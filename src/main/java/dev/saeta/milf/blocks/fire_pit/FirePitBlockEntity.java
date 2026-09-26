@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.HashSet;
@@ -108,6 +109,9 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
     @Override
     public void ignite() {
         isLit = true;
+        if (this.level == null || this.level.isClientSide) return;
+        level.setBlock(worldPosition, getBlockState().setValue(BlockStateProperties.LIT, true), Block.UPDATE_NONE);
+        setChanged();
     }
 
     public void setLit(boolean value) {

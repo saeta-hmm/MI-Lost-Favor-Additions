@@ -1,6 +1,7 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -14,6 +15,7 @@ public class MILFRecipeSerializers {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MILostFavor.MOD_ID);
 
     public static final RecipeSerializer<ClayCrucibleRecipe> CLAY_CRUCIBLE_RECIPE_SERIALIZER = register("clay_crucible", new ClayCrucibleRecipe.Serializer());
+    public static final RecipeSerializer<ClayCrucibleKilnRecipe> CLAY_CRUCIBLE_KILN_RECIPE_SERIALIZER = register("clay_crucible_kiln", new ClayCrucibleKilnRecipe.Serializer());
 
     private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
         RECIPE_SERIALIZERS.register(id, () -> serializer);

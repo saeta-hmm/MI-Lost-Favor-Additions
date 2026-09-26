@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "milf:block/pot_bellows" },
+    "facing=south": { "model": "milf:block/pot_bellows", "y": 180 },
+    "facing=west":  { "model": "milf:block/pot_bellows", "y": 270 },
+    "facing=east":  { "model": "milf:block/pot_bellows", "y": 90 }
+  }
+}

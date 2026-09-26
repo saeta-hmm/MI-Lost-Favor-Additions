@@ -1,18 +1,14 @@
-package dev.saeta.milf.compat.jade.server;
+package dev.saeta.milf.compat.jade;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
-import snownee.jade.addon.universal.ItemCollector;
 import snownee.jade.api.Accessor;
 import snownee.jade.api.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public abstract sealed class ClayCrucibleComponentProvider <S, C>
         implements IServerExtensionProvider<S>, IClientExtensionProvider<S, C> {

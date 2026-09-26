@@ -1,4 +1,4 @@
-package dev.saeta.milf.compat.jade.server;
+package dev.saeta.milf.compat.jade;
 
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;

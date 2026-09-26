@@ -5,6 +5,7 @@ import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
+import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -33,11 +35,17 @@ public class MILFBlocks {
             () -> new FirePitBlock(BlockBehaviour.Properties.of()
                     .sound(SoundType.ROOTED_DIRT)
                     .strength(0.6F,0.8f)
-                    .noOcclusion()),
+                    .noOcclusion()
+                    .lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 15 : 0)),
             (block) -> new FirePitBlockItem(block.get(), new Item.Properties())
     );
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
+            .strength(1,1)
+            .sound(SoundType.DECORATED_POT)
+    ));
+
+    public static final DeferredBlock<PotBellowsBlock> POT_BELLOWS = registerBlock("pot_bellows", () -> new PotBellowsBlock(BlockBehaviour.Properties.of()
             .strength(1,1)
             .sound(SoundType.DECORATED_POT)
     ));

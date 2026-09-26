@@ -1,6 +1,7 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
@@ -16,6 +17,7 @@ public class MILFRecipeTypes {
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, MILostFavor.MOD_ID);
 
     public static final RecipeType<ClayCrucibleRecipe> CLAY_CRUCIBLE_TYPE = register("clay_crucible");
+    public static final RecipeType<ClayCrucibleKilnRecipe> CLAY_CRUCIBLE_KILN_TYPE = register("clay_crucible_kiln");
 
     private static <T extends Recipe<?>> RecipeType<T> register(String id) {
         RecipeType<T> type = new RecipeType<>() {

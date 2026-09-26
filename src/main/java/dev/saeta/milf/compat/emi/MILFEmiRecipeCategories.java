@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 public class MILFEmiRecipeCategories {
 
     public static final EmiRecipeCategory CLAY_CRUCIBLE = new MILFCategory(MILostFavor.locate("clay_crucible"), EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
+    public static final EmiRecipeCategory CLAY_CRUCIBLE_KILN = new MILFCategory(MILostFavor.locate("clay_crucible_kiln"), EmiStack.of(MILFBlocks.KILN));
 
     private static class MILFCategory extends EmiRecipeCategory {
 

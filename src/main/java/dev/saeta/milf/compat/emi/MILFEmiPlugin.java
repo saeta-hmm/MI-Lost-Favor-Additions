@@ -6,6 +6,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.ClayCrucibleEmiRecipe;
+import dev.saeta.milf.compat.emi.recipes.ClayCrucibleKilnEmiRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
@@ -30,10 +31,18 @@ public class MILFEmiPlugin implements EmiPlugin {
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
+
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.KILN));
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFItems.CLAY_BUCKET));
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.FIRE_PIT));
+
+
     }
 
     private void registerRecipes(EmiRegistry registry){
         addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, ClayCrucibleEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE, ClayCrucibleKilnEmiRecipe::new);
+
     }
 
     public <C extends RecipeInput, T extends Recipe<C>> void addAll(EmiRegistry registry, RecipeType<T> type, Function<RecipeHolder<T>, EmiRecipe> constructor) {

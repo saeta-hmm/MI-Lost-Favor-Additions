@@ -7,12 +7,12 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.TwoTexturesProgressWidget;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -33,10 +33,10 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 
     public ClayCrucibleEmiRecipe(RecipeHolder<ClayCrucibleRecipe> holder) {
         ClayCrucibleRecipe clayCrucibleRecipe = holder.value();
-        this.input = clayCrucibleRecipe.getInput();
-        this.fuel = clayCrucibleRecipe.getFuel();
-        this.output = clayCrucibleRecipe.getOutput();
-        this.time = clayCrucibleRecipe.getTime();
+        this.input = clayCrucibleRecipe.input1();
+        this.fuel = clayCrucibleRecipe.input2();
+        this.output = clayCrucibleRecipe.output();
+        this.time = clayCrucibleRecipe.time();
         this.id = holder.id();
     }
 
@@ -59,6 +59,15 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
     }
 
     @Override
+    public List<EmiIngredient> getCatalysts() {
+        List<EmiIngredient> catalysts = new ArrayList<>();
+        ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
+        firestarter.setDamageValue(1);
+        catalysts.add(EmiStack.of(MILFItems.FIRESTARTER).setRemainder(EmiStack.of(firestarter)));
+        return catalysts;
+    }
+
+    @Override
     public List<EmiStack> getOutputs() {
         return List.of(EmiStack.of(output.getFluid()).setAmount(output.getAmount()));
     }
@@ -78,35 +87,37 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-//        widgets.addSlot(getInputs().get(0), 13,60);
-//        widgets.addSlot(getInputs().get(1), 33,60);
-
-//        widgets.addSlot(getInputs().get(0), 14,14).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
-//        widgets.addSlot(getInputs().get(1), 32,14).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
-//
-//        widgets.addSlot(14, 32).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
-//        widgets.addSlot(32, 32).backgroundTexture(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0);
-
-
-
         widgets.addSlot(getInputs().get(1), 14,14).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18, 36, 18);
         widgets.addSlot(getInputs().get(0), 14,32).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18,36, 18);
-
-
-
-
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 76,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.addTank(getOutputs().get(0), 76 + 14, 14, 36, 36, 1000).recipeContext(this).drawBack(false);
 
-        widgets.addFillingArrow(58, 24, time /20 * 1000)
-                .tooltip(((something, noIdea) -> Collections.singletonList(
+//        widgets.addFillingArrow(58, 24, time /20 * 1000)
+//                .tooltip(((something, noIdea) -> Collections.singletonList(
+//                ClientTooltipComponent.create(
+//                        Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
+//                                .getVisualOrderText()
+//                )
+//        )));
+
+        widgets.add(new TwoTexturesProgressWidget(
+                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow.png"),
+                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow_full.png"),
+                59, 22, 22, 22, () -> {
+                    long totalMs = (long) time * 50;
+                    if (totalMs <= 0) return 1f;
+
+                    return (System.currentTimeMillis() % totalMs) / (float) totalMs;
+                }
+        ).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
                                 .getVisualOrderText()
                 )
-        )));
+            )))
+        );
 
         ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
         firestarter.setDamageValue(1);

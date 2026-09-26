@@ -17,39 +17,16 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class ClayCrucibleRecipe implements Recipe<ClayCrucibleRecipeInput> {
-
-    private final SizedIngredient input;
-    private final SizedIngredient fuel;
-    private final FluidStack output;
-    private final int time;
-
-    public ClayCrucibleRecipe(SizedIngredient input, SizedIngredient fuel, FluidStack output, int time) {
-        this.input = input;
-        this.fuel = fuel;
-        this.output = output;
-        this.time = time;
-    }
-
-    public SizedIngredient getInput() {
-        return input;
-    }
-
-    public FluidStack getOutput() {
-        return output;
-    }
-
-    public SizedIngredient getFuel() {
-        return fuel;
-    }
-
-    public int getTime() {
-        return time;
-    }
+public record ClayCrucibleRecipe(
+        SizedIngredient input1,
+        SizedIngredient input2,
+        FluidStack output,
+        int time
+) implements Recipe<ClayCrucibleRecipeInput> , CrucibleRecipe {
 
     @Override
     public boolean matches(ClayCrucibleRecipeInput recipeInput, Level level) {
-        return input.test(recipeInput.input()) && fuel.test(recipeInput.fuel());
+        return input1.test(recipeInput.input()) && input2.test(recipeInput.fuel());
     }
 
     @Override
@@ -77,20 +54,20 @@ public class ClayCrucibleRecipe implements Recipe<ClayCrucibleRecipeInput> {
         return MILFRecipeTypes.CLAY_CRUCIBLE_TYPE;
     }
 
-    public static class Serializer implements RecipeSerializer<ClayCrucibleRecipe>{
+    public static class Serializer implements RecipeSerializer<ClayCrucibleRecipe> {
 
         private final static MapCodec<ClayCrucibleRecipe> CODEC = RecordCodecBuilder.mapCodec(clayCrucibleRecipeInstance -> clayCrucibleRecipeInstance.group(
-                SizedIngredient.FLAT_CODEC.fieldOf("input").forGetter(ClayCrucibleRecipe::getInput),
-                SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(ClayCrucibleRecipe::getFuel),
-                FluidStack.CODEC.fieldOf("output").forGetter(ClayCrucibleRecipe::getOutput),
-                Codec.INT.optionalFieldOf("time", 109).forGetter(ClayCrucibleRecipe::getTime)
+                SizedIngredient.FLAT_CODEC.fieldOf("input").forGetter(ClayCrucibleRecipe::input1),
+                SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(ClayCrucibleRecipe::input2),
+                FluidStack.CODEC.fieldOf("output").forGetter(ClayCrucibleRecipe::output),
+                Codec.INT.optionalFieldOf("time", 109).forGetter(ClayCrucibleRecipe::time)
         ).apply(clayCrucibleRecipeInstance, ClayCrucibleRecipe::new));
 
         private final static StreamCodec<RegistryFriendlyByteBuf, ClayCrucibleRecipe> STREAM_CODEC = StreamCodec.composite(
-                SizedIngredient.STREAM_CODEC, ClayCrucibleRecipe::getInput,
-                SizedIngredient.STREAM_CODEC, ClayCrucibleRecipe::getFuel,
-                FluidStack.STREAM_CODEC, ClayCrucibleRecipe::getOutput,
-                ByteBufCodecs.VAR_INT, ClayCrucibleRecipe::getTime,
+                SizedIngredient.STREAM_CODEC, ClayCrucibleRecipe::input1,
+                SizedIngredient.STREAM_CODEC, ClayCrucibleRecipe::input2,
+                FluidStack.STREAM_CODEC, ClayCrucibleRecipe::output,
+                ByteBufCodecs.VAR_INT, ClayCrucibleRecipe::time,
                 ClayCrucibleRecipe::new
         );
 

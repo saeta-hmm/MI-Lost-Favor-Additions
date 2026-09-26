@@ -115,7 +115,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
         if(state.getValue(KILN_PART) && !stateBelow.is(MILFBlocks.KILN)) return false;
-        return stateBelow.is(BlockTags.DIRT);
+        return stateBelow.is(BlockTags.DIRT) || stateBelow.is(MILFBlocks.KILN);
     }
 
     @Override
@@ -142,16 +142,19 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
         if(level.isClientSide) return ItemInteractionResult.SUCCESS;
 
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+        if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return ItemInteractionResult.FAIL;
+
         if(stack.is(MILFItems.CLAY_PLATE) && !state.getValue(SEALED)){
             stack.shrink(1);
             level.setBlock(pos, state.setValue(SEALED, true), Block.UPDATE_NONE);
             level.playSound(null, pos, SoundEvents.DECORATED_POT_HIT, SoundSource.BLOCKS, 1,1);
+            clayCrucibleBlockEntity.checkAndSetIfFull();
             return ItemInteractionResult.SUCCESS;
         }
 
-        BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return ItemInteractionResult.FAIL;
         if(!state.getValue(SEALED) && FluidUtil.interactWithFluidHandler(player, hand, clayCrucibleBlockEntity.getFluidTank())){
             return ItemInteractionResult.SUCCESS;
         }
@@ -172,12 +175,13 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
                 level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT_FAIL, SoundSource.BLOCKS, 1,1);
             }
         } else {
-            if(player.isShiftKeyDown() && !clayCrucibleBlockEntity.isLit()){
+            if(player.isShiftKeyDown() && !clayCrucibleBlockEntity.isInProgress()){
 
                 if(state.getValue(SEALED)){
                     level.setBlock(pos, state.setValue(SEALED, false), Block.UPDATE_NONE);
                     Block.popResource(level, pos, new ItemStack(MILFItems.CLAY_PLATE.get()));
                     level.playSound(null, pos, SoundEvents.DECORATED_POT_STEP, SoundSource.BLOCKS, 1,1);
+                    clayCrucibleBlockEntity.checkAndSetIfFull();
                     return ItemInteractionResult.SUCCESS;
                 }
 
@@ -265,6 +269,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
         ClayCrucibleBlockEntity.serverTick(level, pos, state, clayCrucibleBlockEntity);
 
+        if(state.getValue(SEALED)) return;
         if (level.getGameTime() % 5 != 0) return;
 
         if(clayCrucibleBlockEntity.isLit() && level instanceof ServerLevel serverLevel){
