@@ -3,6 +3,8 @@ package dev.saeta.milf.registries;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
+import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
+import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -18,6 +20,10 @@ public class MILFRecipeTypes {
 
     public static final RecipeType<ClayCrucibleRecipe> CLAY_CRUCIBLE_TYPE = register("clay_crucible");
     public static final RecipeType<ClayCrucibleKilnRecipe> CLAY_CRUCIBLE_KILN_TYPE = register("clay_crucible_kiln");
+
+    public static final RecipeType<FirePitCookingRecipe> FIRE_PIT_COOKING = register("fire_pit_cooking");
+
+    public static final RecipeType<KilnSmeltingRecipe> KILN_SMELTING = register("kiln_smelting");
 
     private static <T extends Recipe<?>> RecipeType<T> register(String id) {
         RecipeType<T> type = new RecipeType<>() {

@@ -3,8 +3,10 @@ package dev.saeta.milf.blocks.fire_pit;
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -169,6 +171,9 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
         if (level.getGameTime() % 5 != 0) return;
 
         if(firePitBlockEntity.isLit() && level instanceof ServerLevel serverLevel){
+
+            float yOffset = serverLevel.getBlockState(pos.above()).is(MILFBlocks.ROASTING_CONTRAPTION) ? 0.5f : 0;
+
             serverLevel.sendParticles(
                     ParticleTypes.FLAME,
                     pos.getX() + 0.5,
@@ -183,7 +188,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
                 serverLevel.sendParticles(
                         ParticleTypes.CAMPFIRE_COSY_SMOKE,
                         pos.getX() + 0.5,
-                        pos.getY() + 1.2,
+                        pos.getY() + 1.2 + yOffset,
                         pos.getZ() + 0.5,
                         0,
                         0.005, 0.09, 0.005,

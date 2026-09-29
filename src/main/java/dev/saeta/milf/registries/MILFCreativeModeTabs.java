@@ -36,6 +36,7 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFBlocks.KILN);
                         output.accept(MILFBlocks.FIRE_PIT);
                         output.accept(MILFBlocks.POT_BELLOWS);
+                        output.accept(MILFBlocks.ROASTING_CONTRAPTION);
 
 
                     })).build());

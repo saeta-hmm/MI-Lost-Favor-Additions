@@ -14,10 +14,9 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class TwoTexturesProgressWidget extends Widget implements WidgetTooltipHolder<TwoTexturesProgressWidget> {
+public class SingleTextureProgressWidget extends Widget implements WidgetTooltipHolder<SingleTextureProgressWidget> {
 
-    protected final ResourceLocation texture1;
-    protected final ResourceLocation texture2;
+    protected final ResourceLocation texture;
     protected final int x, y;
     protected final int textureWidth, textureHeight;
     protected final Supplier<Float> progressSupplier;
@@ -25,13 +24,12 @@ public class TwoTexturesProgressWidget extends Widget implements WidgetTooltipHo
     private BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier = (mouseX, mouseY) -> List.of();
 
 
-    public TwoTexturesProgressWidget(
-            ResourceLocation texture1,ResourceLocation texture2, int x, int y, int textureWidth, int textureHeight, Supplier<Float> progressSupplier
+    public SingleTextureProgressWidget(
+            ResourceLocation texture, int x, int y, int textureWidth, int textureHeight, Supplier<Float> progressSupplier
     ) {
         super();
 
-        this.texture1 = texture1;
-        this.texture2 = texture2;
+        this.texture = texture;
 
         this.x = x;
         this.y = y;
@@ -52,18 +50,18 @@ public class TwoTexturesProgressWidget extends Widget implements WidgetTooltipHo
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-        draw.blit(texture1, x, y, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
+        draw.blit(texture, x, y, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight * 2);
 
         float progress = Mth.clamp(progressSupplier.get(), 0f, 1f);
         int filledWidth = Math.round(progress * textureWidth);
 
         if (filledWidth > 0) {
-            draw.blit(texture2, x, y, 0, 0, filledWidth, textureHeight, textureWidth, textureHeight);
+            draw.blit(texture, x, y, 0, textureHeight, filledWidth, textureHeight, textureWidth, textureHeight * 2);
         }
     }
 
     @Override
-    public TwoTexturesProgressWidget tooltip(BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier) {
+    public SingleTextureProgressWidget tooltip(BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier) {
         this.tooltipSupplier = tooltipSupplier;
         return this;
     }

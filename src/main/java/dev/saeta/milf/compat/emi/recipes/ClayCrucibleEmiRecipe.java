@@ -7,7 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.TwoTexturesProgressWidget;
+import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -102,9 +102,8 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 //                )
 //        )));
 
-        widgets.add(new TwoTexturesProgressWidget(
-                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow.png"),
-                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow_full.png"),
+        widgets.add(new SingleTextureProgressWidget(
+                MILostFavor.locate("textures/gui/clay_crucible_emi_progress_arrow.png"),
                 59, 22, 22, 22, () -> {
                     long totalMs = (long) time * 50;
                     if (totalMs <= 0) return 1f;

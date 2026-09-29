@@ -7,7 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.TwoTexturesProgressWidget;
+import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
@@ -147,16 +147,15 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
         if(firePitOutput.isPresent()){
-            widgets.addSlot(getOutputs().get(1), 102,48)
+            widgets.addSlot(getOutputs().get(1), 103,48)
                     .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18)
                     .recipeContext(this);
         }
 
         //center
 
-        widgets.add(new TwoTexturesProgressWidget(
-                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow.png"),
-                MILostFavor.locate("textures/gui/clay_crucible_emi_arrow_full.png"),
+        widgets.add(new SingleTextureProgressWidget(
+                MILostFavor.locate("textures/gui/clay_crucible_emi_progress_arrow.png"),
                 61, 22, 22, 22, () -> {
                     long totalMs = (long) time * 50;
                     if (totalMs <= 0) return 1f;

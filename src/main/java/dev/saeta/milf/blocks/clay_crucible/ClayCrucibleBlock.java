@@ -2,6 +2,7 @@ package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
+import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -104,7 +105,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
         BlockState stateBelow = context.getLevel().getBlockState(context.getClickedPos().below());
 
-        if(stateBelow.is(MILFBlocks.KILN)){
+        if(stateBelow.is(MILFBlocks.KILN) && !stateBelow.getValue(KilnBlock.CONTAINS_BLOCK)){
             return defaultBlockState().setValue(KILN_PART, true);
         }
 
@@ -115,6 +116,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
         if(state.getValue(KILN_PART) && !stateBelow.is(MILFBlocks.KILN)) return false;
+        if(stateBelow.is(MILFBlocks.KILN) && stateBelow.getValue(KilnBlock.CONTAINS_BLOCK)) return false;
         return stateBelow.is(BlockTags.DIRT) || stateBelow.is(MILFBlocks.KILN);
     }
 

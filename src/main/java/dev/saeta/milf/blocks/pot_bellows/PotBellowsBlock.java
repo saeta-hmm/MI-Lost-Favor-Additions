@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -80,6 +81,18 @@ public class PotBellowsBlock extends BaseEntityBlock {
 
         return ItemInteractionResult.CONSUME;
 
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if((blockEntity instanceof PotBellowsBlockEntity potBellowsBlockEntity) && potBellowsBlockEntity.canActivate()) {
+            potBellowsBlockEntity.activate();
+
+        }
+
+        super.fallOn(level, state, pos, entity, fallDistance);
     }
 
     @Override

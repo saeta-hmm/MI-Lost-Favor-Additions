@@ -1,6 +1,7 @@
 package dev.saeta.milf.compat.jade;
 
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -13,11 +14,14 @@ public class MILFJadePlugin implements IWailaPlugin {
     public void register(IWailaCommonRegistration registration) {
 
         registration.registerProgress(new ClayCrucibleComponentProvider.Progress(), ClayCrucibleBlockEntity.class);
+        registration.registerProgress(new KilnComponentProvider.Progress(), KilnBlockEntity.class);
 
     }
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerProgressClient(new ClayCrucibleComponentProvider.Progress());
+
+        registration.registerProgressClient(new KilnComponentProvider.Progress());
     }
 }

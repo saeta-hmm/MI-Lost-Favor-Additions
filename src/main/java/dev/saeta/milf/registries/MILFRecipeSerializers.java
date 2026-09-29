@@ -3,6 +3,8 @@ package dev.saeta.milf.registries;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
+import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
+import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
@@ -16,6 +18,10 @@ public class MILFRecipeSerializers {
 
     public static final RecipeSerializer<ClayCrucibleRecipe> CLAY_CRUCIBLE_RECIPE_SERIALIZER = register("clay_crucible", new ClayCrucibleRecipe.Serializer());
     public static final RecipeSerializer<ClayCrucibleKilnRecipe> CLAY_CRUCIBLE_KILN_RECIPE_SERIALIZER = register("clay_crucible_kiln", new ClayCrucibleKilnRecipe.Serializer());
+
+    public static final RecipeSerializer<FirePitCookingRecipe> FIRE_PIT_COOKING_RECIPE_SERIALIZER = register("fire_pit_cooking", new FirePitCookingRecipe.Serializer());
+
+    public static final RecipeSerializer<KilnSmeltingRecipe> KILN_SMELTING_RECIPE_SERIALIZER = register("kiln_smelting", new KilnSmeltingRecipe.Serializer());
 
     private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
         RECIPE_SERIALIZERS.register(id, () -> serializer);

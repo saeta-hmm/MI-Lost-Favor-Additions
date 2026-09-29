@@ -7,6 +7,8 @@ import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.ClayCrucibleEmiRecipe;
 import dev.saeta.milf.compat.emi.recipes.ClayCrucibleKilnEmiRecipe;
+import dev.saeta.milf.compat.emi.recipes.FirePitCookingEmiRecipe;
+import dev.saeta.milf.compat.emi.recipes.KilnSmeltingEmiRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
@@ -28,6 +30,9 @@ public class MILFEmiPlugin implements EmiPlugin {
 
     private void registerCategories(EmiRegistry registry){
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE);
+        registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
+        registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
+        registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
@@ -36,12 +41,23 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFItems.CLAY_BUCKET));
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.FIRE_PIT));
 
+        registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFBlocks.FIRE_PIT));
+        registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFBlocks.ROASTING_CONTRAPTION));
+
+        registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.KILN));
+
 
     }
 
     private void registerRecipes(EmiRegistry registry){
         addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, ClayCrucibleEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE, ClayCrucibleKilnEmiRecipe::new);
+
+        addAll(registry, MILFRecipeTypes.FIRE_PIT_COOKING, FirePitCookingEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.KILN_SMELTING, KilnSmeltingEmiRecipe::new);
+
+        FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
+        KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);
 
     }
 

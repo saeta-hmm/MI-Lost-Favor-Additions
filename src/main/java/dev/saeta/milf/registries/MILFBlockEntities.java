@@ -5,6 +5,7 @@ import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntity;
+import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -29,6 +30,10 @@ public class MILFBlockEntities {
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<FirePitBlockEntity>> FIRE_PIT = BLOCK_ENTITIES.register(
             "fire_pit", () -> BlockEntityType.Builder.of(FirePitBlockEntity::new, MILFBlocks.FIRE_PIT.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<RoastingContraptionBlockEntity>> ROASTING_CONTRAPTION = BLOCK_ENTITIES.register(
+            "roasting_contraption", () -> BlockEntityType.Builder.of(RoastingContraptionBlockEntity::new, MILFBlocks.ROASTING_CONTRAPTION.get()).build(null)
     );
 
     public static void register(IEventBus eventBus){

@@ -6,6 +6,8 @@ import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
+import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
+import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -38,6 +40,14 @@ public class MILFBlocks {
                     .noOcclusion()
                     .lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 15 : 0)),
             (block) -> new FirePitBlockItem(block.get(), new Item.Properties())
+    );
+
+    public static final DeferredBlock<RoastingContraptionBlock> ROASTING_CONTRAPTION = registerBlock("roasting_contraption",
+            () -> new RoastingContraptionBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.BAMBOO_WOOD)
+                    .strength(0.4F,0.8f)
+                    .noOcclusion()),
+            (block) -> new RoastingContraptionBlockItem(block.get(), new Item.Properties())
     );
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()

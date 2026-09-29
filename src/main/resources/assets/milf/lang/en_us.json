@@ -24,6 +24,7 @@
   "block.milf.kiln" : "Kiln",
   "block.milf.fire_pit" : "Fire Pit",
   "block.milf.pot_bellows" : "Pot Bellows",
+  "block.milf.roasting_contraption" : "Roasting Contraption",
 
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
 
@@ -35,7 +36,10 @@
   "emi.category.milf.clay_crucible.seconds_tooltip":  "%s Seconds",
 
   "emi.category.milf.clay_crucible_kiln":  "Kiln-Heated Clay Crucible",
+  "emi.category.milf.clay_crucible_kiln.requires_bellows":  "Requires constant bellows usage to process",
 
-  "emi.category.milf.clay_crucible_kiln.requires_bellows":  "Requires constant bellows usage to process"
+  "emi.category.milf.kiln_smelting":  "Kiln Smelting",
+
+  "emi.category.milf.fire_pit_cooking":  "Fire Pit Cooking"
 
 }
