@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.pot_bellows;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
@@ -36,9 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class PotBellowsBlock extends BaseEntityBlock {
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+public class PotBellowsBlock extends BaseDirectionalEntityBlock {
 
     public static final MapCodec<PotBellowsBlock> CODEC = simpleCodec(PotBellowsBlock::new);
 
@@ -54,6 +53,10 @@ public class PotBellowsBlock extends BaseEntityBlock {
         return Shapes.or(POT_SHAPE, LEATHER_SHAPE);
     }
 
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
+    }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
@@ -96,23 +99,8 @@ public class PotBellowsBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
-        return rotate(state, mirror.getRotation(state.getValue(FACING)));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends BaseDirectionalEntityBlock> codec() {
         return CODEC;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
     }
 
     @Override

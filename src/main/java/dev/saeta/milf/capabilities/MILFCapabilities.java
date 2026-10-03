@@ -27,6 +27,9 @@ public class MILFCapabilities {
         MILFBlocks.FIRE_PIT.get().registerCapabilities(event);
         MILFBlocks.ROASTING_CONTRAPTION.get().registerCapabilities(event);
         MILFBlocks.KILN.get().registerCapabilities(event);
+        MILFBlocks.BRONZE_ANVIL.get().registerCapabilities(event);
+        MILFBlocks.BLOOMERY_BASE.get().registerCapabilities(event);
+
     }
 
 }

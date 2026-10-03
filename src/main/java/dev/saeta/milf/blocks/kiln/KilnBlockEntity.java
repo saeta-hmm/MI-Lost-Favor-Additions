@@ -1,12 +1,9 @@
 package dev.saeta.milf.blocks.kiln;
 
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
+import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
-import dev.saeta.milf.recipes.clay_crucible.CrucibleRecipe;
-import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
-import dev.saeta.milf.recipes.fire_pit.FirePitSingleRecipeInput;
+import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -25,13 +22,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,16 +105,28 @@ public class KilnBlockEntity extends BlockEntity {
     public void passBellowsTick(){
         if(level == null) return;
 
-        if(isInProgress()) {progress++;}
+        if(level.getBlockEntity(worldPosition.below()) instanceof BloomeryBaseBlockEntity bloomeryBaseBlockEntity){
+            if(bloomeryBaseBlockEntity.isLit()){
+                bloomeryBaseBlockEntity.handleBellowsTick();
+            }
 
-        if(!(level.getBlockEntity(worldPosition.above()) instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)){
             return;
         }
 
         if(!(level.getBlockEntity(worldPosition.below()) instanceof FirePitBlockEntity firePitBlockEntity)) return;
 
-        if(firePitBlockEntity.isLit()) clayCrucibleBlockEntity.increaseProgress();
+        if(!firePitBlockEntity.isLit()) return;
 
+        firePitBlockEntity.increaseBurnTicks(8);
+
+        if(isInProgress()) {
+            progress++;
+        }
+
+        if((level.getBlockEntity(worldPosition.above()) instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)){
+            clayCrucibleBlockEntity.increaseProgress();
+            return;
+        }
 
     }
 
@@ -144,11 +151,11 @@ public class KilnBlockEntity extends BlockEntity {
             progress=0;
             ItemStack input = itemHandler.getStackInSlot(INPUT_SLOT);
 
-            FirePitSingleRecipeInput recipeInput = new FirePitSingleRecipeInput(input, new ItemStack(Items.SPRUCE_LOG, 1));
+            SingleRecipeInput recipeInput = new SingleRecipeInput(input);
 
             var smeltingRecipeOutput = recipeManager.getRecipeFor(
                     RecipeType.SMELTING,
-                    new SingleRecipeInput(input),
+                    new net.minecraft.world.item.crafting.SingleRecipeInput(input),
                     level
             );
 

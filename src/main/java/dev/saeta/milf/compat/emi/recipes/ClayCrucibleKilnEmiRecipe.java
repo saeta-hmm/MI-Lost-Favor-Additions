@@ -14,8 +14,10 @@ import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.client.gui.ClientTooltipComponentManager;
@@ -33,10 +35,8 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
     public final SizedIngredient input1;
     public final SizedIngredient input2;
-    public final Optional<SizedIngredient> firePitFuel;
 
     public final FluidStack output;
-    public final Optional<ItemStack> firePitOutput;
 
     public final int time;
     public final boolean requiresBellows;
@@ -58,10 +58,8 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
         ClayCrucibleKilnRecipe clayCrucibleKilnRecipe = holder.value();
         this.input1 = clayCrucibleKilnRecipe.input1();
         this.input2 = clayCrucibleKilnRecipe.input2();
-        this.firePitFuel = clayCrucibleKilnRecipe.firePitFuel();
 
         this.output = clayCrucibleKilnRecipe.output();
-        this.firePitOutput = clayCrucibleKilnRecipe.firePitOutput();
 
         this.time = clayCrucibleKilnRecipe.time();
 
@@ -95,7 +93,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(input1.ingredient()).setAmount(input1.count()));
         inputs.add(EmiIngredient.of(input2.ingredient()).setAmount(input2.count()));
-        firePitFuel.ifPresent(firePitFuel -> inputs.add(EmiIngredient.of(firePitFuel.ingredient()).setAmount(firePitFuel.count())));
+        inputs.add(EmiIngredient.of(ItemTags.LOGS).setAmount(1));
         return inputs;
     }
 
@@ -103,7 +101,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
     public List<EmiStack> getOutputs() {
         List<EmiStack> outputs = new ArrayList<>();
         outputs.add(EmiStack.of(output.getFluid()).setAmount(output.getAmount()));
-        firePitOutput.ifPresent(firePitOutput -> outputs.add(EmiStack.of(firePitOutput)));
+        outputs.add(EmiStack.of(Items.CHARCOAL));
         return outputs;
     }
 
@@ -129,12 +127,12 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
                 0,67,64,16,0,0, 64, 16, 64, 16
         ).tooltip(firePitTooltip);
 
-        widgets.addSlot(getInputs().get(1), 23,3).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0, 18, 18);
-        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,0,18, 18);
+        widgets.addSlot(getInputs().get(1), 23,3).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,0, 18, 18);
+        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,0,18, 18);
 
-        if(firePitFuel.isPresent()){
-            widgets.addSlot(getInputs().get(2), 23,48).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18);
-        }
+
+        widgets.addSlot(getInputs().get(2), 23,48).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
+
 
         //right
 
@@ -146,11 +144,11 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
-        if(firePitOutput.isPresent()){
-            widgets.addSlot(getOutputs().get(1), 103,48)
-                    .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18)
-                    .recipeContext(this);
-        }
+
+        widgets.addSlot(getOutputs().get(1), 103,48)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
+                .recipeContext(this);
+
 
         //center
 
@@ -183,7 +181,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
 
             widgets.addSlot(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67)
-                    .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,0,18, 18);
+                    .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,0,18, 18);
         }
     }
 }

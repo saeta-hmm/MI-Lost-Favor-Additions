@@ -2,7 +2,7 @@ package dev.saeta.milf.blocks.roasting_contraption;
 
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
-import dev.saeta.milf.recipes.fire_pit.FirePitSingleRecipeInput;
+import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -68,23 +67,25 @@ public class RoastingContraptionBlockEntity extends BlockEntity {
 
                 var campfireRecipeOutput = recipeManager.getRecipeFor(
                         RecipeType.CAMPFIRE_COOKING,
-                        new SingleRecipeInput(input),
+                        new net.minecraft.world.item.crafting.SingleRecipeInput(input),
                         level
                 );
 
                 if(campfireRecipeOutput.isPresent()){
                     itemHandler.setStackInSlot(i, campfireRecipeOutput.get().value().getResultItem(level.registryAccess()).copy());
+                    firePitBlockEntity.increaseBurnTicks(100);
                     continue;
                 }
 
                 var ownRecipeOutput = recipeManager.getRecipeFor(
                         MILFRecipeTypes.FIRE_PIT_COOKING,
-                        new FirePitSingleRecipeInput(input, new ItemStack(Items.SPRUCE_LOG, 1)),
+                        new SingleRecipeInput(input),
                         level
                 );
 
                 if(ownRecipeOutput.isPresent()){
                     itemHandler.setStackInSlot(i, ownRecipeOutput.get().value().getResultItem(level.registryAccess()).copy());
+                    firePitBlockEntity.increaseBurnTicks(153);
                     continue;
                 }
 

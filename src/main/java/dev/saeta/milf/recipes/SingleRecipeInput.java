@@ -1,20 +1,18 @@
-package dev.saeta.milf.recipes.fire_pit;
+package dev.saeta.milf.recipes;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 
-public record FirePitSingleRecipeInput(
-        ItemStack input,
-        ItemStack firePitFuel
+public record SingleRecipeInput(
+        ItemStack input
 ) implements RecipeInput {
     @Override
     public ItemStack getItem(int index) {
-        if(index == 0) return input;
-        return firePitFuel;
+        return input;
     }
 
     @Override
     public int size() {
-        return 2;
+        return 1;
     }
 }

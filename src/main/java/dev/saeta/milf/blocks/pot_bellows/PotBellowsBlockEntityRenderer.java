@@ -57,10 +57,11 @@ public class PotBellowsBlockEntityRenderer implements BlockEntityRenderer<PotBel
 
         poseStack.pushPose();
 
-        poseStack.scale(-1,-1,1);
+        poseStack.scale(-1,-1,1.01f);
         poseStack.translate(-0.5, -1.5, -0.5);
 
         this.base.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+
         this.tuyere.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 
         poseStack.popPose();

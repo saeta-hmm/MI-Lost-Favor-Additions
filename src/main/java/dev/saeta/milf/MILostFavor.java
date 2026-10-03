@@ -1,6 +1,7 @@
 package dev.saeta.milf;
 
 import com.mojang.logging.LogUtils;
+import dev.saeta.milf.networking.MILFC2SPackets;
 import dev.saeta.milf.registries.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -13,6 +14,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.slf4j.Logger;
 
 @Mod(MILostFavor.MOD_ID)
@@ -35,6 +37,8 @@ public class MILostFavor {
         MILFRecipeTypes.register(modEventBus);
         MILFRecipeSerializers.register(modEventBus);
 
+        modEventBus.addListener(MILFC2SPackets::register);
+
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
@@ -50,4 +54,5 @@ public class MILostFavor {
     public void onServerStarting(ServerStartingEvent event) {
 
     }
+
 }

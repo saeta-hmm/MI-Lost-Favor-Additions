@@ -1,0 +1,17 @@
+{
+  "type" : "milf:bloomery",
+  "input1" : {
+    "item": "minecraft:raw_iron",
+    "count": 2
+  },
+  "input2": {
+    "item": "minecraft:charcoal",
+    "count": 2
+  },
+  "output": {
+    "id": "milf:iron_bloom",
+    "count": 1
+  },
+  "requires_bellows": true,
+  "time": 200
+}

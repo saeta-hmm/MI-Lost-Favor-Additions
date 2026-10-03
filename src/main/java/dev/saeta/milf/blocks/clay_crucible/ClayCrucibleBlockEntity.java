@@ -56,9 +56,9 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
             List<CrucibleRecipe> relevantRecipes;
 
             if (isKilnPart()) {
-                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
+                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
             } else {
-                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
+                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
             }
 
             for(CrucibleRecipe recipe : relevantRecipes){
@@ -87,9 +87,9 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
             List<CrucibleRecipe> relevantRecipes;
 
             if(isKilnPart()){
-                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
+                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
             } else {
-                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
+                relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
             }
 
             for(CrucibleRecipe recipe : relevantRecipes){
@@ -218,7 +218,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         if(isKilnPart()){
             ClayCrucibleKilnRecipeInput crucibleKilnRecipeInput = new ClayCrucibleKilnRecipeInput(inputStack1, inputStack2);
 
-            var holder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE, crucibleKilnRecipeInput, level);
+            var holder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN, crucibleKilnRecipeInput, level);
 
             if(holder.isPresent()){
                 return holder.get().value();
@@ -228,7 +228,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         } else {
             ClayCrucibleRecipeInput clayCrucibleRecipeInput = new ClayCrucibleRecipeInput(inputStack1, inputStack2);
 
-            var holder =  level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, clayCrucibleRecipeInput, level);
+            var holder =  level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE, clayCrucibleRecipeInput, level);
 
             if(holder.isPresent()){
                 return holder.get().value();
@@ -268,7 +268,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
 
                 ClayCrucibleKilnRecipeInput crucibleKilnRecipeInput = new ClayCrucibleKilnRecipeInput(inputStack1, inputStack2);
 
-                Optional<RecipeHolder<ClayCrucibleKilnRecipe>> optionalClayCrucibleKilnRecipeRecipeHolder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE, crucibleKilnRecipeInput, level);
+                Optional<RecipeHolder<ClayCrucibleKilnRecipe>> optionalClayCrucibleKilnRecipeRecipeHolder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN, crucibleKilnRecipeInput, level);
 
                 if(optionalClayCrucibleKilnRecipeRecipeHolder.isEmpty()) {
                     isLit = false;
@@ -309,7 +309,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
 
                 ClayCrucibleRecipeInput clayCrucibleRecipeInput = new ClayCrucibleRecipeInput(inputStack, fuelStack);
 
-                Optional<RecipeHolder<ClayCrucibleRecipe>> optionalClayCrucibleRecipeRecipeHolder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, clayCrucibleRecipeInput, level);
+                Optional<RecipeHolder<ClayCrucibleRecipe>> optionalClayCrucibleRecipeRecipeHolder = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.CLAY_CRUCIBLE, clayCrucibleRecipeInput, level);
 
                 if(optionalClayCrucibleRecipeRecipeHolder.isEmpty()) {
                     isLit = false;

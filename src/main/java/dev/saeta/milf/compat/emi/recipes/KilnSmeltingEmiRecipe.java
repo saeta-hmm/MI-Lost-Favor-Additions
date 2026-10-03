@@ -34,13 +34,8 @@ import java.util.Optional;
 public class KilnSmeltingEmiRecipe implements EmiRecipe {
 
     public final SizedIngredient input;
-    public final Optional<SizedIngredient> firePitFuel;
-
     public final ItemStack output;
-    public final Optional<ItemStack> firePitOutput;
-
     public final ResourceLocation id;
-
     private final int time = 200;
 
     private final List<ClientTooltipComponent> firePitTooltip = new ItemStack(MILFBlocks.FIRE_PIT.get().asItem())
@@ -57,20 +52,16 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     public KilnSmeltingEmiRecipe(RecipeHolder<KilnSmeltingRecipe> holder) {
         KilnSmeltingRecipe kilnSmeltingRecipe = holder.value();
         this.input = kilnSmeltingRecipe.input();
-        this.firePitFuel = kilnSmeltingRecipe.firePitFuel();
 
         this.output = kilnSmeltingRecipe.output();
-        this.firePitOutput = kilnSmeltingRecipe.firePitOutput();
 
         this.id = holder.id();
     }
 
     public KilnSmeltingEmiRecipe(RecipeHolder<SmeltingRecipe> holder, SizedIngredient input, ItemStack output) {
         this.input = input;
-        this.firePitFuel = Optional.of(new SizedIngredient(Ingredient.of(ItemTags.LOGS), 1));
 
         this.output = output;
-        this.firePitOutput = Optional.of(new ItemStack(Items.CHARCOAL));
 
         this.id = holder.id();
     }
@@ -139,7 +130,7 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     public List<EmiIngredient> getInputs() {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(input.ingredient()).setAmount(input.count()));
-        firePitFuel.ifPresent(firePitFuel -> inputs.add(EmiIngredient.of(firePitFuel.ingredient()).setAmount(firePitFuel.count())));
+        inputs.add(EmiIngredient.of(ItemTags.LOGS).setAmount(1));
         return inputs;
     }
 
@@ -147,7 +138,7 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     public List<EmiStack> getOutputs() {
         List<EmiStack> outputs = new ArrayList<>();
         outputs.add(EmiStack.of(output));
-        firePitOutput.ifPresent(firePitOutput -> outputs.add(EmiStack.of(firePitOutput)));
+        outputs.add(EmiStack.of(Items.CHARCOAL));
         return outputs;
     }
 
@@ -172,11 +163,10 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
                 0,67,64,16,0,0, 64, 16, 64, 16
         ).tooltip(firePitTooltip);
 
-        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18);
+        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
 
-        if(firePitFuel.isPresent()){
-            widgets.addSlot(getInputs().get(1), 23,48).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18);
-        }
+        widgets.addSlot(getInputs().get(1), 23,48).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
+
 
         //right
 
@@ -187,14 +177,14 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
         ).tooltip(firePitTooltip);
 
         widgets.addSlot(getOutputs().get(0), 103,21)
-                .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
                 .recipeContext(this);
 
-        if(firePitOutput.isPresent()){
-            widgets.addSlot(getOutputs().get(1), 103,48)
-                    .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,36,18, 18)
-                    .recipeContext(this);
-        }
+
+        widgets.addSlot(getOutputs().get(1), 103,48)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
+                .recipeContext(this);
+
 
         //center
 
@@ -227,7 +217,7 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
 //
 //
 //            widgets.addSlot(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67)
-//                    .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,0,18, 18);
+//                    .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,0,18, 18);
 //        }
 
     }

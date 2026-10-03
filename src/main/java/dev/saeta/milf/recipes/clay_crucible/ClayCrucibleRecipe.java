@@ -51,7 +51,7 @@ public record ClayCrucibleRecipe(
 
     @Override
     public RecipeType<?> getType() {
-        return MILFRecipeTypes.CLAY_CRUCIBLE_TYPE;
+        return MILFRecipeTypes.CLAY_CRUCIBLE;
     }
 
     public static class Serializer implements RecipeSerializer<ClayCrucibleRecipe> {

@@ -5,11 +5,7 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
-import dev.saeta.milf.compat.emi.recipes.ClayCrucibleEmiRecipe;
-import dev.saeta.milf.compat.emi.recipes.ClayCrucibleKilnEmiRecipe;
-import dev.saeta.milf.compat.emi.recipes.FirePitCookingEmiRecipe;
-import dev.saeta.milf.compat.emi.recipes.KilnSmeltingEmiRecipe;
-import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
+import dev.saeta.milf.compat.emi.recipes.*;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -29,10 +25,16 @@ public class MILFEmiPlugin implements EmiPlugin {
     }
 
     private void registerCategories(EmiRegistry registry){
+
+
+        registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE);
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
-        registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
+        registry.addCategory(MILFEmiRecipeCategories.BLOOMERY);
+        registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
+
+
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
@@ -45,16 +47,24 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFBlocks.ROASTING_CONTRAPTION));
 
         registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.KILN));
+        registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.FIRE_PIT));
+
+        registry.addWorkstation(MILFEmiRecipeCategories.BRONZE_ANVIL, EmiStack.of(MILFBlocks.BRONZE_ANVIL));
+
+        registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.BLOOMERY_BASE));
+        registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.KILN));
 
 
     }
 
     private void registerRecipes(EmiRegistry registry){
-        addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_TYPE, ClayCrucibleEmiRecipe::new);
-        addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_KILN_TYPE, ClayCrucibleKilnEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE, ClayCrucibleEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CLAY_CRUCIBLE_KILN, ClayCrucibleKilnEmiRecipe::new);
 
         addAll(registry, MILFRecipeTypes.FIRE_PIT_COOKING, FirePitCookingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.KILN_SMELTING, KilnSmeltingEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.BRONZE_ANVIL, BronzeAnvilEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.BLOOMERY, BloomeryEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);

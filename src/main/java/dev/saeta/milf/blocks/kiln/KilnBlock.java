@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.kiln;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -40,11 +41,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class KilnBlock extends BaseEntityBlock implements Equipable, CapabilityProvider {
+public class KilnBlock extends BaseDirectionalEntityBlock implements Equipable, CapabilityProvider {
 
     public static final MapCodec<KilnBlock> CODEC = simpleCodec(KilnBlock::new);
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty CONTAINS_BLOCK = BooleanProperty.create("contains_block");
 
     private static final VoxelShape LAYER_1 = Shapes.or(
@@ -143,11 +143,6 @@ public class KilnBlock extends BaseEntityBlock implements Equipable, CapabilityP
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -232,19 +227,11 @@ public class KilnBlock extends BaseEntityBlock implements Equipable, CapabilityP
         return CODEC;
     }
 
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING).add(CONTAINS_BLOCK);
-    }
-
-    @Override
-    protected BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
-        return rotate(state, mirror.getRotation(state.getValue(FACING)));
+        super.createBlockStateDefinition(builder);
+        builder.add(CONTAINS_BLOCK);
     }
 
     @Override
@@ -261,7 +248,6 @@ public class KilnBlock extends BaseEntityBlock implements Equipable, CapabilityP
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new KilnBlockEntity(pos,state);
     }
-
 
     @Override
     public void registerCapabilities(RegisterCapabilitiesEvent event) {

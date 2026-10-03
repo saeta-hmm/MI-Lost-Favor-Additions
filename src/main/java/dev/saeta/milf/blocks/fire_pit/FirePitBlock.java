@@ -1,9 +1,7 @@
 package dev.saeta.milf.blocks.fire_pit;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
-import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
+import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -14,7 +12,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +27,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -89,11 +85,13 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
         builder.add(LOGS).add(BlockStateProperties.LIT);
     }
 
+
+
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
 
         if(!state.is(newState.getBlock())){
-            Block.popResource(level, pos, new ItemStack(Blocks.DIRT));
+            //Block.popResource(level, pos, new ItemStack(Blocks.DIRT));
 
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if(blockEntity instanceof FirePitBlockEntity firePitBlockEntity){
@@ -126,7 +124,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
 
             if(level.isClientSide()) return ItemInteractionResult.CONSUME;
 
-            ItemStack remainingStack = firePitBlockEntity.insertAnywhere(stack.copyWithCount(1));
+            ItemStack remainingStack = firePitBlockEntity.insertLogAnywhere(stack.copyWithCount(1));
 
             if(remainingStack.isEmpty()){
                 stack.shrink(1);
@@ -148,6 +146,14 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
                 ItemStack outputStack = itemHandler.extractItem(i,1, false);
 
                 if(!outputStack.isEmpty()){
+
+                    BlockState stateAbove = level.getBlockState(pos.above());
+
+                    if(stateAbove.is(MILFBlocks.KILN)){
+                        Block.popResourceFromFace(level, pos.above(),stateAbove.getValue(KilnBlock.FACING), outputStack);
+                        return ItemInteractionResult.SUCCESS;
+                    }
+
                     Block.popResource(level, pos.above(), outputStack);
                     return ItemInteractionResult.SUCCESS;
                 }
@@ -168,6 +174,9 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
     }
 
     private static void serverTick(Level level, BlockPos pos, BlockState state, FirePitBlockEntity firePitBlockEntity) {
+
+        FirePitBlockEntity.serverTick(level, pos, state, firePitBlockEntity);
+
         if (level.getGameTime() % 5 != 0) return;
 
         if(firePitBlockEntity.isLit() && level instanceof ServerLevel serverLevel){

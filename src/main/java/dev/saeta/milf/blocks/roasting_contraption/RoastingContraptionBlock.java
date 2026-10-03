@@ -2,6 +2,7 @@ package dev.saeta.milf.blocks.roasting_contraption;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
@@ -48,10 +49,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class RoastingContraptionBlock extends BaseEntityBlock implements CapabilityProvider {
+public class RoastingContraptionBlock extends BaseDirectionalEntityBlock implements CapabilityProvider {
 
     public static final MapCodec<RoastingContraptionBlock> CODEC = simpleCodec(RoastingContraptionBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final HashMap<Direction, VoxelShape> SHAPES = new HashMap<>();
 
@@ -118,11 +118,6 @@ public class RoastingContraptionBlock extends BaseEntityBlock implements Capabil
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         if (level.isClientSide()) return null;
         return createTickerHelper(blockEntityType, MILFBlockEntities.ROASTING_CONTRAPTION.get(), RoastingContraptionBlock::serverTick);
@@ -130,16 +125,6 @@ public class RoastingContraptionBlock extends BaseEntityBlock implements Capabil
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RoastingContraptionBlockEntity roastingContraptionBlockEntity) {
         RoastingContraptionBlockEntity.serverTick(level, pos, state, roastingContraptionBlockEntity);
-    }
-
-    @Override
-    protected BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
-        return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
@@ -224,11 +209,6 @@ public class RoastingContraptionBlock extends BaseEntityBlock implements Capabil
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new RoastingContraptionBlockEntity(pos, state);
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
     }
 
     @Override

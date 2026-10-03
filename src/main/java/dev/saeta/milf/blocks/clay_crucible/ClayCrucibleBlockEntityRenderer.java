@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -47,8 +48,6 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
     @Override
     public void render(ClayCrucibleBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-
-
 
         FluidTank fluidTank = blockEntity.getFluidTank();
 
@@ -113,35 +112,14 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
         int seed = pos.hashCode();
         int itemNumber = 0;
 
-        BiConsumer<ItemStack, Integer> renderSingleItem = (stack, index) -> {
-            poseStack.pushPose();
-            poseStack.translate(0.5, (double) 1 / 16, 0.5);
-            poseStack.scale(0.8F, 0.8F, 0.8F);
-            poseStack.translate(0, 1.5 / 16 * index * 0.5, 0);
-            poseStack.mulPose(Axis.XN.rotationDegrees(90));
-            poseStack.mulPose(Axis.ZP.rotationDegrees((float) (Math.abs(Math.sin(seed + index * 109109) % 1) * 360)));
-
-            itemRenderer.renderStatic(
-                    stack,
-                    ItemDisplayContext.GROUND,
-                    packedLight,
-                    packedOverlay,
-                    poseStack,
-                    bufferSource,
-                    blockEntity.getLevel(),
-                    0
-            );
-
-            poseStack.popPose();
-        };
-
         ItemStack stack0 = itemHandler.getStackInSlot(0);
 
         if(!stack0.isEmpty()){
             poseStack.pushPose();
             applyKilnOffset(poseStack, blockEntity.getBlockState());
             for (int i = 0; i < stack0.getCount(); i++) {
-                renderSingleItem.accept(stack0, i);
+                renderSingleItem(stack0, i, seed, poseStack, packedLight, packedOverlay, bufferSource, blockEntity.getLevel());
+
                 itemNumber++;
             }
             poseStack.popPose();
@@ -153,7 +131,8 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
             poseStack.pushPose();
             applyKilnOffset(poseStack, blockEntity.getBlockState());
             for (int i = itemNumber; i < stack1.getCount() + itemNumber; i++) {
-                renderSingleItem.accept(stack1, i);
+                renderSingleItem(stack1, i, seed, poseStack, packedLight, packedOverlay, bufferSource, blockEntity.getLevel());
+
             }
             poseStack.popPose();
         }
@@ -162,6 +141,30 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
     private void applyKilnOffset(PoseStack poseStack, BlockState state){
         if(state.getValue(ClayCrucibleBlock.KILN_PART)) poseStack.translate(0, KILN_PART_Y_OFFSET, 0);
+
+    }
+
+    private void renderSingleItem(ItemStack stack, int index, int seed, PoseStack poseStack, int packedLight, int packedOverlay, MultiBufferSource bufferSource, Level level) {
+
+        poseStack.pushPose();
+        poseStack.translate(0.5, (double) 1 / 16 + 1/64f, 0.5);
+        poseStack.scale(0.8F, 0.8F, 0.8F);
+        poseStack.translate(0, 1.5 / 16 * index * 0.5, 0);
+        poseStack.mulPose(Axis.XN.rotationDegrees(90));
+        poseStack.mulPose(Axis.ZP.rotationDegrees((float) (Math.abs(Math.sin(seed + index * 109109) % 1) * 360)));
+
+        itemRenderer.renderStatic(
+                stack,
+                ItemDisplayContext.GROUND,
+                packedLight,
+                packedOverlay,
+                poseStack,
+                bufferSource,
+                level,
+                0
+        );
+
+        poseStack.popPose();
 
     }
 

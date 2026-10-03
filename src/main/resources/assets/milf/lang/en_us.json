@@ -15,6 +15,8 @@
   "item.milf.clay_mold_sword" : "Clay Sword Mold",
   "item.milf.clay_mold_ingot" : "Clay Ingot Mold",
   "item.milf.clay_plate" : "Clay Plate",
+  "item.milf.iron_bloom" : "Iron Bloom",
+
   "item.milf.firestarter" : "Firestarter",
 
   "item.milf.clunky_drill" : "Clunky Drill",
@@ -23,14 +25,22 @@
   "block.milf.clay_crucible" : "Clay Crucible",
   "block.milf.kiln" : "Kiln",
   "block.milf.fire_pit" : "Fire Pit",
+  "block.milf.bloomery_base" : "Bloomery Base",
   "block.milf.pot_bellows" : "Pot Bellows",
   "block.milf.roasting_contraption" : "Roasting Contraption",
+  "block.milf.bronze_anvil" : "Bronze Anvil",
+
+
 
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
+
+
 
   "milf.clunky_drill.horizontal":  "(horizontal)",
   "milf.clunky_drill.vertical":  "(vertical)",
   "milf.clunky_drill.mode":  "Drill mode changed!",
+
+
 
   "emi.category.milf.clay_crucible":  "Clay Crucible",
   "emi.category.milf.clay_crucible.seconds_tooltip":  "%s Seconds",
@@ -40,6 +50,10 @@
 
   "emi.category.milf.kiln_smelting":  "Kiln Smelting",
 
-  "emi.category.milf.fire_pit_cooking":  "Fire Pit Cooking"
+  "emi.category.milf.fire_pit_cooking":  "Fire Pit Cooking",
+
+  "emi.category.milf.bronze_anvil":  "Bronze Anvil",
+
+  "emi.category.milf.bloomery":  "Bloomery"
 
 }

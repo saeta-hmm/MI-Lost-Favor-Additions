@@ -28,6 +28,13 @@ public class MILFDataComponents {
                     .build()
     );
 
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RANDOM_SEED = DATA_COMPONENTS.register(
+            "random_seed", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.INT)
+                    .build()
+    );
+
     public static void register(IEventBus eventBus){
         DATA_COMPONENTS.register(eventBus);
     }

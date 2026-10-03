@@ -34,10 +34,8 @@ import java.util.Optional;
 public class FirePitCookingEmiRecipe implements EmiRecipe {
 
     public final SizedIngredient input;
-    public final Optional<SizedIngredient> firePitFuel;
 
     public final ItemStack output;
-    public final Optional<ItemStack> firePitOutput;
 
     public final ResourceLocation id;
 
@@ -47,20 +45,16 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
     public FirePitCookingEmiRecipe(RecipeHolder<FirePitCookingRecipe> holder) {
         FirePitCookingRecipe firePitCookingRecipe = holder.value();
         this.input = firePitCookingRecipe.input();
-        this.firePitFuel = firePitCookingRecipe.firePitFuel();
 
         this.output = firePitCookingRecipe.output();
-        this.firePitOutput = firePitCookingRecipe.firePitOutput();
 
         this.id = holder.id();
     }
 
     public FirePitCookingEmiRecipe(RecipeHolder<CampfireCookingRecipe> holder, SizedIngredient input, ItemStack output) {
         this.input = input;
-        this.firePitFuel = Optional.of(new SizedIngredient(Ingredient.of(ItemTags.LOGS), 1));
 
         this.output = output;
-        this.firePitOutput = Optional.of(new ItemStack(Items.CHARCOAL));
 
         this.id = holder.id();
     }
@@ -97,7 +91,7 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
     public List<EmiIngredient> getInputs() {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(input.ingredient()).setAmount(input.count()));
-        firePitFuel.ifPresent(firePitFuel -> inputs.add(EmiIngredient.of(firePitFuel.ingredient()).setAmount(firePitFuel.count())));
+        inputs.add(EmiIngredient.of(ItemTags.LOGS).setAmount(1));
         return inputs;
     }
 
@@ -105,7 +99,7 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
     public List<EmiStack> getOutputs() {
         List<EmiStack> outputs = new ArrayList<>();
         outputs.add(EmiStack.of(output));
-        firePitOutput.ifPresent(firePitOutput -> outputs.add(EmiStack.of(firePitOutput)));
+        outputs.add(EmiStack.of(Items.CHARCOAL));
         return outputs;
     }
 
@@ -125,26 +119,26 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(0), 23,2).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,36, 18, 18);
+        widgets.addSlot(getInputs().get(0), 23,2).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36, 18, 18);
 
-        if(firePitFuel.isPresent()){
-            widgets.addSlot(getInputs().get(1), 23,29).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,36,18, 18);
-        }
+
+        widgets.addSlot(getInputs().get(1), 23,29).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36,18, 18);
+
 
         //right
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 82,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.addSlot(getOutputs().get(0), 105,2)
-                .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,36, 18, 18)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36, 18, 18)
                 .recipeContext(this);
 
 
-        if(firePitOutput.isPresent()){
-            widgets.addSlot(getOutputs().get(1), 105,29)
-                    .customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 18,36,18, 18)
-                    .recipeContext(this);
-        }
+
+        widgets.addSlot(getOutputs().get(1), 105,29)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36,18, 18)
+                .recipeContext(this);
+
 
         //center
 

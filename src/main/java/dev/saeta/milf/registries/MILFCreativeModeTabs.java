@@ -27,6 +27,7 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CLAY_MOLD_SWORD);
                         output.accept(MILFItems.CLAY_MOLD_SHOVEL);
                         output.accept(MILFItems.CLAY_PLATE);
+                        output.accept(MILFItems.IRON_BLOOM);
 
                         output.accept(MILFItems.FIRESTARTER);
 
@@ -37,6 +38,8 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFBlocks.FIRE_PIT);
                         output.accept(MILFBlocks.POT_BELLOWS);
                         output.accept(MILFBlocks.ROASTING_CONTRAPTION);
+                        output.accept(MILFBlocks.BRONZE_ANVIL);
+                        output.accept(MILFBlocks.BLOOMERY_BASE);
 
 
                     })).build());

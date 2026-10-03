@@ -87,8 +87,8 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(1), 14,14).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18, 36, 18);
-        widgets.addSlot(getInputs().get(0), 14,32).customBackground(MILostFavor.locate("textures/gui/clay_crucible_emi_slot.png"), 0,18,36, 18);
+        widgets.addSlot(getInputs().get(1), 14,14).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,18, 36, 18);
+        widgets.addSlot(getInputs().get(0), 14,32).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,18,36, 18);
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 76,0,64,64,0,0, 64, 64, 64, 64);
 

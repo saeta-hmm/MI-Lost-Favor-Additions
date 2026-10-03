@@ -1,6 +1,10 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
+import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
+import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
+import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
@@ -42,6 +46,15 @@ public class MILFBlocks {
             (block) -> new FirePitBlockItem(block.get(), new Item.Properties())
     );
 
+    public static final DeferredBlock<BloomeryBaseBlock> BLOOMERY_BASE = registerBlock("bloomery_base",
+            () -> new BloomeryBaseBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.DECORATED_POT)
+                    .strength(0.6F,0.8f)
+                    .noOcclusion()
+                    .lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 8 : 0)),
+            (block) -> new BloomeryBaseBlockItem(block.get(), new Item.Properties())
+    );
+
     public static final DeferredBlock<RoastingContraptionBlock> ROASTING_CONTRAPTION = registerBlock("roasting_contraption",
             () -> new RoastingContraptionBlock(BlockBehaviour.Properties.of()
                     .sound(SoundType.BAMBOO_WOOD)
@@ -58,6 +71,13 @@ public class MILFBlocks {
     public static final DeferredBlock<PotBellowsBlock> POT_BELLOWS = registerBlock("pot_bellows", () -> new PotBellowsBlock(BlockBehaviour.Properties.of()
             .strength(1,1)
             .sound(SoundType.DECORATED_POT)
+    ));
+
+    public static final DeferredBlock<BronzeAnvilBlock> BRONZE_ANVIL = registerBlock("bronze_anvil", () -> new BronzeAnvilBlock(BlockBehaviour.Properties.of()
+            .strength(1,1)
+            .sound(SoundType.ANVIL)
+            .noOcclusion()
+            .forceSolidOn()
     ));
 
     public static final DeferredBlock<KilnBlock> KILN = registerBlock("kiln",
