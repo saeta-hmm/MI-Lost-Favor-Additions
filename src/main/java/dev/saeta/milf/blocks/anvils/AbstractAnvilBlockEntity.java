@@ -1,10 +1,12 @@
-package dev.saeta.milf.blocks.bronze_anvil;
+package dev.saeta.milf.blocks.anvils;
 
+import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.recipes.SingleInputSingleOutputRecipe;
 import dev.saeta.milf.recipes.SingleRecipeInput;
-import dev.saeta.milf.recipes.bronze_anvil.BronzeAnvilRecipe;
-import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.recipes.anvil.AnvilRecipe;
+import dev.saeta.milf.recipes.anvil.AnvilTier;
 import dev.saeta.milf.registries.MILFDataComponents;
-import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,34 +17,41 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public class BronzeAnvilBlockEntity extends BlockEntity {
+public abstract class AbstractAnvilBlockEntity extends BlockEntity {
 
-    private final static int ITEM_SLOT = 0;
+    protected final static int ITEM_SLOT = 0;
+    protected final AnvilItemHandler itemHandler = new AnvilItemHandler(1);
+    private final Predicate<RecipeHolder<AnvilRecipe>> recipePredicate;
 
-    private final BronzeAnvilItemHandler itemHandler = new BronzeAnvilItemHandler(1);
+    private float currentRecipeMaxHit = 0.35f;
 
-    public BronzeAnvilBlockEntity(BlockPos pos, BlockState blockState) {
-        super(MILFBlockEntities.BRONZE_ANVIL.get(), pos, blockState);
+    public AbstractAnvilBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, Predicate<RecipeHolder<AnvilRecipe>> recipePredicate) {
+        super(type, pos, blockState);
+        this.recipePredicate = recipePredicate;
     }
 
-    public BronzeAnvilItemHandler getItemHandler() {
+    public AnvilItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    public boolean hasItem(){
+        return !itemHandler.getStackInSlot(ITEM_SLOT).isEmpty();
     }
 
     public ItemStack insertAnywhere(ItemStack stack) {
@@ -53,8 +62,13 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
         return remaining;
     }
 
-    public boolean hasItem(){
-        return !itemHandler.getStackInSlot(ITEM_SLOT).isEmpty();
+    private ItemStack getResult(ItemStack stack){
+        if (level == null) return stack;
+
+        SingleRecipeInput recipeInput = new SingleRecipeInput(stack);
+
+        return getValidRecipe(recipeInput).map(holder -> holder.value().assemble(recipeInput, level.registryAccess())).orElse(stack);
+
     }
 
     @Override
@@ -69,6 +83,8 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
         }
 
         tag.put("items", itemStacks);
+
+        tag.putFloat("maxHit", currentRecipeMaxHit);
 
     }
 
@@ -86,6 +102,10 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
                 itemHandler.setStackInSlot(i, itemStack);
             }
 
+        }
+
+        if(tag.contains("maxHit")){
+            currentRecipeMaxHit = tag.getFloat("maxHit");
         }
 
     }
@@ -108,38 +128,28 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
         return saveWithoutMetadata(registries);
     }
 
-    public void handleHit(float accuracy, float progress, float volume){
-
-        if(level == null) return;
-
-        level.playSound(null, worldPosition, SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.BLOCKS, 0.65f * volume,accuracy + (float) level.random.nextInt(1, 5) / 10);
-        itemHandler.regenerateSeed();
-
-        if(progress >= 1){
-            itemHandler.extractAndDropResult(ITEM_SLOT);
-        }
-
+    public float getMaxHit(){
+        return currentRecipeMaxHit;
     }
 
-    private ItemStack getResult(ItemStack stack){
-        if (level == null) return stack;
+    public abstract void handleHit(float accuracy, float progress, float volume);
+
+    private Stream<RecipeHolder<AnvilRecipe>> getAllRecipes(){
+        if (level == null) return Stream.empty();
 
         RecipeManager recipeManager = level.getRecipeManager();
 
-        SingleRecipeInput recipeInput = new SingleRecipeInput(stack);
-
-        var recipe = recipeManager.getRecipeFor(
-                MILFRecipeTypes.BRONZE_ANVIL,
-                recipeInput,
-                level
-        );
-
-        return recipe.map(bronzeAnvilRecipeRecipeHolder -> bronzeAnvilRecipeRecipeHolder.value().assemble(recipeInput, level.registryAccess())).orElse(stack);
-
+        return recipeManager.getAllRecipesFor(MILFRecipeTypes.ANVIL).stream().filter(recipePredicate);
     }
 
-    public class BronzeAnvilItemHandler extends ItemStackHandler{
-        public BronzeAnvilItemHandler(int size) {
+    private Optional<RecipeHolder<AnvilRecipe>> getValidRecipe(SingleRecipeInput input){
+        if (level == null) return Optional.empty();
+
+        return getAllRecipes().filter(holder -> holder.value().matches(input, level)).findFirst();
+    }
+
+    public class AnvilItemHandler extends ItemStackHandler {
+        public AnvilItemHandler(int size) {
             super(size);
         }
 
@@ -150,16 +160,18 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            if (stack.isEmpty()) return false;
-            if (level == null) return false;
+            if (stack.isEmpty() || level == null) return false;
 
-            RecipeManager recipeManager = level.getRecipeManager();
+            var recipe = getValidRecipe(new SingleRecipeInput(stack));
 
-            List<BronzeAnvilRecipe> allRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.BRONZE_ANVIL).stream().map(RecipeHolder::value).toList();
-            return allRecipes.stream()
-                    .anyMatch(bronzeAnvilRecipe -> {
-                        return bronzeAnvilRecipe.input().test(stack);
-                    });
+            if(recipe.isPresent()){
+                currentRecipeMaxHit = recipe.get().value().maxHit();
+                //MILostFavor.LOGGER.info(String.valueOf(currentRecipeMaxHit));
+                return true;
+            }
+
+            return false;
+
 
         }
 
@@ -189,8 +201,8 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
 
             if(level == null) return;
 
-            for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
-                ItemStack stack = itemHandler.getStackInSlot(i);
+            for (int i = getSlots() - 1; i >= 0; i--) {
+                ItemStack stack = getStackInSlot(i);
 
                 if(!stack.isEmpty()) stack.set(MILFDataComponents.RANDOM_SEED, level.random.nextInt(109, 109109));
 
@@ -199,4 +211,5 @@ public class BronzeAnvilBlockEntity extends BlockEntity {
             setChanged();
         }
     }
+
 }

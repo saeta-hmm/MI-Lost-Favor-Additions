@@ -16,6 +16,8 @@ public class MILFEmiRecipeCategories {
 
     public static final EmiRecipeCategory KILN_SMELTING = new MILFCategory(MILostFavor.locate("kiln_smelting"), EmiStack.of(MILFBlocks.KILN));
     public static final EmiRecipeCategory BRONZE_ANVIL = new MILFCategory(MILostFavor.locate("bronze_anvil"), EmiStack.of(MILFBlocks.BRONZE_ANVIL));
+    public static final EmiRecipeCategory STONE_ANVIL = new MILFCategory(MILostFavor.locate("stone_anvil"), EmiStack.of(MILFBlocks.STONE_ANVIL));
+
     public static final EmiRecipeCategory BLOOMERY = new MILFCategory(MILostFavor.locate("bloomery"), EmiStack.of(MILFBlocks.BLOOMERY_BASE));
 
 

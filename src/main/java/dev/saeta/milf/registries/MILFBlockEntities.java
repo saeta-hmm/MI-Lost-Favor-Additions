@@ -1,8 +1,9 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
@@ -40,6 +41,10 @@ public class MILFBlockEntities {
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<BronzeAnvilBlockEntity>> BRONZE_ANVIL = BLOCK_ENTITIES.register(
             "bronze_anvil", () -> BlockEntityType.Builder.of(BronzeAnvilBlockEntity::new, MILFBlocks.BRONZE_ANVIL.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<StoneAnvilBlockEntity>> STONE_ANVIL = BLOCK_ENTITIES.register(
+            "stone_anvil", () -> BlockEntityType.Builder.of(StoneAnvilBlockEntity::new, MILFBlocks.STONE_ANVIL.get()).build(null)
     );
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<RoastingContraptionBlockEntity>> ROASTING_CONTRAPTION = BLOCK_ENTITIES.register(

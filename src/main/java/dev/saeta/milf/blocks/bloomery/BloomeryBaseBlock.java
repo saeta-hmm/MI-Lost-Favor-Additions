@@ -1,9 +1,6 @@
 package dev.saeta.milf.blocks.bloomery;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlockEntity;
-import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
-import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.*;

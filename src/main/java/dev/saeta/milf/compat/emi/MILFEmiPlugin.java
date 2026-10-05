@@ -6,6 +6,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.*;
+import dev.saeta.milf.recipes.anvil.AnvilTier;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 @EmiEntrypoint
 public class MILFEmiPlugin implements EmiPlugin {
@@ -33,7 +35,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
         registry.addCategory(MILFEmiRecipeCategories.BLOOMERY);
         registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
-
+        registry.addCategory(MILFEmiRecipeCategories.STONE_ANVIL);
 
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
@@ -50,6 +52,8 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.FIRE_PIT));
 
         registry.addWorkstation(MILFEmiRecipeCategories.BRONZE_ANVIL, EmiStack.of(MILFBlocks.BRONZE_ANVIL));
+        registry.addWorkstation(MILFEmiRecipeCategories.STONE_ANVIL, EmiStack.of(MILFBlocks.STONE_ANVIL));
+        registry.addWorkstation(MILFEmiRecipeCategories.STONE_ANVIL, EmiStack.of(MILFBlocks.BRONZE_ANVIL));
 
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.BLOOMERY_BASE));
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.KILN));
@@ -63,17 +67,39 @@ public class MILFEmiPlugin implements EmiPlugin {
 
         addAll(registry, MILFRecipeTypes.FIRE_PIT_COOKING, FirePitCookingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.KILN_SMELTING, KilnSmeltingEmiRecipe::new);
-        addAll(registry, MILFRecipeTypes.BRONZE_ANVIL, BronzeAnvilEmiRecipe::new);
+
+
+//        addAll(registry, MILFRecipeTypes.BRONZE_ANVIL, BronzeAnvilEmiRecipe::new);
+//        addAll(registry, MILFRecipeTypes.STONE_ANVIL, StoneAnvilEmiRecipe::new);
+
         addAll(registry, MILFRecipeTypes.BLOOMERY, BloomeryEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);
+
+        addWithPredicate(registry, MILFRecipeTypes.ANVIL, StoneAnvilEmiRecipe::new, holder -> holder.value().tier() == AnvilTier.STONE);
+        addWithPredicate(registry, MILFRecipeTypes.ANVIL, BronzeAnvilEmiRecipe::new, holder -> {
+
+            var tier = holder.value().tier();
+
+            return tier == AnvilTier.BRONZE;
+
+        });
 
     }
 
     public <C extends RecipeInput, T extends Recipe<C>> void addAll(EmiRegistry registry, RecipeType<T> type, Function<RecipeHolder<T>, EmiRecipe> constructor) {
         for (RecipeHolder<T> entry : registry.getRecipeManager().getAllRecipesFor(type)) {
             registry.addRecipe(constructor.apply(entry));
+        }
+    }
+
+    public <C extends RecipeInput, T extends Recipe<C>> void addWithPredicate(
+            EmiRegistry registry, RecipeType<T> type, Function<RecipeHolder<T>, EmiRecipe> constructor,
+            Predicate<RecipeHolder<T>> predicate) {
+        for (RecipeHolder<T> entry : registry.getRecipeManager().getAllRecipesFor(type)) {
+            if(predicate.test(entry)) registry.addRecipe(constructor.apply(entry));
+
         }
     }
 }

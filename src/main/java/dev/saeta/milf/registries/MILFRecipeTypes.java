@@ -1,8 +1,8 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
-import dev.saeta.milf.recipes.bronze_anvil.BronzeAnvilRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
@@ -24,7 +24,9 @@ public class MILFRecipeTypes {
 
     public static final RecipeType<KilnSmeltingRecipe> KILN_SMELTING = register("kiln_smelting");
 
-    public static final RecipeType<BronzeAnvilRecipe> BRONZE_ANVIL = register("bronze_anvil");
+    public static final RecipeType<AnvilRecipe> ANVIL = register("anvil");
+//    public static final RecipeType<BronzeAnvilRecipe> BRONZE_ANVIL = register("bronze_anvil");
+//    public static final RecipeType<StoneAnvilRecipe> STONE_ANVIL = register("stone_anvil");
 
     public static final RecipeType<BloomeryRecipe> BLOOMERY = register("bloomery");
 

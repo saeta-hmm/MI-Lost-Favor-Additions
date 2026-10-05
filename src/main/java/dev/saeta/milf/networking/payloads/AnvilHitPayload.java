@@ -1,7 +1,7 @@
 package dev.saeta.milf.networking.payloads;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.blocks.anvils.AbstractAnvilBlockEntity;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,16 +12,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 
-public record BronzeAnvilHitPayload(BlockPos pos, float accuracy, float progress, float volume) implements CustomPacketPayload {
+public record AnvilHitPayload(BlockPos pos, float accuracy, float progress, float volume) implements CustomPacketPayload {
 
-    public final static Type<BronzeAnvilHitPayload> TYPE = new Type<>(MILostFavor.locate("bronze_anvil_hit"));
+    public final static Type<AnvilHitPayload> TYPE = new Type<>(MILostFavor.locate("anvil_hit"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, BronzeAnvilHitPayload> CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, BronzeAnvilHitPayload::pos,
-            ByteBufCodecs.FLOAT, BronzeAnvilHitPayload::accuracy,
-            ByteBufCodecs.FLOAT, BronzeAnvilHitPayload::progress,
-            ByteBufCodecs.FLOAT, BronzeAnvilHitPayload::volume,
-            BronzeAnvilHitPayload::new
+    public static final StreamCodec<RegistryFriendlyByteBuf, AnvilHitPayload> CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, AnvilHitPayload::pos,
+            ByteBufCodecs.FLOAT, AnvilHitPayload::accuracy,
+            ByteBufCodecs.FLOAT, AnvilHitPayload::progress,
+            ByteBufCodecs.FLOAT, AnvilHitPayload::volume,
+            AnvilHitPayload::new
     );
 
     @Override
@@ -29,16 +29,16 @@ public record BronzeAnvilHitPayload(BlockPos pos, float accuracy, float progress
         return TYPE;
     }
 
-    public static IPayloadHandler<BronzeAnvilHitPayload> getPayloadHandler() {
+    public static IPayloadHandler<AnvilHitPayload> getPayloadHandler() {
         return (payload, context) -> {
 
             ServerPlayer player = (ServerPlayer) context.player();
 
             ServerLevel level = (ServerLevel) player.level();
 
-            if(level.getBlockEntity(payload.pos) instanceof BronzeAnvilBlockEntity bronzeAnvilBlockEntity){
+            if(level.getBlockEntity(payload.pos) instanceof AbstractAnvilBlockEntity anvilBlockEntity){
 
-                bronzeAnvilBlockEntity.handleHit(payload.accuracy, payload.progress, payload.volume);
+                anvilBlockEntity.handleHit(payload.accuracy, payload.progress, payload.volume);
 
                 var hammer = player.getMainHandItem();
 

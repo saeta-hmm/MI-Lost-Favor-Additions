@@ -1,7 +1,8 @@
-package dev.saeta.milf.blocks.bronze_anvil;
+package dev.saeta.milf.blocks.anvils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
 import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -13,17 +14,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-import java.util.function.BiConsumer;
+public abstract class AbstractAnvilBlockEntityRenderer<T extends  AbstractAnvilBlockEntity> implements BlockEntityRenderer<T> {
 
-public class BronzeAnvilBlockEntityRenderer implements BlockEntityRenderer<BronzeAnvilBlockEntity> {
     private static ItemRenderer itemRenderer;
 
-    public BronzeAnvilBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public AbstractAnvilBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         itemRenderer = context.getItemRenderer();
     }
 
+
     @Override
-    public void render(BronzeAnvilBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    public void render(AbstractAnvilBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         ItemStackHandler itemHandler = blockEntity.getItemHandler();
 
         BlockPos pos = blockEntity.getBlockPos();

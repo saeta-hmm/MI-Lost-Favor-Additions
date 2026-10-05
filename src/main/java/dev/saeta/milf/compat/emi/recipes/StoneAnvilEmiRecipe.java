@@ -22,26 +22,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BronzeAnvilEmiRecipe implements EmiRecipe {
+public class StoneAnvilEmiRecipe implements EmiRecipe {
 
     public final SizedIngredient input;
     public final ItemStack output;
     public final ResourceLocation id;
     public final float maxHit;
 
-    public BronzeAnvilEmiRecipe(RecipeHolder<AnvilRecipe> holder){
-        AnvilRecipe bronzeAnvilRecipe = holder.value();
+    public StoneAnvilEmiRecipe(RecipeHolder<AnvilRecipe> holder){
+        AnvilRecipe stoneAnvilRecipe = holder.value();
 
-        this.input = bronzeAnvilRecipe.input();
-        this.output = bronzeAnvilRecipe.output();
-        this.maxHit = bronzeAnvilRecipe.maxHit();
+        this.input = stoneAnvilRecipe.input();
+        this.output = stoneAnvilRecipe.output();
+        this.maxHit = stoneAnvilRecipe.maxHit();
 
         this.id = holder.id();
     }
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return MILFEmiRecipeCategories.BRONZE_ANVIL;
+        return MILFEmiRecipeCategories.STONE_ANVIL;
     }
 
     @Override
@@ -85,26 +85,30 @@ public class BronzeAnvilEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/bronze_anvil_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
+        widgets.addTexture(MILostFavor.locate("textures/gui/stone_anvil_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(0), 7,25).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,0,18, 18);
+        widgets.addSlot(getInputs().get(0), 7,25).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18);
 
         widgets.addSlot(getCatalysts().get(0), 23,2)
                 .catalyst(true)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,0,18, 18);
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18);
 
         widgets.addSlot(getOutputs().get(0), 39,25)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,0,18, 18)
+                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18)
                 .recipeContext(this);
 
-        widgets.add(new FloatTextWidget(26,34,0x4e2d16, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
+
+        widgets.add(new FloatTextWidget(26,34, 0x48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.anvil.max_hit", String.valueOf(maxHit).substring(String.valueOf(maxHit).indexOf('.') + 1)).getVisualOrderText()
                 )
         )));
 
 
-        //widgets.addText(Component.literal(maxHitString), 25, 34,0x5d3313, false);
+
+        //widgets.addText(Component.literal(maxHit), 25, 34,0x5a474c, false);
+
+
     }
 
 }

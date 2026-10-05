@@ -2,9 +2,8 @@ package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlock;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
@@ -12,6 +11,7 @@ import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
+import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -64,7 +64,7 @@ public class MILFBlocks {
     );
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
-            .strength(1,1)
+            .strength(1,2)
             .sound(SoundType.DECORATED_POT)
     ));
 
@@ -74,15 +74,22 @@ public class MILFBlocks {
     ));
 
     public static final DeferredBlock<BronzeAnvilBlock> BRONZE_ANVIL = registerBlock("bronze_anvil", () -> new BronzeAnvilBlock(BlockBehaviour.Properties.of()
-            .strength(1,1)
+            .strength(1,4)
             .sound(SoundType.ANVIL)
+            .noOcclusion()
+            .forceSolidOn()
+    ));
+
+    public static final DeferredBlock<StoneAnvilBlock> STONE_ANVIL = registerBlock("stone_anvil", () -> new StoneAnvilBlock(BlockBehaviour.Properties.of()
+            .strength(1.3f, 6)
+            .sound(SoundType.STONE)
             .noOcclusion()
             .forceSolidOn()
     ));
 
     public static final DeferredBlock<KilnBlock> KILN = registerBlock("kiln",
             () -> new KilnBlock(BlockBehaviour.Properties.of()
-                    .strength(1,1)
+                    .strength(1,4)
                     .sound(SoundType.DECORATED_POT)
                     .noOcclusion()),
             (block) -> new BlockItem(block.get(), new Item.Properties()

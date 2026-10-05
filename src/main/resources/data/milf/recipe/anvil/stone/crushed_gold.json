@@ -1,0 +1,13 @@
+{
+  "type" : "milf:anvil",
+  "tier": "stone",
+  "input" : {
+    "item": "minecraft:raw_gold",
+    "count": 1
+  },
+  "output": {
+    "id": "milf:crushed_gold",
+    "count": 1
+  },
+  "maxHit": 0.65
+}

@@ -27,8 +27,18 @@ public class MILFItems {
     public static final DeferredItem<Item> CLAY_MOLD_SWORD = ITEMS.register("clay_mold_sword", () -> new ClayMoldItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY), FluidType.BUCKET_VOLUME / 5));
     public static final DeferredItem<Item> CLAY_MOLD_INGOT = ITEMS.register("clay_mold_ingot", () -> new ClayMoldItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY), FluidType.BUCKET_VOLUME / 8));
 
+
+
     public static final DeferredItem<Item> CLAY_PLATE = ITEMS.register("clay_plate", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> IRON_BLOOM = ITEMS.register("iron_bloom", () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> CRUSHED_COPPER = ITEMS.register("crushed_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CRUSHED_GOLD = ITEMS.register("crushed_gold", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CRUSHED_IRON = ITEMS.register("crushed_iron", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CRUSHED_LEAD = ITEMS.register("crushed_lead", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CRUSHED_TIN = ITEMS.register("crushed_tin", () -> new Item(new Item.Properties()));
+
+
 
     public static final DeferredItem<Item> FIRESTARTER = ITEMS.register("firestarter", () -> new FirestarterItem(new Item.Properties().stacksTo(1).durability(8)));
 

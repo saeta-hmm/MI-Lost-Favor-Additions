@@ -1,7 +1,7 @@
 package dev.saeta.milf;
 
 import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
-import dev.saeta.milf.client.overlay.BronzeAnvilMinigameOverlay;
+import dev.saeta.milf.client.overlay.AnvilMinigame;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFFluids;
 import dev.saeta.milf.registries.client.MILFBlockEntityRenderers;
@@ -49,16 +49,16 @@ public class MILostFavorClient {
 
     @SubscribeEvent
     private static void registerGuiLayers(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(BronzeAnvilMinigameOverlay.ID, BronzeAnvilMinigameOverlay::render);
+        event.registerAboveAll(AnvilMinigame.ID, AnvilMinigame::render);
     }
 
     @SubscribeEvent
     private static void registerMouseInputHandlers(InputEvent.MouseButton.Pre inputEvent){
-        BronzeAnvilMinigameOverlay.handleClick(inputEvent);
+        AnvilMinigame.handleClick(inputEvent);
     }
 
     @SubscribeEvent
     private static void registerClientTickHandlers(ClientTickEvent.Pre event){
-        BronzeAnvilMinigameOverlay.onClientTick(event);
+        AnvilMinigame.onClientTick(event);
     }
 }

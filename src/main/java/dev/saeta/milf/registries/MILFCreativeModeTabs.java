@@ -26,20 +26,30 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CLAY_MOLD_PICKAXE);
                         output.accept(MILFItems.CLAY_MOLD_SWORD);
                         output.accept(MILFItems.CLAY_MOLD_SHOVEL);
+
                         output.accept(MILFItems.CLAY_PLATE);
                         output.accept(MILFItems.IRON_BLOOM);
 
-                        output.accept(MILFItems.FIRESTARTER);
+                        output.accept(MILFItems.CRUSHED_COPPER);
+                        output.accept(MILFItems.CRUSHED_GOLD);
+                        output.accept(MILFItems.CRUSHED_IRON);
+                        output.accept(MILFItems.CRUSHED_LEAD);
+                        output.accept(MILFItems.CRUSHED_TIN);
 
-                        output.accept(MILFItems.CLUNKY_DRILL);
-                        output.accept(MILFItems.BIG_BULKY_DRILL);
+
+                        output.accept(MILFItems.FIRESTARTER);
 
                         output.accept(MILFBlocks.KILN);
                         output.accept(MILFBlocks.FIRE_PIT);
                         output.accept(MILFBlocks.POT_BELLOWS);
                         output.accept(MILFBlocks.ROASTING_CONTRAPTION);
                         output.accept(MILFBlocks.BRONZE_ANVIL);
+                        output.accept(MILFBlocks.STONE_ANVIL);
+
                         output.accept(MILFBlocks.BLOOMERY_BASE);
+
+                        output.accept(MILFItems.CLUNKY_DRILL);
+                        output.accept(MILFItems.BIG_BULKY_DRILL);
 
 
                     })).build());

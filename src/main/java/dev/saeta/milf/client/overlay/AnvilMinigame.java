@@ -3,9 +3,11 @@ package dev.saeta.milf.client.overlay;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlockEntity;
-import dev.saeta.milf.networking.payloads.BronzeAnvilHitPayload;
-import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.blocks.anvils.AbstractAnvilBlockEntity;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
+import dev.saeta.milf.networking.payloads.AnvilHitPayload;
+import dev.saeta.milf.registries.MILFBlockTags;
 import dev.saeta.milf.registries.MILFItemTags;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
@@ -15,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -25,16 +28,17 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class BronzeAnvilMinigameOverlay {
+public class AnvilMinigame {
 
-    public final static ResourceLocation ID = MILostFavor.locate("bronze_anvil_overlay");
-    private final static ResourceLocation GUI_TEXTURE = MILostFavor.locate("textures/gui/bronze_anvil_gui.png");
+    public final static ResourceLocation ID = MILostFavor.locate("anvil_minigame");
+
+    private static ResourceLocation guiTexture = MILostFavor.locate("textures/gui/bronze_anvil_gui.png");
+    private static float maxHit = 0.35f;
 
     private static int ticks = 0;
-    private static int nextMarkerCooldown = 10;
+    private static int nextMarkerCooldown = 3;
     private static float progress = 0;
     private static float volume = 1;
-    //private static String lastAccuracyString = "1";
 
     private static final ConcurrentLinkedQueue<HitMarker> HIT_MARKERS = new ConcurrentLinkedQueue<>();
 
@@ -45,6 +49,23 @@ public class BronzeAnvilMinigameOverlay {
             Vec3 screenPos = RenderUtil.projectPosToScreen(Vec3.atCenterOf(pos));
 
             if (screenPos == null) return;
+
+            BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(pos);
+
+            if(blockEntity instanceof AbstractAnvilBlockEntity abstractAnvilBlockEntity){
+                switch (blockEntity){
+                    case StoneAnvilBlockEntity stoneAnvilBlockEntity -> {
+                        guiTexture = MILostFavor.locate("textures/gui/stone_anvil_gui.png");
+                    }
+
+                    case BronzeAnvilBlockEntity bronzeAnvilBlockEntity -> {
+                        guiTexture = MILostFavor.locate("textures/gui/bronze_anvil_gui.png");
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + blockEntity);
+                }
+
+                maxHit = abstractAnvilBlockEntity.getMaxHit();
+            }
 
             renderProgress(guiGraphics, deltaTracker, screenPos);
 
@@ -60,13 +81,11 @@ public class BronzeAnvilMinigameOverlay {
 
         poseStack.translate(screenPos.x, screenPos.y, screenPos.z);
 
-        //guiGraphics.drawCenteredString(Minecraft.getInstance().font, lastAccuracyString, 0,0,0xFFFFFFFF);
-
-        guiGraphics.blit(GUI_TEXTURE, -16,-16,58,58,0,0, 58, 58, 128, 128);
+        guiGraphics.blit(guiTexture, -16,-16,58,58,0,0, 58, 58, 128, 128);
 
         int progressOffset = (int) (58 * progress);
 
-        guiGraphics.blit(GUI_TEXTURE, -16 + 58 - progressOffset,-16,progressOffset,58, 58 - progressOffset,64, progressOffset, 58, 128, 128);
+        guiGraphics.blit(guiTexture, -16 + 58 - progressOffset,-16,progressOffset,58, 58 - progressOffset,64, progressOffset, 58, 128, 128);
 
         poseStack.popPose();
 
@@ -84,8 +103,8 @@ public class BronzeAnvilMinigameOverlay {
             BlockPos pos = blockHitResult.getBlockPos();
             BlockState blockState = level.getBlockState(pos);
 
-            if (blockState.is(MILFBlocks.BRONZE_ANVIL) && minecraft.player.getMainHandItem().is(MILFItemTags.HAMMERS)) {
-                if(level.getBlockEntity(pos) instanceof BronzeAnvilBlockEntity bronzeAnvilBlockEntity && bronzeAnvilBlockEntity.hasItem()){
+            if (blockState.is(MILFBlockTags.ANVILS) && minecraft.player.getMainHandItem().is(MILFItemTags.HAMMERS)) {
+                if(level.getBlockEntity(pos) instanceof AbstractAnvilBlockEntity anvilBlockEntity && anvilBlockEntity.hasItem()){
                     return pos;
                 }
             }
@@ -119,7 +138,7 @@ public class BronzeAnvilMinigameOverlay {
                 HIT_MARKERS.add(new HitMarker(0.45f + (float) level.random.nextInt(1, 12) / 30));
             }
         } else {
-            nextMarkerCooldown = 10;
+            nextMarkerCooldown = 3;
             ticks = 0;
             progress = 0;
             HIT_MARKERS.clear();
@@ -138,7 +157,7 @@ public class BronzeAnvilMinigameOverlay {
 
                 float accuracy = (lastHit != null) ? lastHit.getHitAccuracy() : 0;
                 progress = Mth.clamp(
-                        progress +  Mth.clamp((float)(0.35 * 1.09 * Math.pow(accuracy, 3)), 0.05f , 1f),
+                        progress +  Mth.clamp((float)(maxHit * 1.09 * Math.pow(accuracy, 3)), 0.05f , 1f),
                         0f, 1f
 
                 );
@@ -146,7 +165,7 @@ public class BronzeAnvilMinigameOverlay {
 
                 volume =Mth.approach(volume, 0.1f, -0.1f);
 
-                PacketDistributor.sendToServer(new BronzeAnvilHitPayload(pos, accuracy, progress, volume));
+                PacketDistributor.sendToServer(new AnvilHitPayload(pos, accuracy, progress, volume));
             }
         }
 
@@ -255,11 +274,10 @@ public class BronzeAnvilMinigameOverlay {
 
             poseStack.translate(relativePos.x - 15, relativePos.y - 15, relativePos.z);
             poseStack.scale(scale, scale, 1);
-            guiGraphics.blit(GUI_TEXTURE, -2,-2,5,5,59,0, 5, 5, 128, 128);
+            guiGraphics.blit(guiTexture, -2,-2,5,5,59,0, 5, 5, 128, 128);
 
             poseStack.popPose();
 
         }
     }
-
 }

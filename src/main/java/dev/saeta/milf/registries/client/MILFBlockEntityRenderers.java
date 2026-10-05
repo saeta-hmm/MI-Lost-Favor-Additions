@@ -1,7 +1,8 @@
 package dev.saeta.milf.registries.client;
 
+import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntityRenderer;
-import dev.saeta.milf.blocks.bronze_anvil.BronzeAnvilBlockEntityRenderer;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntityRenderer;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntityRenderer;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntityRenderer;
@@ -24,6 +25,8 @@ public class MILFBlockEntityRenderers {
         event.registerBlockEntityRenderer(MILFBlockEntities.FIRE_PIT.get(), FirePitBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(MILFBlockEntities.BRONZE_ANVIL.get(), BronzeAnvilBlockEntityRenderer::new);
+
+        event.registerBlockEntityRenderer(MILFBlockEntities.STONE_ANVIL.get(), StoneAnvilBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(MILFBlockEntities.BLOOMERY_BASE.get(), BloomeryBaseBlockEntityRenderer::new);
 

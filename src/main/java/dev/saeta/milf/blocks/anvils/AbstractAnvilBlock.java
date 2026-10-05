@@ -1,50 +1,32 @@
-package dev.saeta.milf.blocks.bronze_anvil;
+package dev.saeta.milf.blocks.anvils;
 
-import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
-import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFDataComponents;
 import dev.saeta.milf.registries.MILFItemTags;
-import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.WaterFluid;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class BronzeAnvilBlock extends BaseDirectionalEntityBlock implements CapabilityProvider {
-
-    public static final MapCodec<BronzeAnvilBlock> CODEC = simpleCodec(BronzeAnvilBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+public abstract class AbstractAnvilBlock extends BaseDirectionalEntityBlock implements CapabilityProvider {
 
     private static final HashMap<Direction, VoxelShape> SHAPES = new HashMap<>();
 
@@ -102,29 +84,51 @@ public class BronzeAnvilBlock extends BaseDirectionalEntityBlock implements Capa
         ));
     }
 
-    public BronzeAnvilBlock(Properties properties) {
+    public AbstractAnvilBlock(Properties properties) {
         super(properties);
     }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPES.get(state.getValue(BlockStateProperties.HORIZONTAL_FACING));
+        return SHAPES.get(state.getValue(FACING));
     }
 
     @Override
-    protected MapCodec<? extends BaseDirectionalEntityBlock> codec() {
-        return CODEC;
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getClockWise());
     }
 
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+
+        if(!state.is(newState.getBlock())){
+
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if(blockEntity instanceof AbstractAnvilBlockEntity anvilBlockEntity){
+                ItemStackHandler itemHandler = anvilBlockEntity.getItemHandler();
+
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+
+                    ItemStack stack = itemHandler.getStackInSlot(i);
+                    if(!stack.isEmpty()){
+                        Block.popResource(level, pos, stack);
+                    }
+                }
+            }
+        }
+
+
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(level.isClientSide) return ItemInteractionResult.SUCCESS;
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(!(blockEntity instanceof BronzeAnvilBlockEntity bronzeAnvilBlockEntity)) return ItemInteractionResult.FAIL;
+        if(!(blockEntity instanceof AbstractAnvilBlockEntity anvilBlockEntity)) return ItemInteractionResult.FAIL;
 
-        BronzeAnvilBlockEntity.BronzeAnvilItemHandler itemHandler = bronzeAnvilBlockEntity.getItemHandler();
+        AbstractAnvilBlockEntity.AnvilItemHandler itemHandler = anvilBlockEntity.getItemHandler();
 
         if(!stack.isEmpty()){
 
@@ -135,7 +139,7 @@ public class BronzeAnvilBlock extends BaseDirectionalEntityBlock implements Capa
 
             ItemStack toInsert = stack.copyWithCount(1);
             toInsert.set(MILFDataComponents.RANDOM_SEED, level.random.nextInt(109, 109109));
-            ItemStack remainingStack = bronzeAnvilBlockEntity.insertAnywhere(toInsert);
+            ItemStack remainingStack = anvilBlockEntity.insertAnywhere(toInsert);
 
             if(remainingStack.isEmpty()){
                 stack.shrink(1);
@@ -166,23 +170,4 @@ public class BronzeAnvilBlock extends BaseDirectionalEntityBlock implements Capa
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getClockWise());
-    }
-
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BronzeAnvilBlockEntity(pos, state);
-    }
-
-
-    @Override
-    public void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
-                MILFBlockEntities.BRONZE_ANVIL.get(),
-                ( blockEntity,  direction) -> blockEntity.getItemHandler()
-        );
-    }
 }

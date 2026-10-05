@@ -16,6 +16,11 @@
   "item.milf.clay_mold_ingot" : "Clay Ingot Mold",
   "item.milf.clay_plate" : "Clay Plate",
   "item.milf.iron_bloom" : "Iron Bloom",
+  "item.milf.crushed_iron" : "Crushed Iron",
+  "item.milf.crushed_gold" : "Crushed Gold",
+  "item.milf.crushed_tin" : "Crushed Tin",
+  "item.milf.crushed_lead" : "Crushed Lead",
+  "item.milf.crushed_copper" : "Crushed Copper",
 
   "item.milf.firestarter" : "Firestarter",
 
@@ -29,6 +34,7 @@
   "block.milf.pot_bellows" : "Pot Bellows",
   "block.milf.roasting_contraption" : "Roasting Contraption",
   "block.milf.bronze_anvil" : "Bronze Anvil",
+  "block.milf.stone_anvil" : "Stone Anvil",
 
 
 
@@ -53,6 +59,8 @@
   "emi.category.milf.fire_pit_cooking":  "Fire Pit Cooking",
 
   "emi.category.milf.bronze_anvil":  "Bronze Anvil",
+  "emi.category.milf.stone_anvil":  "Stone Anvil",
+  "emi.category.milf.anvil.max_hit": "Each hit can add up to %s%% to the current recipe’s progress",
 
   "emi.category.milf.bloomery":  "Bloomery"
 

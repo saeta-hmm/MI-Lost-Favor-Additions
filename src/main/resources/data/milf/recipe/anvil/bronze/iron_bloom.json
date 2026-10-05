@@ -1,5 +1,6 @@
 {
-  "type" : "milf:bronze_anvil",
+  "type" : "milf:anvil",
+  "tier": "bronze",
   "input" : {
     "item": "milf:iron_bloom",
     "count": 1
