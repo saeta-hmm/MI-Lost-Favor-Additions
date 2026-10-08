@@ -3,10 +3,13 @@ package dev.saeta.milf.registries;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
+import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
+import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
+import dev.saeta.milf.recipes.shaping.PotteryRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -25,11 +28,14 @@ public class MILFRecipeTypes {
     public static final RecipeType<KilnSmeltingRecipe> KILN_SMELTING = register("kiln_smelting");
 
     public static final RecipeType<AnvilRecipe> ANVIL = register("anvil");
-//    public static final RecipeType<BronzeAnvilRecipe> BRONZE_ANVIL = register("bronze_anvil");
-//    public static final RecipeType<StoneAnvilRecipe> STONE_ANVIL = register("stone_anvil");
 
     public static final RecipeType<BloomeryRecipe> BLOOMERY = register("bloomery");
 
+    public static final RecipeType<ChiselRecipe> CHISEL = register("chisel");
+
+    public static final RecipeType<PotteryRecipe> POTTERY = register("pottery");
+
+    public static final RecipeType<ImpressionMoldingRecipe> IMPRESSION_MOLDING = register("impression_molding");
 
 
     private static <T extends Recipe<?>> RecipeType<T> register(String id) {

@@ -17,17 +17,39 @@ public class MILFCreativeModeTabs {
                     .title(Component.translatable("itemGroup.milf"))
                     .displayItems(((itemDisplayParameters, output) -> {
 
+                        output.accept(MILFItems.WOODEN_AXE_HEAD);
+                        output.accept(MILFItems.WOODEN_HAMMER_HEAD);
+                        output.accept(MILFItems.WOODEN_HOE_HEAD);
+                        output.accept(MILFItems.WOODEN_PICKAXE_HEAD);
+                        output.accept(MILFItems.WOODEN_SWORD_BLADE);
+                        output.accept(MILFItems.WOODEN_SHOVEL_HEAD);
+
+                        output.accept(MILFBlocks.UNFIRED_CLAY_CRUCIBLE);
+
+                        output.accept(MILFItems.UNFIRED_CLAY_MOLD_INGOT);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_AXE);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_HAMMER);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_HOE);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_PICKAXE);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_SWORD);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_SHOVEL);
+
+                        output.accept(MILFBlocks.UNFIRED_CLAY_PLATE);
+
                         output.accept(MILFItems.CLAY_BUCKET);
 
                         output.accept(MILFItems.CLAY_MOLD_INGOT);
-                        output.accept(MILFItems.CLAY_MOLD_AXE);
-                        output.accept(MILFItems.CLAY_MOLD_HAMMER);
-                        output.accept(MILFItems.CLAY_MOLD_HOE);
-                        output.accept(MILFItems.CLAY_MOLD_PICKAXE);
-                        output.accept(MILFItems.CLAY_MOLD_SWORD);
-                        output.accept(MILFItems.CLAY_MOLD_SHOVEL);
+                        output.accept(MILFBlocks.CLAY_MOLD_AXE);
+                        output.accept(MILFBlocks.CLAY_MOLD_HAMMER);
+                        output.accept(MILFBlocks.CLAY_MOLD_HOE);
+                        output.accept(MILFBlocks.CLAY_MOLD_PICKAXE);
+                        output.accept(MILFBlocks.CLAY_MOLD_SWORD);
+                        output.accept(MILFBlocks.CLAY_MOLD_SHOVEL);
 
-                        output.accept(MILFItems.CLAY_PLATE);
+                        output.accept(MILFBlocks.CLAY_PLATE);
+
+
+
                         output.accept(MILFItems.IRON_BLOOM);
 
                         output.accept(MILFItems.CRUSHED_COPPER);
@@ -38,6 +60,9 @@ public class MILFCreativeModeTabs {
 
 
                         output.accept(MILFItems.FIRESTARTER);
+                        output.accept(MILFItems.STONE_HAMMER);
+                        output.accept(MILFItems.FLINT_CHISEL);
+
 
                         output.accept(MILFBlocks.KILN);
                         output.accept(MILFBlocks.FIRE_PIT);

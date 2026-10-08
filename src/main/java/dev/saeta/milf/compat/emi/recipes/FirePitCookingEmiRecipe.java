@@ -8,6 +8,8 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -119,26 +121,15 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(0), 23,2).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36, 18, 18);
-
-
-        widgets.addSlot(getInputs().get(1), 23,29).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36,18, 18);
-
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,2, EmiSlot.WOOD));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,29, EmiSlot.WOOD));
 
         //right
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 82,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getOutputs().get(0), 105,2)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36, 18, 18)
-                .recipeContext(this);
-
-
-
-        widgets.addSlot(getOutputs().get(1), 105,29)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,36,18, 18)
-                .recipeContext(this);
-
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 105,2, EmiSlot.WOOD).recipeContext(this));
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 105,29, EmiSlot.WOOD).recipeContext(this));
 
         //center
 

@@ -8,6 +8,8 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -163,10 +165,8 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
                 0,67,64,16,0,0, 64, 16, 64, 16
         ).tooltip(firePitTooltip);
 
-        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
-
-        widgets.addSlot(getInputs().get(1), 23,48).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
-
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.KILN));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,48, EmiSlot.KILN));
 
         //right
 
@@ -176,15 +176,8 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
                 80,67,64,16,0,0, 64, 16, 64, 16
         ).tooltip(firePitTooltip);
 
-        widgets.addSlot(getOutputs().get(0), 103,21)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
-                .recipeContext(this);
-
-
-        widgets.addSlot(getOutputs().get(1), 103,48)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
-                .recipeContext(this);
-
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 103,21, EmiSlot.KILN).recipeContext(this));
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,48, EmiSlot.KILN).recipeContext(this));
 
         //center
 
@@ -203,22 +196,6 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
                         )
                 )))
         );
-
-//        if(requiresBellows){
-//
-//            widgets.addTexture(
-//                    MILostFavor.locate("textures/gui/kiln_bellows_pipe_emi.png"),
-//                    59,35,26,32,0,0, 26, 32, 26, 32
-//            ).tooltip((something, noIdea) -> Collections.singletonList(
-//                    ClientTooltipComponent.create(
-//                            Component.translatable("emi.category.milf.clay_crucible_kiln.requires_bellows", time /20).getVisualOrderText()
-//                    )
-//            ));
-//
-//
-//            widgets.addSlot(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67)
-//                    .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,0,18, 18);
-//        }
 
     }
 }

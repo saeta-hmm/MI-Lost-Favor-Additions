@@ -1,0 +1,13 @@
+{
+  "type" : "milf:chisel",
+  "input" : {
+    "item": "minecraft:stone",
+    "count": 1
+  },
+  "output": {
+    "id": "milf:stone_anvil",
+    "count": 1
+  },
+  "top_hits": 8,
+  "side_hits": 2
+}

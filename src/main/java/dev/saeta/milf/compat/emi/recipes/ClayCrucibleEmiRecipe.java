@@ -7,6 +7,9 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFItems;
@@ -86,25 +89,18 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
+        //widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_top_emi.png"), 0,0,96,32,0,0, 96, 32, 96, 32);
 
-        widgets.addSlot(getInputs().get(1), 14,14).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,18, 36, 18);
-        widgets.addSlot(getInputs().get(0), 14,32).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,18,36, 18);
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 14,14, EmiSlot.CRUCIBLE_WIDE));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 14,32, EmiSlot.CRUCIBLE_WIDE));
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_emi.png"), 76,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addTank(getOutputs().get(0), 76 + 14, 14, 36, 36, 1000).recipeContext(this).drawBack(false);
-
-//        widgets.addFillingArrow(58, 24, time /20 * 1000)
-//                .tooltip(((something, noIdea) -> Collections.singletonList(
-//                ClientTooltipComponent.create(
-//                        Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
-//                                .getVisualOrderText()
-//                )
-//        )));
+        widgets.addTank(getOutputs().get(0), 90, 14, 36, 36, 1000).recipeContext(this).drawBack(false);
 
         widgets.add(new SingleTextureProgressWidget(
                 MILostFavor.locate("textures/gui/clay_crucible_emi_progress_arrow.png"),
-                59, 22, 22, 22, () -> {
+                59, 28, 22, 22, () -> {
                     long totalMs = (long) time * 50;
                     if (totalMs <= 0) return 1f;
 
@@ -118,9 +114,12 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
             )))
         );
 
-        ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
-        firestarter.setDamageValue(1);
-        widgets.addSlot(EmiStack.of(MILFItems.FIRESTARTER).setRemainder(EmiStack.of(firestarter)), 61,6).drawBack(false).catalyst(true);
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 61,9, EmiSlot.WOOD).withPointer(
+                EmiSlotPointer.WOOD.corners(EmiSlotPointer.Corner.TOP_LEFT)
+        ));
+
+        //widgets.addSlot(getCatalysts().get(0), 61,9).drawBack(false).catalyst(true);
+
 
     }
 }

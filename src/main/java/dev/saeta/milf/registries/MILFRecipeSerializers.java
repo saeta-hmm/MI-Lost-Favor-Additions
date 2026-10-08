@@ -3,10 +3,13 @@ package dev.saeta.milf.registries;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
+import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
+import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
+import dev.saeta.milf.recipes.shaping.PotteryRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -26,11 +29,14 @@ public class MILFRecipeSerializers {
 
 
     public static final RecipeSerializer<AnvilRecipe> ANVIL_RECIPE_SERIALIZER = register("anvil", new AnvilRecipe.Serializer());
-//    public static final RecipeSerializer<BronzeAnvilRecipe> BRONZE_ANVIL_RECIPE_SERIALIZER = register("bronze_anvil", new BronzeAnvilRecipe.Serializer());
-//    public static final RecipeSerializer<StoneAnvilRecipe> STONE_ANVIL_RECIPE_SERIALIZER = register("stone_anvil", new StoneAnvilRecipe.Serializer());
 
     public static final RecipeSerializer<BloomeryRecipe> BLOOMERY_RECIPE_SERIALIZER = register("bloomery", new BloomeryRecipe.Serializer());
 
+    public static final RecipeSerializer<ChiselRecipe> CHISEL_RECIPE_SERIALIZER = register("chisel", new ChiselRecipe.Serializer());
+
+    public static final RecipeSerializer<PotteryRecipe> POTTERY_RECIPE_SERIALIZER = register("pottery", new PotteryRecipe.Serializer());
+
+    public static final RecipeSerializer<ImpressionMoldingRecipe> IMPRESSION_MOLDING_RECIPE_SERIALIZER = register("impression_molding", new ImpressionMoldingRecipe.Serializer());
 
     private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
         RECIPE_SERIALIZERS.register(id, () -> serializer);

@@ -5,6 +5,7 @@ import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.resources.ResourceLocation;
 
 public class MILFEmiRecipeCategories {
@@ -19,6 +20,9 @@ public class MILFEmiRecipeCategories {
     public static final EmiRecipeCategory STONE_ANVIL = new MILFCategory(MILostFavor.locate("stone_anvil"), EmiStack.of(MILFBlocks.STONE_ANVIL));
 
     public static final EmiRecipeCategory BLOOMERY = new MILFCategory(MILostFavor.locate("bloomery"), EmiStack.of(MILFBlocks.BLOOMERY_BASE));
+    public static final EmiRecipeCategory CHISEL = new MILFCategory(MILostFavor.locate("chisel"), EmiStack.of(MILFItems.FLINT_CHISEL));
+    public static final EmiRecipeCategory POTTERY = new MILFCategory(MILostFavor.locate("pottery"), EmiStack.of(MILFBlocks.UNFIRED_CLAY_CRUCIBLE));
+    public static final EmiRecipeCategory IMPRESSION_MOLDING = new MILFCategory(MILostFavor.locate("impression_molding"), EmiStack.of(MILFBlocks.UNFIRED_CLAY_PLATE));
 
 
     private static class MILFCategory extends EmiRecipeCategory {

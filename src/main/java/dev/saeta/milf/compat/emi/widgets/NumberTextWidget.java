@@ -1,6 +1,7 @@
 package dev.saeta.milf.compat.emi.widgets;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.api.widget.WidgetTooltipHolder;
@@ -13,45 +14,56 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class FloatTextWidget extends Widget implements WidgetTooltipHolder<FloatTextWidget> {
+public class NumberTextWidget extends Widget implements WidgetTooltipHolder<NumberTextWidget> {
 
     protected final static ResourceLocation NUMBERS_TEXTURE = MILostFavor.locate("textures/gui/numbers.png");
 
-    protected final int x, y, color;
-    protected final Supplier<Float> floatSupplier;
+    protected final int color;
+    protected final float x, y;
+    protected final Supplier<Number> numberSupplier;
 
     protected boolean stripIntegerPart = false;
     protected boolean onlyPercentages = false;
+    protected boolean isCentered = false;
 
     private BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier = (mouseX, mouseY) -> List.of();
 
 
-    public FloatTextWidget(int x, int y, int color, Supplier<Float> floatSupplier) {
+    public NumberTextWidget(float x, float y, int color, Supplier<Number> numberSupplier) {
 
         this.x = x;
         this.y = y;
         this.color = color;
-        this.floatSupplier = floatSupplier;
+        this.numberSupplier = numberSupplier;
 
     }
 
-    public FloatTextWidget stripIntegerPart(){
+    public NumberTextWidget stripIntegerPart(){
         stripIntegerPart = true;
         return this;
     }
 
-    public FloatTextWidget onlyPercentages(){
+    public NumberTextWidget onlyPercentages(){
         onlyPercentages = true;
+        return this;
+    }
+
+    public NumberTextWidget centered(){
+        isCentered = true;
         return this;
     }
 
     @Override
     public Bounds getBounds() {
-        return new Bounds(x-1, y-1, getWidth()+2, 7);
+        if(isCentered){
+            int width = getWidth();
+            return new Bounds((int) (x- (float) width /2), (int) (y-1), width, 7);
+        }
+        return new Bounds((int) (x-1), (int) (y-1), getWidth()+2, 7);
     }
 
     private int getWidth(){
-        float number = floatSupplier.get();
+        Number number = numberSupplier.get();
 
         String numberString = String.valueOf(number);
 
@@ -66,11 +78,9 @@ public class FloatTextWidget extends Widget implements WidgetTooltipHolder<Float
 
     @Override
     public void render(GuiGraphics draw, int mouseX, int mouseY, float delta) {
-        float number = floatSupplier.get();
+        Number number = numberSupplier.get();
 
         String numberString = String.valueOf(number);
-
-        //MILostFavor.LOGGER.info(numberString);
 
         if(stripIntegerPart){
             numberString = numberString.substring(numberString.indexOf('.'));
@@ -78,9 +88,7 @@ public class FloatTextWidget extends Widget implements WidgetTooltipHolder<Float
             numberString = numberString.substring(numberString.indexOf('.') + 1);
         }
 
-        //MILostFavor.LOGGER.info(string);
-
-        int drawX = x;
+        float drawX = isCentered ? x - (float) getWidth() / 2 : x;
 
         float r = ((color >> 16) & 0xFF) / 255f;
         float g = ((color >> 8) & 0xFF) / 255f;
@@ -88,6 +96,10 @@ public class FloatTextWidget extends Widget implements WidgetTooltipHolder<Float
         float a = ((color >> 24) & 0xFF) / 255f;
 
         RenderSystem.setShaderColor(r,g,b,a);
+
+        PoseStack poseStack = draw.pose();
+
+
 
         for (int i = 0; i < numberString.length(); i++) {
             char c = numberString.charAt(i);
@@ -101,16 +113,24 @@ public class FloatTextWidget extends Widget implements WidgetTooltipHolder<Float
                 continue;
             }
 
+            poseStack.pushPose();
+
+            poseStack.translate(drawX, y, 0);
+
             int u = 1 + index * 4;
-            draw.blit(NUMBERS_TEXTURE, drawX, y, u, 1, 3, 5, 45, 7);
+            draw.blit(NUMBERS_TEXTURE, 0, 0, u, 1, 3, 5, 45, 7);
             drawX += (c == '.') ? 3 : 4;
+
+            poseStack.popPose();
         }
+
+
 
         RenderSystem.setShaderColor(1,1,1,1);
     }
 
     @Override
-    public FloatTextWidget tooltip(BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier) {
+    public NumberTextWidget tooltip(BiFunction<Integer, Integer, List<ClientTooltipComponent>> tooltipSupplier) {
         this.tooltipSupplier = tooltipSupplier;
         return this;
     }

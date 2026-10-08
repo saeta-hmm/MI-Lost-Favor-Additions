@@ -4,6 +4,10 @@ import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
+import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
+import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlock;
+import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlock;
+import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
@@ -12,6 +16,7 @@ import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
+import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlock;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -25,6 +30,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -63,6 +69,78 @@ public class MILFBlocks {
             (block) -> new RoastingContraptionBlockItem(block.get(), new Item.Properties())
     );
 
+    public static final DeferredBlock<UnfiredClayCrucibleBlock> UNFIRED_CLAY_CRUCIBLE = registerBlock("unfired_clay_crucible",
+            () -> new UnfiredClayCrucibleBlock(BlockBehaviour.Properties.of()
+                    .strength(0.3f,2)
+                    .sound(SoundType.MUD)),
+            (block) -> new UnfiredClayCrucibleBlock.UnfiredClayBucketItem(block.get(), new Item.Properties().stacksTo(1))
+    );
+
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_PLATE = registerBlock("unfired_clay_plate",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_AXE = registerBlock("unfired_clay_mold_axe",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_HAMMER = registerBlock("unfired_clay_mold_hammer",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_HOE = registerBlock("unfired_clay_mold_hoe",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_PICKAXE = registerBlock("unfired_clay_mold_pickaxe",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_SHOVEL = registerBlock("unfired_clay_mold_shovel",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+    public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_MOLD_SWORD = registerBlock("unfired_clay_mold_sword",
+            () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_PLATE = registerBlock("clay_plate",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayPlateItem(block.get(), new Item.Properties())
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_AXE = registerBlock("clay_mold_axe",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 4)
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_HAMMER = registerBlock("clay_mold_hammer",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME)
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_HOE = registerBlock("clay_mold_hoe",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 5)
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_PICKAXE = registerBlock("clay_mold_pickaxe",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 4)
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_SHOVEL = registerBlock("clay_mold_shovel",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 8)
+    );
+
+    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_SWORD = registerBlock("clay_mold_sword",
+            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 5)
+    );
+
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
             .strength(1,2)
             .sound(SoundType.DECORATED_POT)
@@ -83,6 +161,20 @@ public class MILFBlocks {
     public static final DeferredBlock<StoneAnvilBlock> STONE_ANVIL = registerBlock("stone_anvil", () -> new StoneAnvilBlock(BlockBehaviour.Properties.of()
             .strength(1.3f, 6)
             .sound(SoundType.STONE)
+            .noOcclusion()
+            .forceSolidOn()
+    ));
+
+    public static final DeferredBlock<ChiseledBlock> CHISELED_BLOCK = registerBlock("chiseled_block", () -> new ChiseledBlock(BlockBehaviour.Properties.of()
+            .strength(1.5f, 6)
+            .sound(SoundType.STONE)
+            .noOcclusion()
+            .forceSolidOn()
+    ));
+
+    public static final DeferredBlock<MoldedBlock> MOLDED_BLOCK = registerBlock("molded_block", () -> new MoldedBlock(BlockBehaviour.Properties.of()
+            .strength(1f, 6)
+            .sound(SoundType.MUD)
             .noOcclusion()
             .forceSolidOn()
     ));

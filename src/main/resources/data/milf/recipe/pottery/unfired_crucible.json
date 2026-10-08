@@ -1,0 +1,13 @@
+{
+  "type" : "milf:pottery",
+  "input" : {
+    "item": "minecraft:clay",
+    "count": 1
+  },
+  "output": {
+    "id": "milf:unfired_clay_crucible",
+    "count": 1
+  },
+  "top_hits": 6,
+  "side_hits": 3
+}

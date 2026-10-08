@@ -1,0 +1,6 @@
+{
+    "parent": "milf:block/unfired_clay_plate",
+    "textures": {
+        "1": "milf:block/overlay/unfired_clay_hoe_overlay"
+    }
+}

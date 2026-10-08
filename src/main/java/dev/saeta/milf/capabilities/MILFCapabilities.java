@@ -15,13 +15,15 @@ public class MILFCapabilities {
 
         ((CapabilityProvider) MILFItems.CLAY_BUCKET.get()).registerCapabilities(event);
 
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_AXE.get()).registerCapabilities(event);
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_HAMMER.get()).registerCapabilities(event);
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_HOE.get()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_AXE.get().asItem()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_HAMMER.get().asItem()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_HOE.get().asItem()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_PICKAXE.get().asItem()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_SWORD.get().asItem()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_MOLD_SHOVEL.get().asItem()).registerCapabilities(event);
+
         ((CapabilityProvider) MILFItems.CLAY_MOLD_INGOT.get()).registerCapabilities(event);
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_PICKAXE.get()).registerCapabilities(event);
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_SWORD.get()).registerCapabilities(event);
-        ((CapabilityProvider) MILFItems.CLAY_MOLD_SHOVEL.get()).registerCapabilities(event);
+
 
         MILFBlocks.CLAY_CRUCIBLE.get().registerCapabilities(event);
         MILFBlocks.FIRE_PIT.get().registerCapabilities(event);
@@ -29,8 +31,10 @@ public class MILFCapabilities {
         MILFBlocks.KILN.get().registerCapabilities(event);
         MILFBlocks.BRONZE_ANVIL.get().registerCapabilities(event);
         MILFBlocks.STONE_ANVIL.get().registerCapabilities(event);
-
         MILFBlocks.BLOOMERY_BASE.get().registerCapabilities(event);
+        MILFBlocks.UNFIRED_CLAY_PLATE.get().registerCapabilities(event);
+        MILFBlocks.CLAY_PLATE.get().registerCapabilities(event);
+
 
     }
 

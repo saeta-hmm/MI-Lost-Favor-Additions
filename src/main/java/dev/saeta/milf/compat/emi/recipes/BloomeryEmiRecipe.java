@@ -7,6 +7,8 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -101,21 +103,15 @@ public class BloomeryEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/bloomery_emi.png"), 0,0,64,96,0,0, 64, 96, 64, 96);
 
-        widgets.addSlot(getInputs().get(1), 13,67).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36, 18, 18);
-        widgets.addSlot(getInputs().get(0), 33,67).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
-
-
-        widgets.addSlot(getInputs().get(2), 23,48).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
-
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 13,67, EmiSlot.KILN));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 33,67, EmiSlot.KILN));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,48, EmiSlot.KILN));
 
         //right
 
         widgets.addTexture(MILostFavor.locate("textures/gui/bloomery_emi.png"), 80,0,64,96,0,0, 64, 96, 64, 96);
 
-        widgets.addSlot(getOutputs().get(0), 80 + 23, 67)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
-                .recipeContext(this);
-
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 80 + 23, 67, EmiSlot.KILN).recipeContext(this));
 
         //center
 
@@ -146,9 +142,8 @@ public class BloomeryEmiRecipe implements EmiRecipe {
                     )
             ));
 
+            widgets.add(new MILFEmiSlotWidget(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67, EmiSlot.BELLOWS).recipeContext(this));
 
-            widgets.addSlot(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67)
-                    .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,0,18, 18);
         }
     }
 }

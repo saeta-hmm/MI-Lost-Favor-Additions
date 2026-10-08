@@ -7,7 +7,9 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.FloatTextWidget;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
+import dev.saeta.milf.compat.emi.widgets.NumberTextWidget;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -87,27 +89,18 @@ public class StoneAnvilEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(MILostFavor.locate("textures/gui/stone_anvil_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
-        widgets.addSlot(getInputs().get(0), 7,25).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18);
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 7,25, EmiSlot.STONE));
 
-        widgets.addSlot(getCatalysts().get(0), 23,2)
-                .catalyst(true)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18);
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 23,2, EmiSlot.STONE));
 
-        widgets.addSlot(getOutputs().get(0), 39,25)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18)
-                .recipeContext(this);
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 39,25, EmiSlot.STONE).recipeContext(this));
 
 
-        widgets.add(new FloatTextWidget(26,34, 0x48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
+        widgets.add(new NumberTextWidget(26,34, 0x48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.anvil.max_hit", String.valueOf(maxHit).substring(String.valueOf(maxHit).indexOf('.') + 1)).getVisualOrderText()
                 )
         )));
-
-
-
-        //widgets.addText(Component.literal(maxHit), 25, 34,0x5a474c, false);
-
 
     }
 

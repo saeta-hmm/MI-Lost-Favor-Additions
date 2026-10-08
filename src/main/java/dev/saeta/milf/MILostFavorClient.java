@@ -1,7 +1,9 @@
 package dev.saeta.milf;
 
+import dev.saeta.milf.client.shaping.Chiseling;
 import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
 import dev.saeta.milf.client.overlay.AnvilMinigame;
+import dev.saeta.milf.client.shaping.Pottery;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFFluids;
 import dev.saeta.milf.registries.client.MILFBlockEntityRenderers;
@@ -16,6 +18,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(value = MILostFavor.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)
@@ -25,6 +28,8 @@ public class MILostFavorClient {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         modBus.addListener(MILFFluids::registerClient);
+
+        NeoForge.EVENT_BUS.addListener(Chiseling::onRenderHand);
     }
 
     @SubscribeEvent
@@ -50,6 +55,9 @@ public class MILostFavorClient {
     @SubscribeEvent
     private static void registerGuiLayers(RegisterGuiLayersEvent event) {
         event.registerAboveAll(AnvilMinigame.ID, AnvilMinigame::render);
+        event.registerAboveAll(Chiseling.ID, Chiseling::render);
+        event.registerAboveAll(Pottery.ID, Pottery::render);
+
     }
 
     @SubscribeEvent

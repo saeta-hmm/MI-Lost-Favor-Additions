@@ -1,0 +1,15 @@
+{
+  "type" : "milf:impression_molding",
+  "input" : {
+    "item": "milf:wooden_pickaxe_head",
+    "count": 1
+  },
+  "block" : {
+    "item": "milf:unfired_clay_plate",
+    "count": 1
+  },
+  "output": {
+    "id": "milf:unfired_clay_mold_pickaxe",
+    "count": 1
+  }
+}

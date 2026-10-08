@@ -112,74 +112,45 @@ public class ClayBucketItem extends Item implements CapabilityProvider {
         BlockState state = level.getBlockState(pos);
 
         if(player.isShiftKeyDown()){
-            if(state.is(BlockTags.DIRT )){
-
-                BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
-                ItemStack bucketStack = context.getItemInHand();
-
-                var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
-
-                BlockPlaceContext placeContext = new BlockPlaceContext(context);
-                InteractionResult result = crucibleBlock.place(placeContext);
-
-                if(result.consumesAction()){
-
-                    level.playSound(null, pos,
-                            SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
-                            1f, 1f);
-
-                    if(optionalFluidStack.isPresent()){
-
-                        FluidStack fluidStack = optionalFluidStack.get();
-
-                        BlockPos blockPos = placeContext.getClickedPos();
-                        ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
-
-                        if(clayCrucibleBlockEntity != null){
-                            clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                        }
-
-                    }
-
-                    return InteractionResult.SUCCESS;
-                }
-
-            }
 
             if(state.is(MILFBlocks.KILN)){
-                BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
-                ItemStack bucketStack = context.getItemInHand();
-
-                var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
-                BlockPos targetPos = pos.above();
-                BlockPlaceContext placeContext = BlockPlaceContext.at(new BlockPlaceContext(context), targetPos, Direction.UP);
-
-                InteractionResult result = crucibleBlock.place(placeContext);
-
-                if(result.consumesAction()){
-
-                    level.playSound(null, pos,
-                            SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS,
-                            1f, 1f);
-
-                    if(optionalFluidStack.isPresent()){
-
-                        FluidStack fluidStack = optionalFluidStack.get();
-
-                        BlockPos blockPos = placeContext.getClickedPos();
-                        ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
-
-                        if(clayCrucibleBlockEntity != null){
-                            clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                        }
-
-                    }
-
-                    return InteractionResult.SUCCESS;
-                }
+                return placeCrucible(context, pos.above(), level);
             }
+
+            return placeCrucible(context, pos, level);
         }
 
+        return InteractionResult.PASS;
+    }
+
+    private InteractionResult placeCrucible(UseOnContext context, BlockPos pos, Level level){
+        BlockItem crucibleBlock = (BlockItem) MILFBlocks.CLAY_CRUCIBLE.asItem();
+        ItemStack bucketStack = context.getItemInHand();
+
+        var optionalFluidStack = FluidUtil.getFluidContained(bucketStack);
+        BlockPlaceContext placeContext = BlockPlaceContext.at(new BlockPlaceContext(context), pos, Direction.UP);
+
+        InteractionResult result = crucibleBlock.place(placeContext);
+
+        if(result.consumesAction()){
+
+            level.playSound(null, pos, SoundEvents.DECORATED_POT_PLACE, SoundSource.BLOCKS, 1f, 1f);
+
+            if(optionalFluidStack.isPresent()){
+
+                FluidStack fluidStack = optionalFluidStack.get();
+
+                BlockPos blockPos = placeContext.getClickedPos();
+                ClayCrucibleBlockEntity clayCrucibleBlockEntity = (ClayCrucibleBlockEntity) level.getBlockEntity(blockPos);
+
+                if(clayCrucibleBlockEntity != null){
+                    clayCrucibleBlockEntity.getFluidTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                }
+
+            }
+
+            return InteractionResult.SUCCESS;
+        }
 
         return InteractionResult.PASS;
     }

@@ -4,11 +4,15 @@ import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlockEntity;
+import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntity;
+import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntity;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
+import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -45,6 +49,40 @@ public class MILFBlockEntities {
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<StoneAnvilBlockEntity>> STONE_ANVIL = BLOCK_ENTITIES.register(
             "stone_anvil", () -> BlockEntityType.Builder.of(StoneAnvilBlockEntity::new, MILFBlocks.STONE_ANVIL.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<ChiseledBlockEntity>> CHISELED_BLOCK = BLOCK_ENTITIES.register(
+            "chiseled_block", () -> BlockEntityType.Builder.of(ChiseledBlockEntity::new, MILFBlocks.CHISELED_BLOCK.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<MoldedBlockEntity>> MOLDED_BLOCK = BLOCK_ENTITIES.register(
+            "molded_block", () -> BlockEntityType.Builder.of(MoldedBlockEntity::new, MILFBlocks.MOLDED_BLOCK.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<UnfiredClayPlateBlockEntity>> UNFIRED_CLAY_PLATE = BLOCK_ENTITIES.register(
+            "unfired_clay_plate", () -> BlockEntityType.Builder.of(
+                    UnfiredClayPlateBlockEntity::new,
+                    MILFBlocks.UNFIRED_CLAY_PLATE.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_AXE.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_HAMMER.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_PICKAXE.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_SHOVEL.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_SWORD.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_HOE.get()
+            ).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<ClayPlateBlockEntity>> CLAY_PLATE = BLOCK_ENTITIES.register(
+            "clay_plate", () -> BlockEntityType.Builder.of(
+                    ClayPlateBlockEntity::new,
+                    MILFBlocks.CLAY_PLATE.get(),
+                    MILFBlocks.CLAY_MOLD_AXE.get(),
+                    MILFBlocks.CLAY_MOLD_HAMMER.get(),
+                    MILFBlocks.CLAY_MOLD_PICKAXE.get(),
+                    MILFBlocks.CLAY_MOLD_SHOVEL.get(),
+                    MILFBlocks.CLAY_MOLD_SWORD.get(),
+                    MILFBlocks.CLAY_MOLD_HOE.get()
+            ).build(null)
     );
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<RoastingContraptionBlockEntity>> ROASTING_CONTRAPTION = BLOCK_ENTITIES.register(

@@ -75,6 +75,12 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
+        client_saeta {
+            client()
+            programArgument '--username=saeta_'
+            programArgument '--uuid=40b3bf7e-24b3-485a-80d2-96e81eaadf43'
+        }
+
         server {
             server()
             programArgument '--nogui'

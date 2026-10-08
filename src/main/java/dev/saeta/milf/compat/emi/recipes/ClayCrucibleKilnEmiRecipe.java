@@ -7,6 +7,9 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
+import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -85,6 +88,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
         if(requiresBellows){
             catalysts.add(EmiStack.of(MILFBlocks.POT_BELLOWS.get().asItem()));
         }
+        catalysts.add(EmiStack.of(MILFBlocks.CLAY_PLATE.get()));
         return catalysts;
     }
 
@@ -121,18 +125,16 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
         //left
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_emi.png"), 0,0,64,80,0,0, 64, 80, 64, 80);
+        //widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_top_emi.png"), 0,0,80,32,0,0, 80, 32, 80, 32);
 
         widgets.addTexture(
                 MILostFavor.locate("textures/gui/fire_pit_emi.png"),
                 0,67,64,16,0,0, 64, 16, 64, 16
         ).tooltip(firePitTooltip);
 
-        widgets.addSlot(getInputs().get(1), 23,3).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,0, 18, 18);
-        widgets.addSlot(getInputs().get(0), 23,21).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,0,18, 18);
-
-
-        widgets.addSlot(getInputs().get(2), 23,48).customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18);
-
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,3, EmiSlot.CRUCIBLE));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.CRUCIBLE));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,48, EmiSlot.KILN));
 
         //right
 
@@ -144,13 +146,22 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
-
-        widgets.addSlot(getOutputs().get(1), 103,48)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 0,36,18, 18)
-                .recipeContext(this);
-
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,48, EmiSlot.KILN).recipeContext(this));
 
         //center
+
+        int clayPlateIndex = requiresBellows ? 1 : 0;
+
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(clayPlateIndex), 53,6, EmiSlot.CRUCIBLE).withPointer(
+                EmiSlotPointer.CRUCIBLE.corners(
+                        EmiSlotPointer.Corner.TOP_LEFT
+                ).large()
+            ).catalyst(true)
+        );
+
+//        widgets.addSlot(getCatalysts().get(clayPlateIndex), 53,6)
+//                .catalyst(true)
+//                .drawBack(false);
 
         widgets.add(new SingleTextureProgressWidget(
                 MILostFavor.locate("textures/gui/clay_crucible_emi_progress_arrow.png"),
@@ -179,9 +190,8 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
                     )
             ));
 
+            widgets.add(new MILFEmiSlotWidget(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67, EmiSlot.BELLOWS).recipeContext(this));
 
-            widgets.addSlot(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67)
-                    .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 18,0,18, 18);
         }
     }
 }

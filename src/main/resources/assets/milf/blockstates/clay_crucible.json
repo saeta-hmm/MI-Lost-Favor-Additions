@@ -1,24 +1,31 @@
 {
   "multipart": [
     {
-      "when": { "kiln_part": "false" },
+      "when": {
+        "kiln_part": false,
+        "dirt": false
+      },
       "apply": { "model": "milf:block/clay_crucible" }
     },
     {
-      "when": { "kiln_part": "true" },
+      "when": { "kiln_part": true },
       "apply": { "model": "milf:block/clay_crucible_kiln_part" }
     },
     {
+      "when": { "dirt": true },
+      "apply": { "model": "milf:block/clay_crucible_dirt" }
+    },
+    {
       "when": {
-        "kiln_part": "false",
-        "sealed": "true"
+        "kiln_part": false,
+        "sealed": true
       },
       "apply": { "model": "milf:block/clay_crucible_lid" }
     },
     {
       "when": {
-        "kiln_part": "true",
-        "sealed": "true"
+        "kiln_part": true,
+        "sealed": true
       },
       "apply": { "model": "milf:block/clay_crucible_kiln_part_lid" }
     }

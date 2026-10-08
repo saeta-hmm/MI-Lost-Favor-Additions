@@ -7,14 +7,37 @@
 
   "item.milf.clay_bucket" : "Clay Bucket",
 
-  "item.milf.clay_mold_axe" : "Clay Axe Mold",
-  "item.milf.clay_mold_hammer" : "Clay Hammer Mold",
-  "item.milf.clay_mold_hoe" : "Clay Hoe Mold",
-  "item.milf.clay_mold_pickaxe" : "Clay Pickaxe Mold",
-  "item.milf.clay_mold_shovel" : "Clay Shovel Mold",
-  "item.milf.clay_mold_sword" : "Clay Sword Mold",
+  "block.milf.clay_mold_axe" : "Clay Axe Mold",
+  "block.milf.clay_mold_hammer" : "Clay Hammer Mold",
+  "block.milf.clay_mold_hoe" : "Clay Hoe Mold",
+  "block.milf.clay_mold_pickaxe" : "Clay Pickaxe Mold",
+  "block.milf.clay_mold_shovel" : "Clay Shovel Mold",
+  "block.milf.clay_mold_sword" : "Clay Sword Mold",
+
   "item.milf.clay_mold_ingot" : "Clay Ingot Mold",
-  "item.milf.clay_plate" : "Clay Plate",
+
+  "block.milf.clay_plate" : "Clay Plate",
+
+  "item.milf.unfired_clay_bucket" : "Unfired Clay Bucket",
+
+  "block.milf.unfired_clay_mold_axe" : "Unfired Clay Axe Mold",
+  "block.milf.unfired_clay_mold_hammer" : "Unfired Clay Hammer Mold",
+  "block.milf.unfired_clay_mold_hoe" : "Unfired Clay Hoe Mold",
+  "block.milf.unfired_clay_mold_pickaxe" : "Unfired Clay Pickaxe Mold",
+  "block.milf.unfired_clay_mold_shovel" : "Unfired Clay Shovel Mold",
+  "block.milf.unfired_clay_mold_sword" : "Unfired Clay Sword Mold",
+
+  "item.milf.unfired_clay_mold_ingot" : "Unfired Clay Ingot Mold",
+
+  "block.milf.unfired_clay_plate" : "Unfired Clay Plate",
+
+  "item.milf.wooden_axe_head" : "Wooden Axe Head",
+  "item.milf.wooden_hammer_head" : "Wooden Hammer Head",
+  "item.milf.wooden_hoe_head" : "Wooden Hoe Head",
+  "item.milf.wooden_pickaxe_head" : "Wooden Pickaxe Head",
+  "item.milf.wooden_shovel_head" : "Wooden Shovel Head",
+  "item.milf.wooden_sword_blade" : "Wooden Sword Blade",
+
   "item.milf.iron_bloom" : "Iron Bloom",
   "item.milf.crushed_iron" : "Crushed Iron",
   "item.milf.crushed_gold" : "Crushed Gold",
@@ -23,9 +46,13 @@
   "item.milf.crushed_copper" : "Crushed Copper",
 
   "item.milf.firestarter" : "Firestarter",
+  "item.milf.stone_hammer" : "Stone Hammer",
+  "item.milf.flint_chisel" : "Flint Chisel",
 
   "item.milf.clunky_drill" : "Clunky Drill",
   "item.milf.big_bulky_drill" : "Big Bulky Drill",
+
+  "block.milf.unfired_clay_crucible" : "Unfired Clay Bucket",
 
   "block.milf.clay_crucible" : "Clay Crucible",
   "block.milf.kiln" : "Kiln",
@@ -35,6 +62,8 @@
   "block.milf.roasting_contraption" : "Roasting Contraption",
   "block.milf.bronze_anvil" : "Bronze Anvil",
   "block.milf.stone_anvil" : "Stone Anvil",
+  "block.milf.chiseled" : "Chiseled %s",
+  "block.milf.molded" : "Molded %s",
 
 
 
@@ -62,6 +91,13 @@
   "emi.category.milf.stone_anvil":  "Stone Anvil",
   "emi.category.milf.anvil.max_hit": "Each hit can add up to %s%% to the current recipe’s progress",
 
-  "emi.category.milf.bloomery":  "Bloomery"
+  "emi.category.milf.bloomery":  "Bloomery",
 
+  "emi.category.milf.pottery":  "Pottery",
+
+  "emi.category.milf.chisel":  "Block Chiseling",
+  "emi.category.milf.chisel.top_hits": "Requires %s hits on the top face of the block",
+  "emi.category.milf.chisel.side_hits": "Requires %s hits on any side face of the block",
+
+  "emi.category.milf.impression_molding":  "Impression Molding"
 }

@@ -84,11 +84,11 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
             int otherSlot = (slot == INPUT_SLOT_1) ? INPUT_SLOT_2 : INPUT_SLOT_1;
             ItemStack otherStack = itemHandler.getStackInSlot(otherSlot);
 
-            List<CrucibleRecipe> relevantRecipes;
+            List<CrucibleRecipe> relevantRecipes = List.of();
 
             if(isKilnPart()){
                 relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE_KILN).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
-            } else {
+            } else if (isDirt()){
                 relevantRecipes = recipeManager.getAllRecipesFor(MILFRecipeTypes.CLAY_CRUCIBLE).stream().map(holder -> (CrucibleRecipe) holder.value()).toList();
             }
 
@@ -148,9 +148,16 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
 
     @Override
     public boolean canBeIgnited() {
-        return isFull && !isLit && !getBlockState().getValue(ClayCrucibleBlock.SEALED);
+        return getCurrentRecipe() != null && !isLit && !isSealed() && !isKilnPart();
     }
 
+    @Override
+    public void ignite() {
+        setFull(true);
+        isLit = true;
+    }
+
+    @Override
     public boolean isLit(){
         return isLit;
     }
@@ -167,13 +174,12 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         return getBlockState().getValue(ClayCrucibleBlock.SEALED);
     }
 
-    public float getCurrentProgress(){
-        return (float) progress / currentRecipeTime;
+    public boolean isDirt(){
+        return getBlockState().getValue(ClayCrucibleBlock.DIRT);
     }
 
-    @Override
-    public void ignite() {
-        isLit = true;
+    public float getCurrentProgress(){
+        return (float) progress / currentRecipeTime;
     }
 
     public boolean isFull() {

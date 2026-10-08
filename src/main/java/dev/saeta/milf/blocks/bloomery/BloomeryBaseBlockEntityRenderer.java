@@ -1,14 +1,12 @@
 package dev.saeta.milf.blocks.bloomery;
 
-import aztech.modern_industrialization.MIItem;
-import aztech.modern_industrialization.materials.MIMaterials;
-import aztech.modern_industrialization.materials.part.PartKey;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.registries.MILFItemTags;
+import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,7 +20,6 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.joml.Matrix4f;
 
@@ -64,20 +61,16 @@ public class BloomeryBaseBlockEntityRenderer implements BlockEntityRenderer<Bloo
             float percent = (float) coalStack.getCount() / FirePitBlockEntity.COAL_CAPACITY;
             float maxY = MIN_Y + (percent * ((float) 3 / 16)) - 0.001f;
 
-            int color = 0xFFFFFFFF;
-
             VertexConsumer consumer = bufferSource.getBuffer(RenderType.translucent());
             Matrix4f matrix = poseStack.last().pose();
 
-            float u0 = sprite.getU0();
-            float u1 = sprite.getU1();
-            float v0 = sprite.getV0();
-            float v1 = sprite.getV1();
-
-            consumer.addVertex(matrix, MIN_X, maxY, MIN_Z).setColor(color).setUv(u0, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MIN_X, maxY, MAX_Z).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MAX_X, maxY, MAX_Z).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MAX_X, maxY, MIN_Z).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+            RenderUtil.renderUpFaceWithSprite(
+                    consumer, matrix,
+                    sprite, false,
+                    MIN_X, MAX_X, maxY,
+                    MIN_Z, MAX_Z,
+                    packedLight, packedOverlay
+            );
 
             poseStack.popPose();
 

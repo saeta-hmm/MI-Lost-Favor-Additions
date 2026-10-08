@@ -30,12 +30,16 @@ public class MILFEmiPlugin implements EmiPlugin {
 
 
         registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
+        registry.addCategory(MILFEmiRecipeCategories.POTTERY);
+        registry.addCategory(MILFEmiRecipeCategories.CHISEL);
+        registry.addCategory(MILFEmiRecipeCategories.IMPRESSION_MOLDING);
+        registry.addCategory(MILFEmiRecipeCategories.STONE_ANVIL);
+        registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
+
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE);
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
         registry.addCategory(MILFEmiRecipeCategories.BLOOMERY);
-        registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
-        registry.addCategory(MILFEmiRecipeCategories.STONE_ANVIL);
 
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
@@ -58,7 +62,6 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.BLOOMERY_BASE));
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.KILN));
 
-
     }
 
     private void registerRecipes(EmiRegistry registry){
@@ -73,6 +76,9 @@ public class MILFEmiPlugin implements EmiPlugin {
 //        addAll(registry, MILFRecipeTypes.STONE_ANVIL, StoneAnvilEmiRecipe::new);
 
         addAll(registry, MILFRecipeTypes.BLOOMERY, BloomeryEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CHISEL, ChiselEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.POTTERY, PotteryEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.IMPRESSION_MOLDING, ImpressionMoldingEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);

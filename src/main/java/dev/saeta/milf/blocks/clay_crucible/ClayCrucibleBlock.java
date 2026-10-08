@@ -57,6 +57,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
     public static final BooleanProperty KILN_PART = BooleanProperty.create("kiln_part");
     public static final BooleanProperty SEALED = BooleanProperty.create("sealed");
+    public static final BooleanProperty DIRT = BooleanProperty.create("dirt");
 
     public final static float KILN_PART_Y_OFFSET = (float) -6 /16;
 
@@ -70,7 +71,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     public ClayCrucibleBlock(Properties properties) {
         super(properties);
 
-        registerDefaultState(defaultBlockState().setValue(KILN_PART, false).setValue(SEALED, false));
+        registerDefaultState(defaultBlockState().setValue(KILN_PART, false).setValue(SEALED, false).setValue(DIRT, false));
     }
 
     @Override
@@ -97,7 +98,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(KILN_PART).add(SEALED);
+        builder.add(KILN_PART).add(SEALED).add(DIRT);
     }
 
     @Override
@@ -109,6 +110,10 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
             return defaultBlockState().setValue(KILN_PART, true);
         }
 
+        if(stateBelow.is(BlockTags.DIRT)){
+            return defaultBlockState().setValue(DIRT, true);
+        }
+
         return defaultBlockState();
     }
 
@@ -116,8 +121,11 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
         if(state.getValue(KILN_PART) && !stateBelow.is(MILFBlocks.KILN)) return false;
-        if(stateBelow.is(MILFBlocks.KILN) && stateBelow.getValue(KilnBlock.CONTAINS_BLOCK)) return false;
-        return stateBelow.is(BlockTags.DIRT) || stateBelow.is(MILFBlocks.KILN);
+        if(stateBelow.is(MILFBlocks.KILN)){
+            return !stateBelow.getValue(KilnBlock.CONTAINS_BLOCK);
+        }
+        if(state.getValue(DIRT) && !stateBelow.is(BlockTags.DIRT)) return false;
+        return !stateBelow.isAir() && stateBelow.isCollisionShapeFullBlock(level, pos.below());
     }
 
     @Override
@@ -148,7 +156,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
         if(!(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)) return ItemInteractionResult.FAIL;
 
-        if(stack.is(MILFItems.CLAY_PLATE) && !state.getValue(SEALED)){
+        if(stack.is(MILFBlocks.CLAY_PLATE.asItem()) && !state.getValue(SEALED)){
             stack.shrink(1);
             level.setBlock(pos, state.setValue(SEALED, true), Block.UPDATE_NONE);
             level.playSound(null, pos, SoundEvents.DECORATED_POT_HIT, SoundSource.BLOCKS, 1,1);
@@ -181,7 +189,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
 
                 if(state.getValue(SEALED)){
                     level.setBlock(pos, state.setValue(SEALED, false), Block.UPDATE_NONE);
-                    Block.popResource(level, pos, new ItemStack(MILFItems.CLAY_PLATE.get()));
+                    Block.popResource(level, pos, new ItemStack(MILFBlocks.CLAY_PLATE.get()));
                     level.playSound(null, pos, SoundEvents.DECORATED_POT_STEP, SoundSource.BLOCKS, 1,1);
                     clayCrucibleBlockEntity.checkAndSetIfFull();
                     return ItemInteractionResult.SUCCESS;
@@ -197,8 +205,6 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
                     }
                 }
             }
-
-            clayCrucibleBlockEntity.checkAndSetIfFull();
         }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -234,7 +240,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
                 Block.popResource(level, pos, gucket);
 
                 if(state.getValue(SEALED)){
-                    Block.popResource(level, pos, new ItemStack(MILFItems.CLAY_PLATE.get()));
+                    Block.popResource(level, pos, new ItemStack(MILFBlocks.CLAY_PLATE.get()));
                 }
             }
         }
@@ -246,7 +252,6 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 
         ItemStack gucket = new ItemStack(MILFItems.CLAY_BUCKET.get());
-
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity){
