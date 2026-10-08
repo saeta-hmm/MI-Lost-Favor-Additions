@@ -3,6 +3,7 @@ package dev.saeta.milf.registries;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
+import dev.saeta.milf.recipes.fire_pit.PitFiringRecipe;
 import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
 import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
@@ -37,6 +38,9 @@ public class MILFRecipeSerializers {
     public static final RecipeSerializer<PotteryRecipe> POTTERY_RECIPE_SERIALIZER = register("pottery", new PotteryRecipe.Serializer());
 
     public static final RecipeSerializer<ImpressionMoldingRecipe> IMPRESSION_MOLDING_RECIPE_SERIALIZER = register("impression_molding", new ImpressionMoldingRecipe.Serializer());
+
+    public static final RecipeSerializer<PitFiringRecipe> PIT_FIRING_RECIPE_SERIALIZER = register("pit_firing", new PitFiringRecipe.Serializer());
+
 
     private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
         RECIPE_SERIALIZERS.register(id, () -> serializer);

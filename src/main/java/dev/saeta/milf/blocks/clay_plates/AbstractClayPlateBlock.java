@@ -42,6 +42,7 @@ public abstract class AbstractClayPlateBlock extends ItemHandlerBlock implements
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
+        if(stateBelow.is(MILFBlocks.FIRE_PIT)) return true;
         return !stateBelow.isAir() && stateBelow.isCollisionShapeFullBlock(level, pos.below());
     }
 

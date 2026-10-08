@@ -1,48 +1,46 @@
 package dev.saeta.milf.compat.emi.widgets;
 
-public enum EmiSlotPointer {
-    CRUCIBLE(0,242, 7, 7),
-    WOOD(0,249, 7, 7),
-    CLAY(0,235, 7, 7),
+public class EmiSlotPointer {
 
-    ;
-
-    private final int u;
-    private final int v;
-
-    private final int width;
-    private final int height;
-
-    public boolean topLeft;
-    public boolean topRight;
-    public boolean bottomLeft;
-    public boolean bottomRight;
+    public final boolean topLeft;
+    public final boolean topRight;
+    public final boolean bottomLeft;
+    public final boolean bottomRight;
 
     private boolean large;
 
+    public final Type type;
 
-    EmiSlotPointer(int u, int v, int width, int height){
-        this.u = u;
-        this.v = v;
 
-        this.width = width;
-        this.height = height;
-    }
+    public EmiSlotPointer(Type type, Corner... corners){
 
-    public int getU() {
-        return u;
-    }
+        boolean bottomRightT = false;
+        boolean bottomLeftT = false;
+        boolean topRightT = false;
+        boolean topLeftT = false;
 
-    public int getV() {
-        return v;
-    }
+        for(Corner corner : corners){
+            switch (corner){
+                case TOP_LEFT -> {
+                    topLeftT = true;
+                }
+                case TOP_RIGHT -> {
+                    topRightT = true;
+                }
+                case BOTTOM_LEFT -> {
+                    bottomLeftT = true;
+                }
+                case BOTTOM_RIGHT -> {
+                    bottomRightT = true;
+                }
+            }
+        }
+        bottomRight = bottomRightT;
+        bottomLeft = bottomLeftT;
+        topRight = topRightT;
+        topLeft = topLeftT;
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
+        this.type = type;
     }
 
     public int getXOffset(){
@@ -53,38 +51,39 @@ public enum EmiSlotPointer {
         return large ? 4 : 2;
     }
 
-    public EmiSlotPointer corners(Corner... corners){
-        for(Corner corner : corners){
-            switch (corner){
-                case TOP_LEFT -> {
-                    topLeft = true;
-                }
-                case TOP_RIGHT -> {
-                    topRight = true;
-                }
-                case BOTTOM_LEFT -> {
-                    bottomLeft = true;
-                }
-                case BOTTOM_RIGHT -> {
-                    bottomRight = true;
-                }
-            }
-        }
-
-        return this;
-    }
-
     public EmiSlotPointer large(){
         this.large = true;
         return this;
     }
 
 
-    public static enum Corner{
+    public enum Corner{
         TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_LEFT,
         BOTTOM_RIGHT
+    }
+
+    public enum Type{
+        CRUCIBLE(0,242, 7, 7),
+        WOOD(0,249, 7, 7),
+        CLAY(0,235, 7, 7),
+
+        ;
+
+        public final int u;
+        public final int v;
+
+        public final int width;
+        public final int height;
+
+        Type(int u, int v, int width, int height){
+            this.u = u;
+            this.v = v;
+
+            this.width = width;
+            this.height = height;
+        }
     }
 
 }

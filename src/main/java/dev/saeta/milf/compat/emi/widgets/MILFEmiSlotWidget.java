@@ -34,14 +34,14 @@ public class MILFEmiSlotWidget extends SlotWidget {
             PoseStack poseStack = draw.pose();
 
             if(pointer.topLeft){
-                draw.blit(SLOTS_TEXTURE, x - pointer.getXOffset(),y - pointer.getYOffset(), pointer.getU(), pointer.getV(), pointer.getWidth(), pointer.getHeight());
+                draw.blit(SLOTS_TEXTURE, x - pointer.getXOffset(),y - pointer.getYOffset(), pointer.type.u, pointer.type.v, pointer.type.width, pointer.type.height);
             }
 
             if (pointer.topRight) {
                 poseStack.pushPose();
                 poseStack.translate(x + slotType.getWidth(), y, 0);
                 poseStack.mulPose(Axis.ZP.rotationDegrees(90));
-                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.getU(), pointer.getV(), pointer.getWidth(), pointer.getHeight());
+                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.type.u, pointer.type.v, pointer.type.width, pointer.type.height);
                 poseStack.popPose();
             }
 
@@ -49,7 +49,7 @@ public class MILFEmiSlotWidget extends SlotWidget {
                 poseStack.pushPose();
                 poseStack.translate(x, y + slotType.getHeight(), 0);
                 poseStack.mulPose(Axis.ZP.rotationDegrees(270));
-                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.getU(), pointer.getV(), pointer.getWidth(), pointer.getHeight());
+                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.type.u, pointer.type.v, pointer.type.width, pointer.type.height);
                 poseStack.popPose();
             }
 
@@ -57,7 +57,7 @@ public class MILFEmiSlotWidget extends SlotWidget {
                 poseStack.pushPose();
                 poseStack.translate(x + slotType.getWidth(), y + slotType.getHeight(), 0);
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.getU(), pointer.getV(), pointer.getWidth(), pointer.getHeight());
+                draw.blit(SLOTS_TEXTURE, -pointer.getXOffset(), -pointer.getYOffset(), pointer.type.u, pointer.type.v, pointer.type.width, pointer.type.height);
                 poseStack.popPose();
             }
         }

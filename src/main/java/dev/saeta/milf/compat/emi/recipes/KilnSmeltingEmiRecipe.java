@@ -9,10 +9,12 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
 import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -145,13 +147,22 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     }
 
     @Override
+    public List<EmiIngredient> getCatalysts() {
+        List<EmiIngredient> catalysts = new ArrayList<>();
+        ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
+        firestarter.setDamageValue(1);
+        catalysts.add(EmiStack.of(MILFItems.FIRESTARTER).setRemainder(EmiStack.of(firestarter)));
+        return catalysts;
+    }
+
+    @Override
     public int getDisplayWidth() {
         return 144;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 90;
+        return 90 + 20;
     }
 
     @Override
@@ -162,24 +173,29 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(
                 MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                0,67,64,16,0,0, 64, 16, 64, 16
+                0,67,64,18,0,0, 64, 18, 64, 18
         ).tooltip(firePitTooltip);
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.KILN));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,48, EmiSlot.KILN));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,67, EmiSlot.FIRE_PIT));
+
 
         //right
 
         widgets.addTexture(MILostFavor.locate("textures/gui/kiln_emi.png"), 80,0,64,80,0,0, 64, 80, 64, 80);
         widgets.addTexture(
                 MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                80,67,64,16,0,0, 64, 16, 64, 16
+                80,67,64,18,0,0, 64, 18, 64, 18
         ).tooltip(firePitTooltip);
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 103,21, EmiSlot.KILN).recipeContext(this));
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,48, EmiSlot.KILN).recipeContext(this));
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this));
 
         //center
+
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 53,89, EmiSlot.WOOD).withPointer(
+                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.TOP_LEFT)
+        ));
 
         widgets.add(new SingleTextureProgressWidget(
                         MILostFavor.locate("textures/gui/kiln_emi_progress_arrow.png"),

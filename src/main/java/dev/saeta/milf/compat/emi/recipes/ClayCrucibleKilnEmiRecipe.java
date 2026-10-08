@@ -89,6 +89,11 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
             catalysts.add(EmiStack.of(MILFBlocks.POT_BELLOWS.get().asItem()));
         }
         catalysts.add(EmiStack.of(MILFBlocks.CLAY_PLATE.get()));
+
+        ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
+        firestarter.setDamageValue(1);
+        catalysts.add(EmiStack.of(MILFItems.FIRESTARTER).setRemainder(EmiStack.of(firestarter)));
+
         return catalysts;
     }
 
@@ -116,7 +121,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
     @Override
     public int getDisplayHeight() {
-        return 90;
+        return 90 + 20;
     }
 
     @Override
@@ -124,40 +129,44 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
         //left
 
+        int clayPlateIndex = requiresBellows ? 1 : 0;
+
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_emi.png"), 0,0,64,80,0,0, 64, 80, 64, 80);
         //widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_top_emi.png"), 0,0,80,32,0,0, 80, 32, 80, 32);
 
         widgets.addTexture(
                 MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                0,67,64,16,0,0, 64, 16, 64, 16
+                0,67,64,18,0,0, 64, 18, 64, 18
         ).tooltip(firePitTooltip);
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,3, EmiSlot.CRUCIBLE));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.CRUCIBLE));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,48, EmiSlot.KILN));
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,67, EmiSlot.FIRE_PIT));
 
         //right
 
         widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_emi.png"), 80,0,64,80,0,0, 64, 80, 64, 80);
         widgets.addTexture(
                 MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                80,67,64,16,0,0, 64, 16, 64, 16
+                80,67,64,18,0,0, 64, 18, 64, 18
         ).tooltip(firePitTooltip);
 
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,48, EmiSlot.KILN).recipeContext(this));
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this));
+
 
         //center
 
-        int clayPlateIndex = requiresBellows ? 1 : 0;
-
         widgets.add(new MILFEmiSlotWidget(getCatalysts().get(clayPlateIndex), 53,6, EmiSlot.CRUCIBLE).withPointer(
-                EmiSlotPointer.CRUCIBLE.corners(
-                        EmiSlotPointer.Corner.TOP_LEFT
-                ).large()
+                new EmiSlotPointer(EmiSlotPointer.Type.CRUCIBLE, EmiSlotPointer.Corner.TOP_LEFT).large()
             ).catalyst(true)
         );
+
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(clayPlateIndex+1), 53,89, EmiSlot.WOOD).withPointer(
+                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.TOP_LEFT)
+        ));
+
 
 //        widgets.addSlot(getCatalysts().get(clayPlateIndex), 53,6)
 //                .catalyst(true)

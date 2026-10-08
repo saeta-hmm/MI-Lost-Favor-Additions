@@ -115,7 +115,7 @@ public class ClayCrucibleEmiRecipe implements EmiRecipe {
         );
 
         widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 61,9, EmiSlot.WOOD).withPointer(
-                EmiSlotPointer.WOOD.corners(EmiSlotPointer.Corner.TOP_LEFT)
+                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.TOP_LEFT)
         ));
 
         //widgets.addSlot(getCatalysts().get(0), 61,9).drawBack(false).catalyst(true);

@@ -9,6 +9,7 @@ public enum EmiSlot {
     STONE(36,18, 18, 18),
     BRONZE(36,0, 18, 18),
     BELLOWS(18,0, 18, 18),
+    FIRE_PIT(0,54, 18, 18),
 
     ;
 
