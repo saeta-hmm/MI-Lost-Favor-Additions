@@ -11,13 +11,11 @@ import dev.saeta.milf.compat.emi.widgets.EmiSlot;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.NumberTextWidget;
 import dev.saeta.milf.recipes.shaping.PotteryRecipe;
-import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.Nullable;
 

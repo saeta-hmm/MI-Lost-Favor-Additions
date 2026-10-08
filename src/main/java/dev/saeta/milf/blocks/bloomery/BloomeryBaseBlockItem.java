@@ -2,7 +2,6 @@ package dev.saeta.milf.blocks.bloomery;
 
 import dev.saeta.milf.blocks.ReplacerBlockItem;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 

@@ -1,8 +1,8 @@
 package dev.saeta.milf.blocks.roasting_contraption;
 
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.recipes.SingleRecipeInput;
+import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -16,7 +16,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;

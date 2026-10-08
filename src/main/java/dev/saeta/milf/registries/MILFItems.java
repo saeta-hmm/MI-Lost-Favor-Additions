@@ -1,7 +1,10 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.items.*;
+import dev.saeta.milf.items.ChiselItem;
+import dev.saeta.milf.items.ClayBucketItem;
+import dev.saeta.milf.items.ClayMoldItem;
+import dev.saeta.milf.items.FirestarterItem;
 import dev.saeta.milf.items.mi.BigBulkyDrillItem;
 import dev.saeta.milf.items.mi.ClunkyDrillItem;
 import net.minecraft.world.item.Item;

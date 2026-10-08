@@ -1,8 +1,8 @@
 package dev.saeta.milf;
 
-import dev.saeta.milf.client.shaping.Chiseling;
 import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
 import dev.saeta.milf.client.overlay.AnvilMinigame;
+import dev.saeta.milf.client.shaping.Chiseling;
 import dev.saeta.milf.client.shaping.Pottery;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFFluids;

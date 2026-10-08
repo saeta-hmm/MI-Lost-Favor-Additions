@@ -1,21 +1,21 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
+import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
-import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlock;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlock;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
-import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
+import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlock;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;

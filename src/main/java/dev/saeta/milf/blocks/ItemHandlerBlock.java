@@ -1,13 +1,9 @@
 package dev.saeta.milf.blocks;
 
-import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
-import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 public abstract class ItemHandlerBlock extends BaseEntityBlock {
 

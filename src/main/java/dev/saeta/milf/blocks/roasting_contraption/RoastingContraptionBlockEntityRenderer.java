@@ -14,8 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-import java.util.function.BiConsumer;
-
 public class RoastingContraptionBlockEntityRenderer implements BlockEntityRenderer<RoastingContraptionBlockEntity> {
 
     private static ItemRenderer itemRenderer;

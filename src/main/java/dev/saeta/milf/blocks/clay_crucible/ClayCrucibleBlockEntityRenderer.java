@@ -26,8 +26,6 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.joml.Matrix4f;
 
-import java.util.function.BiConsumer;
-
 public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<ClayCrucibleBlockEntity> {
 
     private static BlockRenderDispatcher blockRenderDispatcher;

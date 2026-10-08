@@ -13,18 +13,14 @@ import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
-import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -33,7 +29,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class FirePitCookingEmiRecipe implements EmiRecipe {
 

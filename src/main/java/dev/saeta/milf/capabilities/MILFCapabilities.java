@@ -1,7 +1,6 @@
 package dev.saeta.milf.capabilities;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import net.neoforged.bus.api.SubscribeEvent;

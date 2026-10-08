@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;

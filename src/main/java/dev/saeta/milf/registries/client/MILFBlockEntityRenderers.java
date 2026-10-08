@@ -1,15 +1,15 @@
 package dev.saeta.milf.registries.client;
 
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntityRenderer;
-import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntityRenderer;
-import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntityRenderer;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntityRenderer;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntityRenderer;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntityRenderer;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntityRenderer;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntityRenderer;
+import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntityRenderer;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntityRenderer;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;

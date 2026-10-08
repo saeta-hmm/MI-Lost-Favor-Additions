@@ -1,10 +1,7 @@
 package dev.saeta.milf.blocks;
 
-import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;

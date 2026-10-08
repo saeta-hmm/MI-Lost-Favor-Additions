@@ -1,7 +1,5 @@
 package dev.saeta.milf.blocks.shapeable_blocks;
 
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
-import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;

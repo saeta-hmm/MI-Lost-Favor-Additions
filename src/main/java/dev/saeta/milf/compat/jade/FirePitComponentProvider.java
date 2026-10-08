@@ -2,7 +2,6 @@ package dev.saeta.milf.compat.jade;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.Accessor;

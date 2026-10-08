@@ -3,7 +3,6 @@ package dev.saeta.milf.blocks.anvils.bronze_anvil;
 import dev.saeta.milf.blocks.anvils.AbstractAnvilBlockEntity;
 import dev.saeta.milf.recipes.anvil.AnvilTier;
 import dev.saeta.milf.registries.MILFBlockEntities;
-import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

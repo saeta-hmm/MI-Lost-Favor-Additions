@@ -3,7 +3,6 @@ package dev.saeta.milf.blocks.shapeable_blocks;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

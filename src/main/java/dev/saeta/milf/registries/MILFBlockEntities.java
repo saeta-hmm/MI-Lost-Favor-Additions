@@ -1,17 +1,17 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
-import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntity;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntity;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
+import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;

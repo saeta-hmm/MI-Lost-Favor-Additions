@@ -3,7 +3,6 @@ package dev.saeta.milf.networking.payloads;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
-import dev.saeta.milf.recipes.shaping.ShapingRecipeInput;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -16,7 +15,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 
