@@ -1,0 +1,11 @@
+{
+  "type" : "milf:pit_firing",
+  "input" : {
+    "item": "milf:unfired_clay_mold_pickaxe",
+    "count": 1
+  },
+  "output": {
+    "id": "milf:clay_mold_pickaxe",
+    "count": 1
+  }
+}

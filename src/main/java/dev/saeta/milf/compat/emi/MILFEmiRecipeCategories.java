@@ -13,7 +13,7 @@ public class MILFEmiRecipeCategories {
     public static final EmiRecipeCategory CLAY_CRUCIBLE = new MILFCategory(MILostFavor.locate("clay_crucible"), EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
     public static final EmiRecipeCategory CLAY_CRUCIBLE_KILN = new MILFCategory(MILostFavor.locate("clay_crucible_kiln"), EmiStack.of(MILFBlocks.KILN));
 
-    public static final EmiRecipeCategory FIRE_PIT_COOKING = new MILFCategory(MILostFavor.locate("fire_pit_cooking"), EmiStack.of(MILFBlocks.FIRE_PIT));
+    public static final EmiRecipeCategory FIRE_PIT_COOKING = new MILFCategory(MILostFavor.locate("fire_pit_cooking"), EmiStack.of(MILFBlocks.ROASTING_CONTRAPTION));
 
     public static final EmiRecipeCategory KILN_SMELTING = new MILFCategory(MILostFavor.locate("kiln_smelting"), EmiStack.of(MILFBlocks.KILN));
     public static final EmiRecipeCategory BRONZE_ANVIL = new MILFCategory(MILostFavor.locate("bronze_anvil"), EmiStack.of(MILFBlocks.BRONZE_ANVIL));
@@ -24,6 +24,7 @@ public class MILFEmiRecipeCategories {
     public static final EmiRecipeCategory POTTERY = new MILFCategory(MILostFavor.locate("pottery"), EmiStack.of(MILFBlocks.UNFIRED_CLAY_CRUCIBLE));
     public static final EmiRecipeCategory IMPRESSION_MOLDING = new MILFCategory(MILostFavor.locate("impression_molding"), EmiStack.of(MILFBlocks.UNFIRED_CLAY_PLATE));
 
+    public static final EmiRecipeCategory PIT_FIRING = new MILFCategory(MILostFavor.locate("pit_firing"), EmiStack.of(MILFBlocks.FIRE_PIT));
 
     private static class MILFCategory extends EmiRecipeCategory {
 

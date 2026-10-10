@@ -1,0 +1,36 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Saeta",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "milf:block/anvil_mold_full",
+		"particle": "milf:block/anvil_mold_full"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 6, 16],
+			"faces": {
+				"north": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"east": {"uv": [8, 3, 16, 6], "texture": "#0"},
+				"south": {"uv": [8, 6, 16, 9], "texture": "#0"},
+				"west": {"uv": [8, 9, 16, 12], "texture": "#0"},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 6, 0],
+			"to": [16, 12, 16],
+			"rotation": {"angle": 0, "axis": "z", "origin": [16, 12, 0]},
+			"faces": {
+				"north": {"uv": [8, 0, 16, 3], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [8, 3, 16, 6], "rotation": 180, "texture": "#0"},
+				"south": {"uv": [8, 6, 16, 9], "rotation": 180, "texture": "#0"},
+				"west": {"uv": [16, 9, 8, 12], "rotation": 180, "texture": "#0"},
+				"up": {"uv": [0, 8, 8, 16], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [8, 0, 0, 8], "rotation": 180, "texture": "#0"}
+			}
+		}
+	]
+}

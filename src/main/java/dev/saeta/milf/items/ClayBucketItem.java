@@ -21,6 +21,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -34,9 +35,9 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public class ClayBucketItem extends Item implements CapabilityProvider {
-    public ClayBucketItem(Properties properties) {
-        super(properties);
+public class ClayBucketItem extends BlockItem implements CapabilityProvider {
+    public ClayBucketItem(Block block, Properties properties) {
+        super(block, properties.stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY));
     }
 
     @Override

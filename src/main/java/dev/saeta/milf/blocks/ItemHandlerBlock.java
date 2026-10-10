@@ -21,12 +21,12 @@ public abstract class ItemHandlerBlock extends BaseEntityBlock {
         super(properties);
     }
 
-    protected SoundEvent getInsertSound(boolean isFailed){
+    protected SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context){
         if(isFailed) return SoundEvents.DECORATED_POT_INSERT_FAIL;
         return SoundEvents.DECORATED_POT_INSERT;
     }
 
-    protected SoundEvent getExtractSound(){
+    protected SoundEvent getExtractSound(UseItemOnContext context){
         return SoundEvents.DECORATED_POT_HIT;
     }
 
@@ -44,14 +44,15 @@ public abstract class ItemHandlerBlock extends BaseEntityBlock {
             ItemStack remainingStack = itemHandlerBlockEntity.insertAnywhere(stack.copyWithCount(1));
 
             if(remainingStack.isEmpty()){
+
+
+                level.playSound(null, pos, getInsertSound(false, new UseItemOnContext(stack, state, level, pos)), SoundSource.BLOCKS, 1,1);
+
                 stack.shrink(1);
                 player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, getInsertSound(false), SoundSource.BLOCKS, 1,1);
-
                 return ItemInteractionResult.SUCCESS;
             } else {
-                level.playSound(null, pos, getInsertSound(true), SoundSource.BLOCKS, 1,1);
+                level.playSound(null, pos, getInsertSound(true, new UseItemOnContext(stack, state, level, pos)), SoundSource.BLOCKS, 1,1);
             }
 
             return ItemInteractionResult.CONSUME;
@@ -66,7 +67,7 @@ public abstract class ItemHandlerBlock extends BaseEntityBlock {
 
                     BlockPos outputPos = itemHandlerBlockEntity.getOutputPos();
                     Block.popResource(level, outputPos, outputStack);
-                    level.playSound(null, outputPos, getExtractSound(), SoundSource.BLOCKS, 1,1);
+                    level.playSound(null, outputPos, getExtractSound(new UseItemOnContext(outputStack, state, level, pos)), SoundSource.BLOCKS, 1,1);
                     return ItemInteractionResult.SUCCESS;
 
                 }
@@ -90,5 +91,6 @@ public abstract class ItemHandlerBlock extends BaseEntityBlock {
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
+    public record UseItemOnContext(ItemStack stack, BlockState state, Level level, BlockPos pos){}
 
 }

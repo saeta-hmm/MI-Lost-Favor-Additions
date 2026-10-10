@@ -225,7 +225,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
                 FluidTank fluidTank = clayCrucibleBlockEntity.getFluidTank();
                 FluidStack fluidStack = fluidTank.getFluid();
 
-                ItemStack gucket = new ItemStack(MILFItems.CLAY_BUCKET.get());
+                ItemStack gucket = new ItemStack(MILFBlocks.CLAY_CRUCIBLE.get());
 
                 if(!fluidStack.isEmpty()){
                     FluidHandlerItemStack handler = (FluidHandlerItemStack) FluidUtil.getFluidHandler(gucket).orElseThrow();
@@ -247,7 +247,7 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 
-        ItemStack gucket = new ItemStack(MILFItems.CLAY_BUCKET.get());
+        ItemStack gucket = new ItemStack(MILFBlocks.CLAY_CRUCIBLE.get());
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity){

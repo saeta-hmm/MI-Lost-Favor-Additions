@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.fire_pit;
 
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -170,6 +171,7 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
         }
 
         burnTime++;
+        BlockState stateAbove = level.getBlockState(worldPosition.above());
         if(burnTime > currentLogBurnTime){
             itemHandler.setStackInSlot(burnOrder.getFirst(), ItemStack.EMPTY);
             int coalCount = getCoalCount();
@@ -181,8 +183,6 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
                 var coalStack = new ItemStack(Items.CHARCOAL, 1);
 
                 setLit(false);
-
-                BlockState stateAbove = level.getBlockState(worldPosition.above());
 
                 if(stateAbove.is(MILFBlocks.KILN)){
                     Block.popResourceFromFace(level, worldPosition.above(),stateAbove.getValue(KilnBlock.FACING), coalStack);
@@ -209,6 +209,10 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
 
         if(burnTime % 10 == 0){
             setChanged();
+        }
+
+        if(stateAbove.is(MILFBlocks.FIRE_PIT_PLATE) && level.getBlockEntity(worldPosition.above()) instanceof FirePitPlateBlockEntity firePitPlateBlockEntity){
+            firePitPlateBlockEntity.firePitTick();
         }
 
 

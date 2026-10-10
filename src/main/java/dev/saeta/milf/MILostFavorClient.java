@@ -6,7 +6,7 @@ import dev.saeta.milf.client.shaping.Chiseling;
 import dev.saeta.milf.client.shaping.Pottery;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
 import dev.saeta.milf.registries.MILFFluids;
-import dev.saeta.milf.registries.client.MILFBlockEntityRenderers;
+import dev.saeta.milf.registries.client.MILFEntityRenderers;
 import dev.saeta.milf.registries.client.MILFModelLayerLocations;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -39,7 +39,7 @@ public class MILostFavorClient {
 
     @SubscribeEvent
     public static void registerBER(EntityRenderersEvent.RegisterRenderers event){
-        MILFBlockEntityRenderers.register(event);
+        MILFEntityRenderers.register(event);
     }
 
     @SubscribeEvent

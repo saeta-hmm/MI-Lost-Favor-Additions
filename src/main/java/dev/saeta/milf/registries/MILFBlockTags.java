@@ -9,6 +9,7 @@ public class MILFBlockTags {
 
     public static final TagKey<Block> ANVILS = milf("anvils");
     public static final TagKey<Block> UNFIRED_MOLDS = milf("unfired_molds");
+    public static final TagKey<Block> MOLDS = milf("molds");
 
     private static TagKey<Block> milf(String id) {
         return TagKey.create(Registries.BLOCK, MILostFavor.locate(id));

@@ -7,7 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.NumberTextWidget;
+import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -88,24 +88,14 @@ public class ChiselEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/chisel_emi.png"), 0,0,96,64,0,0, 96, 64, 96, 64);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.CHISEL, 0, 0));
 
-        widgets.addSlot(getInputs().get(0), 27,27)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,36, 36)
-                .drawBack(false);
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 1,1, EmiSlot.STONE).drawBack(false).catalyst(true));
+        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(1), 8,8, EmiSlot.STONE).drawBack(false).catalyst(true));
 
-        widgets.addSlot(getCatalysts().get(0), 1,1)
-                .catalyst(true)
-                .drawBack(false);
+        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 27,27, EmiSlot.STONE).customSize(36,36).drawBack(false));
 
-        widgets.addSlot(getCatalysts().get(1), 8,8)
-                .catalyst(true)
-                .drawBack(false);
-
-        widgets.addSlot(getOutputs().get(0), 67,5)
-                .customBackground(MILostFavor.locate("textures/gui/emi_slots.png"), 36,18,18, 18)
-                .recipeContext(this);
-
+        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 67,5, EmiSlot.STONE).drawBack(false).recipeContext(this));
 
         widgets.add(new NumberTextWidget(45.5f,19.5f, 0xa5a5a5, () -> topHits).centered()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(

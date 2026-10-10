@@ -3,6 +3,7 @@ package dev.saeta.milf.networking;
 import dev.saeta.milf.networking.payloads.AnvilHitPayload;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
+import dev.saeta.milf.networking.payloads.ThrowPayload;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -17,6 +18,7 @@ public class MILFC2SPackets {
 
         registrar.playToServer(ShapingStartPayload.TYPE, ShapingStartPayload.CODEC, ShapingStartPayload.getPayloadHandler());
 
+        registrar.playToServer(ThrowPayload.TYPE, ThrowPayload.CODEC, ThrowPayload.getPayloadHandler());
 
     }
 

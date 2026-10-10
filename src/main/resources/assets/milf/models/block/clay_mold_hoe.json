@@ -1,6 +1,8 @@
 {
     "parent": "milf:block/clay_plate",
     "textures": {
-        "1": "milf:block/overlay/clay_hoe_overlay"
+        "overlay": "milf:block/overlay/clay_hoe_overlay",
+        "overlay_overlay": "milf:block/overlay/clay_hoe_overlay_overlay"
+
     }
 }

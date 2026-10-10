@@ -5,7 +5,7 @@
   "milf.configuration.section.milf.common.toml": "MI:LF Mod Configs",
   "milf.configuration.section.milf.common.toml.title": "MI:LF Mod Configs",
 
-  "item.milf.clay_bucket" : "Clay Bucket",
+  "block.milf.clay_crucible" : "Clay Bucket",
 
   "block.milf.clay_mold_axe" : "Clay Axe Mold",
   "block.milf.clay_mold_hammer" : "Clay Hammer Mold",
@@ -18,7 +18,7 @@
 
   "block.milf.clay_plate" : "Clay Plate",
 
-  "item.milf.unfired_clay_bucket" : "Unfired Clay Bucket",
+  "block.milf.unfired_clay_crucible" : "Unfired Clay Bucket",
 
   "block.milf.unfired_clay_mold_axe" : "Unfired Clay Axe Mold",
   "block.milf.unfired_clay_mold_hammer" : "Unfired Clay Hammer Mold",
@@ -45,6 +45,7 @@
   "item.milf.crushed_lead" : "Crushed Lead",
   "item.milf.crushed_copper" : "Crushed Copper",
 
+  "item.milf.potsherd" : "Potsherd",
   "item.milf.firestarter" : "Firestarter",
   "item.milf.stone_hammer" : "Stone Hammer",
   "item.milf.flint_chisel" : "Flint Chisel",
@@ -52,9 +53,8 @@
   "item.milf.clunky_drill" : "Clunky Drill",
   "item.milf.big_bulky_drill" : "Big Bulky Drill",
 
-  "block.milf.unfired_clay_crucible" : "Unfired Clay Bucket",
+  "block.milf.clay_slab" : "Clay Slab",
 
-  "block.milf.clay_crucible" : "Clay Crucible",
   "block.milf.kiln" : "Kiln",
   "block.milf.fire_pit" : "Fire Pit",
   "block.milf.bloomery_base" : "Bloomery Base",
@@ -64,8 +64,6 @@
   "block.milf.stone_anvil" : "Stone Anvil",
   "block.milf.chiseled" : "Chiseled %s",
   "block.milf.molded" : "Molded %s",
-
-
 
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
 
@@ -84,6 +82,8 @@
   "emi.category.milf.clay_crucible_kiln.requires_bellows":  "Requires constant bellows usage to process",
 
   "emi.category.milf.kiln_smelting":  "Kiln Smelting",
+
+  "emi.category.milf.pit_firing":  "Pit Firing",
 
   "emi.category.milf.fire_pit_cooking":  "Fire Pit Cooking",
 

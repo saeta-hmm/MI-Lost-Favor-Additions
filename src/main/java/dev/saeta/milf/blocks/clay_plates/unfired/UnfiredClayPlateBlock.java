@@ -2,12 +2,14 @@ package dev.saeta.milf.blocks.clay_plates.unfired;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.clay_plates.AbstractClayPlateBlock;
+import dev.saeta.milf.blocks.clay_plates.AbstractClayPlateBlockItem;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -27,12 +29,12 @@ public class UnfiredClayPlateBlock extends AbstractClayPlateBlock {
     }
 
     @Override
-    protected SoundEvent getInsertSound(boolean isFailed) {
+    protected SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
         return SoundEvents.MUDDY_MANGROVE_ROOTS_HIT;
     }
 
     @Override
-    protected SoundEvent getExtractSound() {
+    protected SoundEvent getExtractSound(UseItemOnContext context) {
         return SoundEvents.MUDDY_MANGROVE_ROOTS_HIT;
     }
 
@@ -61,7 +63,7 @@ public class UnfiredClayPlateBlock extends AbstractClayPlateBlock {
         return new UnfiredClayPlateBlockEntity(pos, state);
     }
 
-    public static class UnfiredClayPlateItem extends BlockItem{
+    public static class UnfiredClayPlateItem extends AbstractClayPlateBlockItem {
 
         public UnfiredClayPlateItem(Block block, Properties properties) {
             super(block, properties.stacksTo(8));

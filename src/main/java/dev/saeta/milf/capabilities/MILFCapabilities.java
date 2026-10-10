@@ -12,7 +12,7 @@ public class MILFCapabilities {
     @SubscribeEvent
     public static void registerItemCapabilities(RegisterCapabilitiesEvent event){
 
-        ((CapabilityProvider) MILFItems.CLAY_BUCKET.get()).registerCapabilities(event);
+        ((CapabilityProvider) MILFBlocks.CLAY_CRUCIBLE.get().asItem()).registerCapabilities(event);
 
         ((CapabilityProvider) MILFBlocks.CLAY_MOLD_AXE.get().asItem()).registerCapabilities(event);
         ((CapabilityProvider) MILFBlocks.CLAY_MOLD_HAMMER.get().asItem()).registerCapabilities(event);
@@ -33,6 +33,7 @@ public class MILFCapabilities {
         MILFBlocks.BLOOMERY_BASE.get().registerCapabilities(event);
         MILFBlocks.UNFIRED_CLAY_PLATE.get().registerCapabilities(event);
         MILFBlocks.CLAY_PLATE.get().registerCapabilities(event);
+        MILFBlocks.FIRE_PIT_PLATE.get().registerCapabilities(event);
 
 
     }

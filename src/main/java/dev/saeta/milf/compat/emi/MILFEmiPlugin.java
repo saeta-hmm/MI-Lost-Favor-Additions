@@ -28,7 +28,7 @@ public class MILFEmiPlugin implements EmiPlugin {
 
     private void registerCategories(EmiRegistry registry){
 
-
+        registry.addCategory(MILFEmiRecipeCategories.PIT_FIRING);
         registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
         registry.addCategory(MILFEmiRecipeCategories.POTTERY);
         registry.addCategory(MILFEmiRecipeCategories.CHISEL);
@@ -43,17 +43,24 @@ public class MILFEmiPlugin implements EmiPlugin {
 
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
-        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
+        //registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFItems.CLAY_BUCKET));
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.KILN));
-        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFItems.CLAY_BUCKET));
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFBlocks.FIRE_PIT));
+        registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN, EmiStack.of(MILFItems.FIRESTARTER));
+
+        registry.addWorkstation(MILFEmiRecipeCategories.PIT_FIRING, EmiStack.of(MILFBlocks.FIRE_PIT));
+        registry.addWorkstation(MILFEmiRecipeCategories.PIT_FIRING, EmiStack.of(MILFItems.FIRESTARTER));
+
 
         registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFBlocks.FIRE_PIT));
         registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFBlocks.ROASTING_CONTRAPTION));
+        registry.addWorkstation(MILFEmiRecipeCategories.FIRE_PIT_COOKING, EmiStack.of(MILFItems.FIRESTARTER));
 
         registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.KILN));
         registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFBlocks.FIRE_PIT));
+        registry.addWorkstation(MILFEmiRecipeCategories.KILN_SMELTING, EmiStack.of(MILFItems.FIRESTARTER));
 
         registry.addWorkstation(MILFEmiRecipeCategories.BRONZE_ANVIL, EmiStack.of(MILFBlocks.BRONZE_ANVIL));
         registry.addWorkstation(MILFEmiRecipeCategories.STONE_ANVIL, EmiStack.of(MILFBlocks.STONE_ANVIL));
@@ -61,6 +68,7 @@ public class MILFEmiPlugin implements EmiPlugin {
 
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.BLOOMERY_BASE));
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.KILN));
+        registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFItems.FIRESTARTER));
 
     }
 
@@ -71,6 +79,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         addAll(registry, MILFRecipeTypes.FIRE_PIT_COOKING, FirePitCookingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.KILN_SMELTING, KilnSmeltingEmiRecipe::new);
 
+        addAll(registry, MILFRecipeTypes.PIT_FIRING, PitFiringEmiRecipe::new);
 
 //        addAll(registry, MILFRecipeTypes.BRONZE_ANVIL, BronzeAnvilEmiRecipe::new);
 //        addAll(registry, MILFRecipeTypes.STONE_ANVIL, StoneAnvilEmiRecipe::new);

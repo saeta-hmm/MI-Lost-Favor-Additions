@@ -1,11 +1,12 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made by Saeta",
+	"render_type": "minecraft:translucent",
 	"texture_size": [32, 32],
-	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "milf:block/clay_plate",
-		"1": "milf:block/overlay/clay_blank_overlay",
+		"overlay": "milf:block/overlay/clay_blank_overlay",
+		"overlay_overlay": "milf:block/overlay/clay_blank_overlay",
 		"particle": "milf:block/clay_plate"
 	},
 	"elements": [
@@ -36,16 +37,31 @@
 			}
 		},
 		{
+			"name": "mold_overlay",
 			"from": [3, 2, 3],
 			"to": [13, 2, 13],
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 2, 3]},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 0], "texture": "#1"},
-				"east": {"uv": [0, 0, 5, 0], "texture": "#1"},
-				"south": {"uv": [0, 0, 5, 0], "texture": "#1"},
-				"west": {"uv": [0, 0, 5, 0], "texture": "#1"},
-				"up": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"down": {"uv": [0, 5, 5, 10], "texture": "#1"}
+				"north": {"uv": [0, 0, 5, 0], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 5, 0], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 5, 0], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 5, 0], "texture": "#overlay"},
+				"up": {"uv": [0, 0, 5, 5], "texture": "#overlay"},
+				"down": {"uv": [0, 5, 5, 10], "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "mold_overlay_overlay",
+			"from": [3, 2.02, 3],
+			"to": [13, 2.02, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 2.02, 3]},
+			"faces": {
+				"north": {"uv": [0, 0, 5, 0], "texture": "#overlay_overlay"},
+				"east": {"uv": [0, 0, 5, 0], "texture": "#overlay_overlay"},
+				"south": {"uv": [0, 0, 5, 0], "texture": "#overlay_overlay"},
+				"west": {"uv": [0, 0, 5, 0], "texture": "#overlay_overlay"},
+				"up": {"uv": [0, 0, 5, 5], "texture": "#overlay_overlay"},
+				"down": {"uv": [0, 5, 5, 10], "texture": "#overlay_overlay"}
 			}
 		}
 	]

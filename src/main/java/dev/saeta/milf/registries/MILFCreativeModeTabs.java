@@ -13,7 +13,7 @@ public class MILFCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MILostFavor.MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MILF_TAB = CREATIVE_MODE_TAB.register("mi_lost_favor_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MILFItems.CLAY_BUCKET.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MILFBlocks.CLAY_CRUCIBLE.get()))
                     .title(Component.translatable("itemGroup.milf"))
                     .displayItems(((itemDisplayParameters, output) -> {
 
@@ -36,9 +36,10 @@ public class MILFCreativeModeTabs {
 
                         output.accept(MILFBlocks.UNFIRED_CLAY_PLATE);
 
-                        output.accept(MILFItems.CLAY_BUCKET);
+                        output.accept(MILFBlocks.CLAY_CRUCIBLE.get());
 
                         output.accept(MILFItems.CLAY_MOLD_INGOT);
+
                         output.accept(MILFBlocks.CLAY_MOLD_AXE);
                         output.accept(MILFBlocks.CLAY_MOLD_HAMMER);
                         output.accept(MILFBlocks.CLAY_MOLD_HOE);
@@ -58,10 +59,27 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CRUSHED_LEAD);
                         output.accept(MILFItems.CRUSHED_TIN);
 
+                        output.accept(MILFItems.BRONZE_AXE_HEAD);
+                        output.accept(MILFItems.BRONZE_HAMMER_HEAD);
+                        output.accept(MILFItems.BRONZE_HOE_HEAD);
+                        output.accept(MILFItems.BRONZE_PICKAXE_HEAD);
+                        output.accept(MILFItems.BRONZE_SWORD_BLADE);
+                        output.accept(MILFItems.BRONZE_SHOVEL_HEAD);
+
+                        output.accept(MILFItems.LEAD_AXE_HEAD);
+                        output.accept(MILFItems.LEAD_HAMMER_HEAD);
+                        output.accept(MILFItems.LEAD_HOE_HEAD);
+                        output.accept(MILFItems.LEAD_PICKAXE_HEAD);
+                        output.accept(MILFItems.LEAD_SWORD_BLADE);
+                        output.accept(MILFItems.LEAD_SHOVEL_HEAD);
+
+                        output.accept(MILFItems.POTSHERD);
 
                         output.accept(MILFItems.FIRESTARTER);
                         output.accept(MILFItems.STONE_HAMMER);
                         output.accept(MILFItems.FLINT_CHISEL);
+
+                        output.accept(MILFBlocks.CLAY_SLAB);
 
 
                         output.accept(MILFBlocks.KILN);

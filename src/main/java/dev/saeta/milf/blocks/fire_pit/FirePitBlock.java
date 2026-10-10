@@ -1,19 +1,25 @@
 package dev.saeta.milf.blocks.fire_pit;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.registries.MILFDataComponents;
+import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -34,6 +40,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -117,7 +124,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
         if(!(blockEntity instanceof FirePitBlockEntity firePitBlockEntity)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         ItemStackHandler itemHandler = firePitBlockEntity.getItemHandler();
-
+        BlockState stateAbove = level.getBlockState(pos.above());
 
         if(stack.is(ItemTags.LOGS)){
 
@@ -146,7 +153,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
 
                 if(!outputStack.isEmpty()){
 
-                    BlockState stateAbove = level.getBlockState(pos.above());
+
 
                     if(stateAbove.is(MILFBlocks.KILN)){
                         Block.popResourceFromFace(level, pos.above(),stateAbove.getValue(KilnBlock.FACING), outputStack);
@@ -157,6 +164,30 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
                     return ItemInteractionResult.SUCCESS;
                 }
             }
+        }
+
+
+        if(stack.is(MILFItemTags.FIRE_PIT_PLATE_CAN_HOLD) &&
+                stack.getOrDefault(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY).isEmpty() &&
+                (stateAbove.isAir() || stateAbove.is(MILFBlocks.FIRE_PIT_PLATE))
+        ) {
+
+            if(level.isClientSide()) return ItemInteractionResult.CONSUME;
+
+            BlockState plates = MILFBlocks.FIRE_PIT_PLATE.get().defaultBlockState();
+            level.setBlock(pos.above(), plates, Block.UPDATE_ALL);
+            if(level.getBlockEntity(pos.above()) instanceof FirePitPlateBlockEntity firePitPlateBlockEntity){
+                ItemStack toInsertStack = stack.copyWithCount(1);
+                ItemStack remaining = firePitPlateBlockEntity.insertAnywhere(toInsertStack);
+                if(remaining.isEmpty()) {
+                    SoundEvent placeSound = toInsertStack.getItem() instanceof BlockItem blockItem ?
+                            blockItem.getBlock().defaultBlockState().getSoundType(level, pos.above(), null).getPlaceSound() :
+                            plates.getSoundType(level, pos.above(), null).getPlaceSound();
+                    level.playSound(null, pos, placeSound, SoundSource.BLOCKS);
+                    stack.shrink(1);
+                }
+            }
+            return ItemInteractionResult.SUCCESS;
         }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

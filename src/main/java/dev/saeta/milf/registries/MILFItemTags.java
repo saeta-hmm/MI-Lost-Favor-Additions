@@ -11,6 +11,9 @@ public class MILFItemTags {
     public static final TagKey<Item> HAMMERS = milf("hammers");
     public static final TagKey<Item> CHISELS = milf("chisels");
 
+    public static final TagKey<Item> FIRE_PIT_PLATE_CAN_HOLD = milf("fire_pit_plate_can_hold");
+    public static final TagKey<Item> CERAMIC = milf("ceramic");
+
     public static final TagKey<Item> BLOOMERY_COALS = milf("bloomery_coals");
 
     public static final TagKey<Item> LIGNITE_COALS = c("gems/lignite_coal");

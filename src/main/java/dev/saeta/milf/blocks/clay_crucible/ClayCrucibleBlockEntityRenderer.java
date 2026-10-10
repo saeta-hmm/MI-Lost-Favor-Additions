@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -67,15 +68,27 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
             VertexConsumer consumer = bufferSource.getBuffer(RenderType.translucent());
             Matrix4f matrix = poseStack.last().pose();
 
-            float u0 = sprite.getU0();
-            float u1 = sprite.getU1();
-            float v0 = sprite.getV0();
-            float v1 = sprite.getV1();
+            RenderUtil.renderUpFaceWithSprite(
+                    consumer,
+                    matrix,
+                    sprite,
+                    true,
+                    MIN_X, MAX_X,
+                    maxY,
+                    MIN_Z, MAX_Z,
+                    packedLight, packedOverlay,
+                    color
+            );
 
-            consumer.addVertex(matrix, MIN_X, maxY, MIN_Z).setColor(color).setUv(u0, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MIN_X, maxY, MAX_Z).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MAX_X, maxY, MAX_Z).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-            consumer.addVertex(matrix, MAX_X, maxY, MIN_Z).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+//            float u0 = sprite.getU0();
+//            float u1 = sprite.getU1();
+//            float v0 = sprite.getV0();
+//            float v1 = sprite.getV1();
+//
+//            consumer.addVertex(matrix, MIN_X, maxY, MIN_Z).setColor(color).setUv(u0, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+//            consumer.addVertex(matrix, MIN_X, maxY, MAX_Z).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+//            consumer.addVertex(matrix, MAX_X, maxY, MAX_Z).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+//            consumer.addVertex(matrix, MAX_X, maxY, MIN_Z).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
 
             poseStack.popPose();
         }

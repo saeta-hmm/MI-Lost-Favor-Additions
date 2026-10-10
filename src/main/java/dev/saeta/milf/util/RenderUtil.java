@@ -104,6 +104,39 @@ public class RenderUtil {
 
     }
 
+    public static void renderUpFaceWithSprite(
+            VertexConsumer consumer,
+            Matrix4f matrix,
+            TextureAtlasSprite sprite,
+            boolean snapTextureToGrid,
+            float minX, float maxX,
+            float maxY,
+            float minZ, float maxZ,
+            int packedLight, int packedOverlay,
+            int color
+    ) {
+
+        float u0, u1, v0, v1;
+
+        if (snapTextureToGrid) {
+            u0 = sprite.getU(minX);
+            u1 = sprite.getU(maxX);
+            v0 = sprite.getV(minZ);
+            v1 = sprite.getV(maxZ);
+        } else {
+            u0 = sprite.getU0();
+            u1 = sprite.getU1();
+            v0 = sprite.getV0();
+            v1 = sprite.getV1();
+        }
+
+        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color).setUv(u0, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
+
+    }
+
     private static void renderDownFaceWithSprite(
             VertexConsumer consumer,
             Matrix4f matrix,
@@ -340,6 +373,16 @@ public class RenderUtil {
 
             return (c3 * progress * progress * progress - c1 * progress * progress);
         }
+
+        public static float easeInExpo(float progress) {
+            return progress == 0 ? 0 : (float) Math.pow(2, 10 * progress - 10);
+        }
+
+        public static float easeOutExpo17(float progress) {
+            return progress == 1 ? 1 : 1- (float) Math.pow(2, -17 * progress);
+        }
+
+
 
 
     }

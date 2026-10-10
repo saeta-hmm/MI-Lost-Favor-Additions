@@ -28,6 +28,14 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
 
     public abstract AbstractBEItemHandler getItemHandler();
 
+    public boolean canInsert(ItemStack stack){
+        ItemStack remaining = stack.copy();
+        for (int i = 0; i < getItemHandler().getSlots() && !remaining.isEmpty(); i++) {
+            remaining = getItemHandler().insertItem(i, remaining, true);
+        }
+        return ItemStack.isSameItemSameComponents(stack, remaining);
+    }
+
     public ItemStack insertAnywhere(ItemStack stack) {
         ItemStack remaining = stack;
         for (int i = 0; i < getItemHandler().getSlots() && !remaining.isEmpty(); i++) {

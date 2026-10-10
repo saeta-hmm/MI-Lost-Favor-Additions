@@ -8,11 +8,9 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.EmiSlot;
-import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
-import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
-import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
+import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
+import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
@@ -99,7 +97,7 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
         List<EmiIngredient> catalysts = new ArrayList<>();
         ItemStack firestarter = new ItemStack(MILFItems.FIRESTARTER.get());
         firestarter.setDamageValue(1);
-        catalysts.add(EmiStack.of(MILFItems.FIRESTARTER));
+        catalysts.add(EmiStack.of(MILFItems.FIRESTARTER).setRemainder(EmiStack.of(firestarter)));
         catalysts.add(EmiStack.of(firestarter));
         return catalysts;
     }
@@ -126,44 +124,30 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         //left
 
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 32)
+                .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addEmiStackRemainderTooltip(getCatalysts().get(0))
+        );
+
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,0, EmiSlot.WOOD));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,46, EmiSlot.FIRE_PIT));
 
-        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 23,23, EmiSlot.WOOD).withPointer(
-                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.BOTTOM_LEFT, EmiSlotPointer.Corner.BOTTOM_RIGHT)
-        ));
-
-
         //right
+
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 82, 32)
+                .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+        );
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 82,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 105,0, EmiSlot.WOOD).recipeContext(this));
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 105,46, EmiSlot.FIRE_PIT).recipeContext(this));
 
-        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(1), 105,23, EmiSlot.WOOD).withPointer(
-                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.BOTTOM_LEFT, EmiSlotPointer.Corner.BOTTOM_RIGHT)
-        ));
-
         //center
 
-        widgets.add(new SingleTextureProgressWidget(
-                        MILostFavor.locate("textures/gui/fire_pit_emi_progress_arrow.png"),
-                        62, 22, 22, 22, () -> {
-                    long totalMs = (long) time * 50;
-                    if (totalMs <= 0) return 1f;
-
-                    return (System.currentTimeMillis() % totalMs) / (float) totalMs;
-                }
-                ).tooltip(((something, noIdea) -> Collections.singletonList(
-                        ClientTooltipComponent.create(
-                                Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
-                                        .getVisualOrderText()
-                        )
-                )))
-        );
+        widgets.add(new MILFEmiArrowWidget(EmiProgressArrow.WOOD, 62, 22, time));
 
     }
 }

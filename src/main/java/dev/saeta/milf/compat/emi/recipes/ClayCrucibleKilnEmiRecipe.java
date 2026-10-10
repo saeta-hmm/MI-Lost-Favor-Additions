@@ -7,10 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.EmiSlot;
-import dev.saeta.milf.compat.emi.widgets.EmiSlotPointer;
-import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
-import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
+import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
@@ -18,10 +15,8 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -41,18 +36,6 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
     public final int time;
     public final boolean requiresBellows;
     public final ResourceLocation id;
-
-    private final List<ClientTooltipComponent> firePitTooltip = new ItemStack(MILFBlocks.FIRE_PIT.get().asItem())
-            .getTooltipLines(
-                    Item.TooltipContext.EMPTY,
-                    null,
-                    TooltipFlag.NORMAL
-            )
-            .stream()
-            .map(Component::getVisualOrderText)
-            .map(ClientTooltipComponent::create)
-            .toList();
-
 
     public ClayCrucibleKilnEmiRecipe(RecipeHolder<ClayCrucibleKilnRecipe> holder) {
         ClayCrucibleKilnRecipe clayCrucibleKilnRecipe = holder.value();
@@ -118,7 +101,7 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
     @Override
     public int getDisplayHeight() {
-        return 90 + 20;
+        return 90 ;
     }
 
     @Override
@@ -128,25 +111,23 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
         int clayPlateIndex = requiresBellows ? 1 : 0;
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_emi.png"), 0,0,64,80,0,0, 64, 80, 64, 80);
-        //widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_top_emi.png"), 0,0,80,32,0,0, 80, 32, 80, 32);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 53)
+                .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addEmiStackRemainderTooltip(getCatalysts().get(clayPlateIndex + 1))
+        );
 
-        widgets.addTexture(
-                MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                0,67,64,18,0,0, 64, 18, 64, 18
-        ).tooltip(firePitTooltip);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.CRUCIBLE_KILN, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,3, EmiSlot.CRUCIBLE));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.CRUCIBLE));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,67, EmiSlot.FIRE_PIT));
 
         //right
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 80, 53)
+                .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+        );
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/clay_crucible_kiln_emi.png"), 80,0,64,80,0,0, 64, 80, 64, 80);
-        widgets.addTexture(
-                MILostFavor.locate("textures/gui/fire_pit_emi.png"),
-                80,67,64,18,0,0, 64, 18, 64, 18
-        ).tooltip(firePitTooltip);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.CRUCIBLE_KILN, 80, 0));
 
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
@@ -160,30 +141,8 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
             ).catalyst(true)
         );
 
-        widgets.add(new MILFEmiSlotWidget(getCatalysts().get(clayPlateIndex+1), 53,89, EmiSlot.WOOD).withPointer(
-                new EmiSlotPointer(EmiSlotPointer.Type.WOOD, EmiSlotPointer.Corner.TOP_LEFT)
-        ));
+        widgets.add(new MILFEmiArrowWidget(EmiProgressArrow.CRUCIBLE, 61, 22, time));
 
-
-//        widgets.addSlot(getCatalysts().get(clayPlateIndex), 53,6)
-//                .catalyst(true)
-//                .drawBack(false);
-
-        widgets.add(new SingleTextureProgressWidget(
-                MILostFavor.locate("textures/gui/clay_crucible_emi_progress_arrow.png"),
-                61, 22, 22, 22, () -> {
-                    long totalMs = (long) time * 50;
-                    if (totalMs <= 0) return 1f;
-
-                    return (System.currentTimeMillis() % totalMs) / (float) totalMs;
-                }
-        ).tooltip(((something, noIdea) -> Collections.singletonList(
-                        ClientTooltipComponent.create(
-                                Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
-                                        .getVisualOrderText()
-                        )
-                )))
-        );
 
         if(requiresBellows){
 

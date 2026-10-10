@@ -7,9 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.EmiSlot;
-import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
-import dev.saeta.milf.compat.emi.widgets.SingleTextureProgressWidget;
+import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItemTags;
@@ -98,36 +96,20 @@ public class BloomeryEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         //left
-
-        widgets.addTexture(MILostFavor.locate("textures/gui/bloomery_emi.png"), 0,0,64,96,0,0, 64, 96, 64, 96);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.BLOOMERY, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 13,67, EmiSlot.KILN));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 33,67, EmiSlot.KILN));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,48, EmiSlot.KILN));
 
         //right
-
-        widgets.addTexture(MILostFavor.locate("textures/gui/bloomery_emi.png"), 80,0,64,96,0,0, 64, 96, 64, 96);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.BLOOMERY, 80, 0));
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 80 + 23, 67, EmiSlot.KILN).recipeContext(this));
 
         //center
 
-        widgets.add(new SingleTextureProgressWidget(
-                        MILostFavor.locate("textures/gui/kiln_emi_progress_arrow.png"),
-                        61, 22, 22, 22, () -> {
-                    long totalMs = (long) time * 50;
-                    if (totalMs <= 0) return 1f;
-
-                    return (System.currentTimeMillis() % totalMs) / (float) totalMs;
-                }
-                ).tooltip(((something, noIdea) -> Collections.singletonList(
-                        ClientTooltipComponent.create(
-                                Component.translatable("emi.category.milf.clay_crucible.seconds_tooltip", time /20)
-                                        .getVisualOrderText()
-                        )
-                )))
-        );
+        widgets.add(new MILFEmiArrowWidget(EmiProgressArrow.KILN, 61, 22, time));
 
         if(requiresBellows){
 

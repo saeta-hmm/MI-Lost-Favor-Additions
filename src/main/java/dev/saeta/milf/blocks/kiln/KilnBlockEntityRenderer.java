@@ -61,18 +61,8 @@ public class KilnBlockEntityRenderer implements BlockEntityRenderer<KilnBlockEnt
                 );
             }
 
-//            blockRenderDispatcher.renderSingleBlock(
-//                    blockToRender,
-//                    poseStack,
-//                    bufferSource,
-//                    packedLight,
-//                    packedOverlay,
-//                    ModelData.EMPTY,
-//                    RenderType.solid()
-//            );
 
             poseStack.popPose();
-            return;
 
         }
     }

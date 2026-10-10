@@ -26,6 +26,11 @@ public class MILFEmiSlotWidget extends SlotWidget {
         return this;
     }
 
+    public MILFEmiSlotWidget customSize(int x, int y){
+        this.customBackground(SLOTS_TEXTURE, slotType.getU(), slotType.getV(), x, y);
+        return this;
+    }
+
     @Override
     public void render(GuiGraphics draw, int mouseX, int mouseY, float delta) {
 

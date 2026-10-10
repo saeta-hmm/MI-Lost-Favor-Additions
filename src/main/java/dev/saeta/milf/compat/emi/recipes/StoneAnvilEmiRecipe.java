@@ -7,9 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
-import dev.saeta.milf.compat.emi.widgets.EmiSlot;
-import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
-import dev.saeta.milf.compat.emi.widgets.NumberTextWidget;
+import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -87,7 +85,7 @@ public class StoneAnvilEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/stone_anvil_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.STONE_ANVIL, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 7,25, EmiSlot.STONE));
 
@@ -95,10 +93,9 @@ public class StoneAnvilEmiRecipe implements EmiRecipe {
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 39,25, EmiSlot.STONE).recipeContext(this));
 
-
         widgets.add(new NumberTextWidget(26,34, 0x48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
-                        Component.translatable("emi.category.milf.anvil.max_hit", String.valueOf(maxHit).substring(String.valueOf(maxHit).indexOf('.') + 1)).getVisualOrderText()
+                        Component.translatable("emi.category.milf.anvil.max_hit", String.format("%.0f", maxHit * 100)).getVisualOrderText()
                 )
         )));
 

@@ -8,7 +8,9 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
 import dev.saeta.milf.compat.emi.widgets.EmiSlot;
+import dev.saeta.milf.compat.emi.widgets.EmiTexture;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
+import dev.saeta.milf.compat.emi.widgets.MILFEmiTextureWidget;
 import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -78,8 +80,7 @@ public class ImpressionMoldingEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
 
-        widgets.addTexture(MILostFavor.locate("textures/gui/impression_molding_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
-
+        widgets.add(new MILFEmiTextureWidget(EmiTexture.IMPRESSION_MOLDING, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,0, EmiSlot.CLAY).catalyst(true));
 

@@ -6,7 +6,16 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "milf:clay_mold_shovel"
+                    "name": "milf:clay_mold_shovel",
+                    "functions": [
+                        {
+                            "function": "minecraft:copy_components",
+                            "source": "block_entity",
+                            "include": [
+                                "milf:fluid"
+                            ]
+                        }
+                    ]
                 }
             ],
             "rolls": 1.0,

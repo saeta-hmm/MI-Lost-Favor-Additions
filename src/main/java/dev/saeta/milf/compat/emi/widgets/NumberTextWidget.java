@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -80,7 +81,14 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
     public void render(GuiGraphics draw, int mouseX, int mouseY, float delta) {
         Number number = numberSupplier.get();
 
-        String numberString = String.valueOf(number);
+        double value = number.doubleValue();
+
+        String numberString;
+        if (value == Math.rint(value)) {
+            numberString = String.valueOf(value);
+        } else {
+            numberString = String.format(Locale.ROOT, "%.2f", value);
+        }
 
         if(stripIntegerPart){
             numberString = numberString.substring(numberString.indexOf('.'));
@@ -107,9 +115,11 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
             int index;
             if (c == '.') {
                 index = 10;
-            } else if (c >= '0' && c <= '9') {
-                index = c - '0' - 1;
-            } else {
+            } else if (c >= '1' && c <= '9') {
+                index = c - '1';
+            } else if (c == '0'){
+                index = 9;
+            } else  {
                 continue;
             }
 

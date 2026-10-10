@@ -7,6 +7,7 @@ import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
+import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlock;
 import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlock;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
@@ -17,6 +18,7 @@ import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlock;
+import dev.saeta.milf.items.ClayBucketItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -26,11 +28,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -42,6 +47,8 @@ public class MILFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MILostFavor.MOD_ID);
 
     public static final DeferredBlock<Block> BURNING_COAL = registerBlock("burning_coal_block", () -> new Block(BlockBehaviour.Properties.of()));
+
+    public static final DeferredBlock<SlabBlock> CLAY_SLAB = registerBlock("clay_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
 
     public static final DeferredBlock<FirePitBlock> FIRE_PIT = registerBlock("fire_pit",
             () -> new FirePitBlock(BlockBehaviour.Properties.of()
@@ -75,6 +82,10 @@ public class MILFBlocks {
                     .sound(SoundType.MUD)),
             (block) -> new UnfiredClayCrucibleBlock.UnfiredClayBucketItem(block.get(), new Item.Properties().stacksTo(1))
     );
+
+    public static final DeferredBlock<FirePitPlateBlock> FIRE_PIT_PLATE = registerBlock("fire_pit_plate",
+            () -> new FirePitPlateBlock(BlockBehaviour.Properties.of().strength(0.3f,2)
+    ));
 
     public static final DeferredBlock<UnfiredClayPlateBlock> UNFIRED_CLAY_PLATE = registerBlock("unfired_clay_plate",
             () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
@@ -138,13 +149,14 @@ public class MILFBlocks {
 
     public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_SWORD = registerBlock("clay_mold_sword",
             () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 5)
+            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), 175)
     );
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()
             .strength(1,2)
-            .sound(SoundType.DECORATED_POT)
-    ));
+            .sound(SoundType.DECORATED_POT)),
+            (block) -> new ClayBucketItem(block.get(), new Item.Properties())
+    );
 
     public static final DeferredBlock<PotBellowsBlock> POT_BELLOWS = registerBlock("pot_bellows", () -> new PotBellowsBlock(BlockBehaviour.Properties.of()
             .strength(1,1)

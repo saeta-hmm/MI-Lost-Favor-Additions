@@ -35,6 +35,13 @@ public class MILFDataComponents {
                     .build()
     );
 
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FIRING_PROGRESS = DATA_COMPONENTS.register(
+            "firing_progress", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.INT)
+                    .build()
+    );
+
     public static void register(IEventBus eventBus){
         DATA_COMPONENTS.register(eventBus);
     }
