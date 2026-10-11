@@ -5,13 +5,10 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
 import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleRecipe;
 import dev.saeta.milf.registries.MILFItems;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -20,7 +17,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ClayCrucibleEmiRecipe implements EmiRecipe {

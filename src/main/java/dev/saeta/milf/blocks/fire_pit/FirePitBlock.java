@@ -3,7 +3,6 @@ package dev.saeta.milf.blocks.fire_pit;
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -15,9 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -42,7 +39,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class FirePitBlock extends ItemHandlerBlock implements CapabilityProvider {

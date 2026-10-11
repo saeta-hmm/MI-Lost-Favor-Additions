@@ -1,6 +1,9 @@
 package dev.saeta.milf.blocks.fire_pit;
 
-import dev.saeta.milf.blocks.*;
+import dev.saeta.milf.blocks.AbstractBEItemHandler;
+import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -9,26 +12,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

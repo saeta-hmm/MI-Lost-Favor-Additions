@@ -2,10 +2,8 @@ package dev.saeta.milf.client.decorators;
 
 import dev.saeta.milf.networking.data.StoredItem;
 import dev.saeta.milf.registries.MILFDataComponents;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.IItemDecorator;
 

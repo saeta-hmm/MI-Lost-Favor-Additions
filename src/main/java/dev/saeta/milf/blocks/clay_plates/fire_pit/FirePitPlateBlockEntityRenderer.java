@@ -1,7 +1,6 @@
 package dev.saeta.milf.blocks.clay_plates.fire_pit;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.saeta.milf.MILostFavor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;

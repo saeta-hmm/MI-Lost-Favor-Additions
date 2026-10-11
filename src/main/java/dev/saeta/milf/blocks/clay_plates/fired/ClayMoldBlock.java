@@ -1,7 +1,6 @@
 package dev.saeta.milf.blocks.clay_plates.fired;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_plates.AbstractClayPlateBlock;
 import dev.saeta.milf.blocks.clay_plates.AbstractClayPlateBlockItem;
 import dev.saeta.milf.capabilities.CapabilityProvider;
@@ -31,8 +30,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
@@ -43,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class ClayMoldBlock extends AbstractClayPlateBlock {
 

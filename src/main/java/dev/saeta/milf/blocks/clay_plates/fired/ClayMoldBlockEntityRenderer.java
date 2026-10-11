@@ -3,7 +3,6 @@ package dev.saeta.milf.blocks.clay_plates.fired;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.client.render_stuff.AlphaMultiBufferSource;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.Minecraft;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.joml.Matrix4f;
 
 public class ClayMoldBlockEntityRenderer implements BlockEntityRenderer<ClayMoldBlockEntity> {

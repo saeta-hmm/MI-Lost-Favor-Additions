@@ -1,7 +1,5 @@
 package dev.saeta.milf.items;
 
-import dev.saeta.milf.entities.potsherd.PotsherdProjectileEntity;
-import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;

@@ -6,7 +6,6 @@ import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 
 public class ClayPlateBlockEntity extends AbstractClayPlateBlockEntity {

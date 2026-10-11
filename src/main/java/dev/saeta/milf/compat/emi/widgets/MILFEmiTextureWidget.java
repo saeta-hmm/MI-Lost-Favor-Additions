@@ -6,7 +6,6 @@ import dev.emi.emi.screen.tooltip.RemainderTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MILFEmiTextureWidget extends TextureWidget {

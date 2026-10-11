@@ -5,7 +5,6 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.compat.emi.MILFEmiRecipeCategories;
 import dev.saeta.milf.compat.emi.widgets.EmiSlot;
 import dev.saeta.milf.compat.emi.widgets.EmiTexture;
