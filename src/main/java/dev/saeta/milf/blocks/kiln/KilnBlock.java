@@ -2,11 +2,13 @@ package dev.saeta.milf.blocks.kiln;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
+import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -39,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class KilnBlock extends BaseDirectionalEntityBlock implements Equipable, CapabilityProvider {
+public class KilnBlock extends DirectionalItemHandlerBlock implements Equipable, CapabilityProvider {
 
     public static final MapCodec<KilnBlock> CODEC = simpleCodec(KilnBlock::new);
 
@@ -141,73 +143,17 @@ public class KilnBlock extends BaseDirectionalEntityBlock implements Equipable, 
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
+        ItemStack stack = context.stack();
 
-        if(!(blockEntity instanceof KilnBlockEntity kilnBlockEntity)) return ItemInteractionResult.FAIL;
+        if(stack.getItem() instanceof BlockItem blockItem){
 
-        ItemStackHandler itemStackHandler = kilnBlockEntity.getItemHandler();
-
-        if(player.isShiftKeyDown() && stack.isEmpty() ){
-            if(!level.isClientSide){
-                for (int i = itemStackHandler.getSlots() - 1; i >= 0; i--) {
-                    ItemStack outputStack = itemStackHandler.extractItem(i,1, false);
-                    if(!outputStack.isEmpty()){
-                        Block.popResourceFromFace(level, pos, Direction.UP, outputStack);
-                        return ItemInteractionResult.SUCCESS;
-                    }
-                }
-            }
-
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
-
-        } else if (!stack.isEmpty() && !level.getBlockState(pos.above()).is(MILFBlocks.CLAY_CRUCIBLE))  {
-
-            ItemStack remainingStack = kilnBlockEntity.insertAnywhere(stack.copyWithCount(1), true);
-
-            if (remainingStack.isEmpty() && stack.getItem() instanceof BlockItem blockItem) {
-
-                if(!level.isClientSide) {
-
-                    kilnBlockEntity.insertAnywhere(stack.copyWithCount(1), false);
-                    stack.shrink(1);
-                    player.setItemInHand(hand, stack);
-
-                    SoundType soundType = blockItem.getBlock().defaultBlockState().getSoundType(level, pos, player);
-
-                    level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, 1, 1);
-
-                }
-
-                return ItemInteractionResult.SUCCESS;
-            }
-
+            return isFailed ?
+                    blockItem.getBlock().defaultBlockState().getSoundType(context.level(), context.pos(), null).getPlaceSound() :
+                    blockItem.getBlock().defaultBlockState().getSoundType(context.level(), context.pos(), null).getHitSound();
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-
-            if(blockEntity instanceof KilnBlockEntity kilnBlockEntity){
-                ItemStackHandler itemHandler = kilnBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-
-
-            }
-        }
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
+        return super.getInsertSound(isFailed, context);
     }
 
     @Override

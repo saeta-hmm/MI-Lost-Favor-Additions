@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -33,7 +34,7 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
         for (int i = 0; i < getItemHandler().getSlots() && !remaining.isEmpty(); i++) {
             remaining = getItemHandler().insertItem(i, remaining, true);
         }
-        return ItemStack.isSameItemSameComponents(stack, remaining);
+        return !ItemStack.isSameItemSameComponents(stack, remaining);
     }
 
     public ItemStack insertAnywhere(ItemStack stack) {
@@ -44,16 +45,34 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
         return remaining;
     }
 
+
     public abstract boolean canExtract();
 
+    public boolean canExtractSlot(int slot){
+        return true;
+    }
+
     public abstract boolean shouldDropContent();
+
+    public boolean shouldDropSlot(int slot){
+        return true;
+    }
+
+    public boolean reverseExtractOrder(){
+        return false;
+    }
 
     @NotNull
     public abstract BlockPos getOutputPos();
 
+    public Direction getOutputDirection(){
+        return null;
+    }
+
     public void dropContent(BlockPos pos, Level level){
         if(!shouldDropContent()) return;
         for (int i = 0; i < getItemHandler().getSlots(); i++) {
+            if(!shouldDropSlot(i)) continue;
             ItemStack stack = getItemHandler().getStackInSlot(i);
             if(!stack.isEmpty()){
                 Block.popResource(level, pos, stack);
@@ -111,5 +130,7 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return saveWithoutMetadata(registries);
     }
+
+
 
 }

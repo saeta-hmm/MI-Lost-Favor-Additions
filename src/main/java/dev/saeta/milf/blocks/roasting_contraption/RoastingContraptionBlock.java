@@ -2,11 +2,13 @@ package dev.saeta.milf.blocks.roasting_contraption;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
+import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class RoastingContraptionBlock extends BaseDirectionalEntityBlock implements CapabilityProvider {
+public class RoastingContraptionBlock extends DirectionalItemHandlerBlock implements CapabilityProvider {
 
     public static final MapCodec<RoastingContraptionBlock> CODEC = simpleCodec(RoastingContraptionBlock::new);
 
@@ -106,6 +108,16 @@ public class RoastingContraptionBlock extends BaseDirectionalEntityBlock impleme
     }
 
     @Override
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
+        return isFailed ? SoundEvents.BUNDLE_DROP_CONTENTS : SoundEvents.BUNDLE_INSERT;
+    }
+
+    @Override
+    public SoundEvent getExtractSound(UseItemOnContext context) {
+        return SoundEvents.BUNDLE_REMOVE_ONE;
+    }
+
+    @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         if (level.isClientSide()) return null;
         return createTickerHelper(blockEntityType, MILFBlockEntities.ROASTING_CONTRAPTION.get(), RoastingContraptionBlock::serverTick);
@@ -131,62 +143,6 @@ public class RoastingContraptionBlock extends BaseDirectionalEntityBlock impleme
         if (direction == Direction.DOWN && !canSurvive(state, level, pos)) return Blocks.AIR.defaultBlockState();
 
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
-    }
-
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(level.isClientSide) return ItemInteractionResult.CONSUME_PARTIAL;
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-
-        if(!(blockEntity instanceof RoastingContraptionBlockEntity roastingContraptionBlockEntity)) return ItemInteractionResult.FAIL;
-
-        ItemStackHandler itemStackHandler = roastingContraptionBlockEntity.getItemHandler();
-
-        if(player.isShiftKeyDown() && stack.isEmpty()){
-            for (int i = itemStackHandler.getSlots() - 1; i >= 0; i--) {
-                ItemStack outputStack = itemStackHandler.extractItem(i,1, false);
-                if(!outputStack.isEmpty()){
-                    Block.popResourceFromFace(level, pos, Direction.UP, outputStack);
-                    return ItemInteractionResult.SUCCESS;
-                }
-            }
-        } else if (!stack.isEmpty())  {
-            ItemStack remainingStack = roastingContraptionBlockEntity.insertAnywhere(stack.copyWithCount(1));
-
-            if(remainingStack.isEmpty()){
-                stack.shrink(1);
-                player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, SoundEvents.BUNDLE_INSERT, SoundSource.BLOCKS, 1,1);
-
-                return ItemInteractionResult.SUCCESS;
-            }
-        }
-
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-
-            if(blockEntity instanceof RoastingContraptionBlockEntity roastingContraptionBlockEntity){
-                ItemStackHandler itemHandler = roastingContraptionBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-
-
-            }
-        }
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override

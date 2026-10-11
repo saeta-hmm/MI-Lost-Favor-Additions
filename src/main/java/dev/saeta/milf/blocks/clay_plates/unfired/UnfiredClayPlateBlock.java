@@ -29,12 +29,12 @@ public class UnfiredClayPlateBlock extends AbstractClayPlateBlock {
     }
 
     @Override
-    protected SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
         return SoundEvents.MUDDY_MANGROVE_ROOTS_HIT;
     }
 
     @Override
-    protected SoundEvent getExtractSound(UseItemOnContext context) {
+    public SoundEvent getExtractSound(UseItemOnContext context) {
         return SoundEvents.MUDDY_MANGROVE_ROOTS_HIT;
     }
 

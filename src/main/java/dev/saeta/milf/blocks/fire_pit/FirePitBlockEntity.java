@@ -1,7 +1,6 @@
 package dev.saeta.milf.blocks.fire_pit;
 
-import dev.saeta.milf.blocks.FlammableBlockEntity;
-import dev.saeta.milf.blocks.ProgressProvider;
+import dev.saeta.milf.blocks.*;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -15,22 +14,26 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
+public class FirePitBlockEntity extends ItemHandlerBlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     private static final int LOG_SLOTS_COUNT = 4;
     public static final int COAL_SLOT = LOG_SLOTS_COUNT;
@@ -42,7 +45,7 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
 
     private final List<Integer> burnOrder = new ArrayList<>();
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(LOG_SLOTS_COUNT + 1) {
+    private final AbstractBEItemHandler itemHandler = new AbstractBEItemHandler(LOG_SLOTS_COUNT + 1) {
         @Override
         public int getSlotLimit(int slot) {
 
@@ -94,14 +97,42 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
             }
         }
 
+        @Override
+        protected boolean testInput(ItemStack stack) {
+            return stack.is(ItemTags.LOGS);
+        }
+
     };
 
     private int getLogBurnTime(ItemStack stack){
         return stack.getBurnTime(RecipeType.SMELTING) * 2;
     }
 
-    public ItemStackHandler getItemHandler() {
+    public AbstractBEItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return !isLit();
+    }
+
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
+
+    @Override
+    public @NotNull BlockPos getOutputPos() {
+        return worldPosition.above();
+    }
+
+    @Override
+    public Direction getOutputDirection() {
+        if(level == null) return null;
+        BlockState stateAbove =level.getBlockState(worldPosition.above());
+        if(stateAbove.is(MILFBlocks.KILN)) return stateAbove.getValue(KilnBlock.FACING);
+        return super.getOutputDirection();
     }
 
     public int getLogCount(){
@@ -115,14 +146,6 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
 
     public int getCoalCount(){
         return itemHandler.getStackInSlot(COAL_SLOT).getCount();
-    }
-
-    private ItemStack getFirstLog(){
-        for (int i = 0; i < LOG_SLOTS_COUNT; i++) {
-            ItemStack logStack = itemHandler.getStackInSlot(i);
-            if(!logStack.isEmpty()) return logStack;
-        }
-        return ItemStack.EMPTY;
     }
 
     public void increaseBurnTicks(int amount){
@@ -140,14 +163,6 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
     @Override
     public float getCurrentProgress(){
         return (float) burnTime / currentLogBurnTime;
-    }
-
-    public ItemStack insertLogAnywhere(ItemStack stack) {
-        ItemStack remaining = stack;
-        for (int i = 0; i < LOG_SLOTS_COUNT && !remaining.isEmpty(); i++) {
-            remaining = itemHandler.insertItem(i, remaining, false);
-        }
-        return remaining;
     }
 
     public FirePitBlockEntity(BlockPos pos, BlockState blockState) {
@@ -249,15 +264,6 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
 
-        ListTag itemStacks = new ListTag();
-
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            itemStacks.add(stack.isEmpty() ? new CompoundTag() : stack.save(registries));
-        }
-
-        tag.put("items", itemStacks);
-
         tag.putBoolean("isLit", isLit);
 
         tag.putInt("burnTime", burnTime);
@@ -271,18 +277,6 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-
-        if(tag.contains("items", Tag.TAG_LIST)){
-            ListTag itemStacks = tag.getList("items", Tag.TAG_COMPOUND);
-
-
-            for (int i = 0; i < itemHandler.getSlots() && i < itemStacks.size(); i++) {
-                CompoundTag stackCompound = itemStacks.getCompound(i);
-                ItemStack itemStack = stackCompound.isEmpty() ? ItemStack.EMPTY : ItemStack.parse(registries, stackCompound).orElse(ItemStack.EMPTY);
-                itemHandler.setStackInSlot(i, itemStack);
-            }
-
-        }
 
         if (tag.contains("isLit")) {
             isLit = tag.getBoolean("isLit");
@@ -305,21 +299,4 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
 
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if(level != null && !level.isClientSide() && level.isLoaded(worldPosition)){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-        }
-    }
-
-    @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
-    }
 }

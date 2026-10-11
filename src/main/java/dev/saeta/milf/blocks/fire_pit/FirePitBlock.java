@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.fire_pit;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
@@ -44,7 +45,7 @@ import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider {
+public class FirePitBlock extends ItemHandlerBlock implements CapabilityProvider {
 
     public static final MapCodec<FirePitBlock> CODEC = simpleCodec(FirePitBlock::new);
 
@@ -77,6 +78,16 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
     }
 
     @Override
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext useItemOnContext) {
+        return isFailed ? SoundEvents.WOOD_HIT : SoundEvents.WOOD_PLACE;
+    }
+
+    @Override
+    public SoundEvent getExtractSound(UseItemOnContext context) {
+        return SoundEvents.WOOD_HIT;
+    }
+
+    @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
@@ -91,27 +102,8 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
         builder.add(LOGS).add(BlockStateProperties.LIT);
     }
 
-
-
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-            //Block.popResource(level, pos, new ItemStack(Blocks.DIRT));
-
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof FirePitBlockEntity firePitBlockEntity){
-                ItemStackHandler itemHandler = firePitBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-            }
-        }
-
 
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
@@ -119,53 +111,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-
-        if(!(blockEntity instanceof FirePitBlockEntity firePitBlockEntity)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-
-        ItemStackHandler itemHandler = firePitBlockEntity.getItemHandler();
         BlockState stateAbove = level.getBlockState(pos.above());
-
-        if(stack.is(ItemTags.LOGS)){
-
-            if(level.isClientSide()) return ItemInteractionResult.CONSUME;
-
-            ItemStack remainingStack = firePitBlockEntity.insertLogAnywhere(stack.copyWithCount(1));
-
-            if(remainingStack.isEmpty()){
-                stack.shrink(1);
-                player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1,1);
-
-                return ItemInteractionResult.SUCCESS;
-            } else {
-                level.playSound(null, pos, SoundEvents.WOOD_HIT, SoundSource.BLOCKS, 1,1);
-            }
-
-            return ItemInteractionResult.CONSUME;
-
-        } else if(stack.isEmpty() && !firePitBlockEntity.isLit()){
-            if(level.isClientSide()) return ItemInteractionResult.CONSUME;
-
-            for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
-                ItemStack outputStack = itemHandler.extractItem(i,1, false);
-
-                if(!outputStack.isEmpty()){
-
-
-
-                    if(stateAbove.is(MILFBlocks.KILN)){
-                        Block.popResourceFromFace(level, pos.above(),stateAbove.getValue(KilnBlock.FACING), outputStack);
-                        return ItemInteractionResult.SUCCESS;
-                    }
-
-                    Block.popResource(level, pos.above(), outputStack);
-                    return ItemInteractionResult.SUCCESS;
-                }
-            }
-        }
-
 
         if(stack.is(MILFItemTags.FIRE_PIT_PLATE_CAN_HOLD) &&
                 stack.getOrDefault(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY).isEmpty() &&
@@ -190,7 +136,7 @@ public class FirePitBlock extends BaseEntityBlock implements CapabilityProvider 
             return ItemInteractionResult.SUCCESS;
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override

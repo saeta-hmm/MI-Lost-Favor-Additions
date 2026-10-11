@@ -5,6 +5,8 @@ import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.anvils.AbstractAnvilBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -17,6 +19,16 @@ public class StoneAnvilBlock extends AbstractAnvilBlock {
 
     public StoneAnvilBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
+        return isFailed ? SoundEvents.STONE_BREAK : SoundEvents.STONE_HIT;
+    }
+
+    @Override
+    public SoundEvent getExtractSound(UseItemOnContext context) {
+        return SoundEvents.STONE_BREAK;
     }
 
     @Override

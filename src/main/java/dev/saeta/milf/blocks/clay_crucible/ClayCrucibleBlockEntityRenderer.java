@@ -43,6 +43,7 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
     private final static float KILN_PART_Y_OFFSET = ClayCrucibleBlock.KILN_PART_Y_OFFSET;
     private final static ResourceLocation BURNING_COAL_TEXTURE = MILostFavor.locate("block/burning_coal_block");
+    private final static ResourceLocation COAL_TEXTURE = ResourceLocation.withDefaultNamespace("block/coal_block");
 
     public ClayCrucibleBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         blockRenderDispatcher = context.getBlockRenderDispatcher();
@@ -95,7 +96,7 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
             TextureAtlasSprite sprite = Minecraft.getInstance()
                     .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                    .apply(BURNING_COAL_TEXTURE);
+                    .apply(blockEntity.isLit() ? BURNING_COAL_TEXTURE : COAL_TEXTURE);
 
             VertexConsumer consumer = bufferSource.getBuffer(RenderType.translucent());
             Matrix4f matrix = poseStack.last().pose();

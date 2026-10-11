@@ -2,7 +2,6 @@ package dev.saeta.milf.blocks.clay_plates.fire_pit;
 
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
-import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFDataComponents;
@@ -16,14 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity  {

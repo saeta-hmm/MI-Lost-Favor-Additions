@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.bloomery;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -37,7 +38,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class BloomeryBaseBlock extends BaseEntityBlock implements CapabilityProvider {
+public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityProvider {
 
     public static final MapCodec<BloomeryBaseBlock> CODEC = simpleCodec(BloomeryBaseBlock::new);
 
@@ -92,86 +93,6 @@ public class BloomeryBaseBlock extends BaseEntityBlock implements CapabilityProv
         if (level.isClientSide()) return null;
         return createTickerHelper(blockEntityType, MILFBlockEntities.BLOOMERY_BASE.get(), BloomeryBaseBlock::serverTick);
 
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-            //Block.popResource(level, pos, new ItemStack(Blocks.DIRT));
-
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof BloomeryBaseBlockEntity bloomeryBaseBlockEntity){
-                ItemStackHandler itemHandler = bloomeryBaseBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-
-                    if(i == BloomeryBaseBlockEntity.COAL_SLOT && bloomeryBaseBlockEntity.isLit()) continue;
-
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-            }
-        }
-
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
-    }
-
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(!stack.isEmpty() && stack.is(MILFItems.FIRESTARTER)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-
-        if(level.isClientSide) return ItemInteractionResult.SUCCESS;
-
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(!(blockEntity instanceof BloomeryBaseBlockEntity bloomeryBaseBlockEntity)) return ItemInteractionResult.FAIL;
-
-        ItemStackHandler itemHandler = bloomeryBaseBlockEntity.getItemHandler();
-
-        if(!stack.isEmpty()){
-
-
-            ItemStack toInsert = stack.copyWithCount(1);
-            ItemStack remainingStack = bloomeryBaseBlockEntity.insertAnywhere(toInsert);
-
-            if(remainingStack.isEmpty()){
-                stack.shrink(1);
-                player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1,1);
-
-                return ItemInteractionResult.SUCCESS;
-            } else {
-                level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT_FAIL, SoundSource.BLOCKS, 1,1);
-            }
-        } else {
-            if(player.isShiftKeyDown()){
-
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-
-                    if(i == BloomeryBaseBlockEntity.COAL_SLOT && bloomeryBaseBlockEntity.isLit()) continue;
-
-                    ItemStack outputStack = itemHandler.extractItem(i,64, false);
-
-                    if(!outputStack.isEmpty()){
-                        BlockState stateAbove = level.getBlockState(pos.above());
-                        if(stateAbove.is(MILFBlocks.KILN)){
-                            Block.popResourceFromFace(level, pos.above(), stateAbove.getValue(KilnBlock.FACING), outputStack);
-                            return ItemInteractionResult.SUCCESS;
-                        }
-                        Block.popResourceFromFace(level, pos, Direction.UP, outputStack);
-                        return ItemInteractionResult.SUCCESS;
-                    }
-                }
-            }
-
-        }
-
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

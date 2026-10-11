@@ -1,13 +1,18 @@
 package dev.saeta.milf.blocks.bloomery;
 
+import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
+import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItemTags;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -28,11 +33,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
+public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     protected static final int INPUT_SLOT_1 = 0;
     protected static final int INPUT_SLOT_2 = 1;
@@ -48,7 +54,7 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
         super(MILFBlockEntities.BLOOMERY_BASE.get(), pos, blockState);
     }
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
+    private final AbstractBEItemHandler itemHandler = new AbstractBEItemHandler(3) {
         @Override
         public int getSlotLimit(int slot) {
 
@@ -123,14 +129,19 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
                             level
                     );
 
-            currentRecipe.ifPresent(bloomeryRecipeRecipeHolder -> {
+            currentRecipe.ifPresentOrElse(bloomeryRecipeRecipeHolder -> {
                         currentRecipeTime = bloomeryRecipeRecipeHolder.value().time();
                         hasValidRecipe = true;
-                    });
+                    }, () -> hasValidRecipe = false);
 
             setChanged();
 
 
+        }
+
+        @Override
+        protected boolean testInput(ItemStack stack) {
+            return canInsert(stack.copyWithCount(1));
         }
 
     };
@@ -142,16 +153,48 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
         setChanged();
     }
 
-    public ItemStackHandler getItemHandler() {
+    public AbstractBEItemHandler getItemHandler() {
         return itemHandler;
     }
 
-    public ItemStack insertAnywhere(ItemStack stack) {
-        ItemStack remaining = stack;
-        for (int i = 0; i < itemHandler.getSlots() && !remaining.isEmpty(); i++) {
-            remaining = itemHandler.insertItem(i, remaining, false);
-        }
-        return remaining;
+    @Override
+    public boolean canExtract() {
+        return true;
+    }
+
+    @Override
+    public boolean reverseExtractOrder() {
+        return true;
+    }
+
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
+
+    @Override
+    public boolean canExtractSlot(int slot) {
+        if(slot == COAL_SLOT && isLit) return false;
+        return true;
+    }
+
+    @Override
+    public boolean shouldDropSlot(int slot) {
+        if(slot == COAL_SLOT && isLit) return false;
+        return true;
+    }
+
+    @Override
+    public @NotNull BlockPos getOutputPos() {
+        return worldPosition.above();
+    }
+
+    @Override
+    public Direction getOutputDirection() {
+        if(level == null) return null;
+        BlockState stateAbove =level.getBlockState(worldPosition.above());
+        if(stateAbove.is(MILFBlocks.KILN)) return stateAbove.getValue(KilnBlock.FACING);
+        return super.getOutputDirection();
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, BloomeryBaseBlockEntity bloomeryBaseBlockEntity){
@@ -161,8 +204,6 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
     private void tick(){
         if(level == null) return;
         if(!isLit) return;
-
-
 
     }
 
@@ -225,7 +266,6 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
         }
     }
 
-
     public void increaseProgress(){
         progress++;
     }
@@ -237,15 +277,6 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-
-        ListTag itemStacks = new ListTag();
-
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            itemStacks.add(stack.isEmpty() ? new CompoundTag() : stack.save(registries));
-        }
-
-        tag.put("items", itemStacks);
 
         tag.putBoolean("isLit", isLit);
 
@@ -260,18 +291,6 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-
-        if(tag.contains("items", Tag.TAG_LIST)){
-            ListTag itemStacks = tag.getList("items", Tag.TAG_COMPOUND);
-
-
-            for (int i = 0; i < itemHandler.getSlots() && i < itemStacks.size(); i++) {
-                CompoundTag stackCompound = itemStacks.getCompound(i);
-                ItemStack itemStack = stackCompound.isEmpty() ? ItemStack.EMPTY : ItemStack.parse(registries, stackCompound).orElse(ItemStack.EMPTY);
-                itemHandler.setStackInSlot(i, itemStack);
-            }
-
-        }
 
         if (tag.contains("isLit")) {
             isLit = tag.getBoolean("isLit");
@@ -289,24 +308,6 @@ public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlo
             currentRecipeTime = tag.getInt("currentRecipeTime");
         }
 
-    }
-
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if(level != null && !level.isClientSide() && level.isLoaded(worldPosition)){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-        }
-    }
-
-    @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
     }
 
     @Override

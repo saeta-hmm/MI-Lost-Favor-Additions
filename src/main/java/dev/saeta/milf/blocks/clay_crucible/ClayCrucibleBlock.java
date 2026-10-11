@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.serialization.MapCodec;
+import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -47,7 +48,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProvider {
+public class ClayCrucibleBlock extends ItemHandlerBlock implements CapabilityProvider {
 
     public static final MapCodec<ClayCrucibleBlock> CODEC = simpleCodec(ClayCrucibleBlock::new);
 
@@ -165,83 +166,16 @@ public class ClayCrucibleBlock extends BaseEntityBlock implements CapabilityProv
             return ItemInteractionResult.SUCCESS;
         }
 
-        ItemStackHandler itemHandler = clayCrucibleBlockEntity.getItemHandler();
-
-        if(!stack.isEmpty() && !state.getValue(SEALED)){
-            ItemStack remainingStack = clayCrucibleBlockEntity.insertAnywhere(stack.copyWithCount(1));
-
-            if(remainingStack.isEmpty()){
-                stack.shrink(1);
-                player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1,1);
-
-                return ItemInteractionResult.SUCCESS;
-            } else {
-                level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT_FAIL, SoundSource.BLOCKS, 1,1);
-            }
-        } else {
-            if(player.isShiftKeyDown() && !clayCrucibleBlockEntity.isInProgress()){
-
-                if(state.getValue(SEALED)){
-                    level.setBlock(pos, state.setValue(SEALED, false), Block.UPDATE_NONE);
-                    Block.popResource(level, pos, new ItemStack(MILFBlocks.CLAY_PLATE.get()));
-                    level.playSound(null, pos, SoundEvents.DECORATED_POT_STEP, SoundSource.BLOCKS, 1,1);
-                    clayCrucibleBlockEntity.checkAndSetIfFull();
-                    return ItemInteractionResult.SUCCESS;
-                }
-
-                for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
-                    ItemStack outputStack = itemHandler.extractItem(i,64, false);
-
-                    if(!outputStack.isEmpty()){
-                        Block.popResource(level, pos, outputStack);
-                        clayCrucibleBlockEntity.checkAndSetIfFull();
-                        return ItemInteractionResult.SUCCESS;
-                    }
-                }
-            }
+        if(stack.isEmpty() && player.isShiftKeyDown() && !clayCrucibleBlockEntity.isInProgress() && state.getValue(SEALED)){
+            level.setBlock(pos, state.setValue(SEALED, false), Block.UPDATE_NONE);
+            Block.popResource(level, pos, new ItemStack(MILFBlocks.CLAY_PLATE.get()));
+            level.playSound(null, pos, SoundEvents.DECORATED_POT_STEP, SoundSource.BLOCKS, 1,1);
+            clayCrucibleBlockEntity.checkAndSetIfFull();
+            return ItemInteractionResult.SUCCESS;
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-
-            if(blockEntity instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity){
-                ItemStackHandler itemHandler = clayCrucibleBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-
-                FluidTank fluidTank = clayCrucibleBlockEntity.getFluidTank();
-                FluidStack fluidStack = fluidTank.getFluid();
-
-                ItemStack gucket = new ItemStack(MILFBlocks.CLAY_CRUCIBLE.get());
-
-                if(!fluidStack.isEmpty()){
-                    FluidHandlerItemStack handler = (FluidHandlerItemStack) FluidUtil.getFluidHandler(gucket).orElseThrow();
-
-                    handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                }
-
-                Block.popResource(level, pos, gucket);
-
-                if(state.getValue(SEALED)){
-                    Block.popResource(level, pos, new ItemStack(MILFBlocks.CLAY_PLATE.get()));
-                }
-            }
-        }
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override

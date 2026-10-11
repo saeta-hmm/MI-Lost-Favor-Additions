@@ -1,11 +1,14 @@
 package dev.saeta.milf.blocks.roasting_contraption;
 
+import dev.saeta.milf.blocks.AbstractBEItemHandler;
+import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.recipes.fire_pit.FirePitCookingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -23,11 +26,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RoastingContraptionBlockEntity extends BlockEntity {
+public class RoastingContraptionBlockEntity extends ItemHandlerBlockEntity {
     public RoastingContraptionBlockEntity( BlockPos pos, BlockState blockState) {
         super(MILFBlockEntities.ROASTING_CONTRAPTION.get(), pos, blockState);
     }
@@ -99,30 +103,33 @@ public class RoastingContraptionBlockEntity extends BlockEntity {
         }
     }
 
-    public ItemStack insertAnywhere(ItemStack stack) {
-        ItemStack remaining = stack;
-        for (int i = 0; i < itemHandler.getSlots() && !remaining.isEmpty(); i++) {
-            remaining = itemHandler.insertItem(i, remaining, false);
-        }
-        return remaining;
+    @Override
+    public boolean canExtract() {
+        return true;
     }
 
-    public ItemStackHandler getItemHandler() {
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
+
+    @Override
+    public @NotNull BlockPos getOutputPos() {
+        return worldPosition;
+    }
+
+    @Override
+    public Direction getOutputDirection() {
+        return getBlockState().getValue(RoastingContraptionBlock.FACING);
+    }
+
+    public AbstractBEItemHandler getItemHandler() {
         return itemHandler;
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-
-        ListTag itemStacks = new ListTag();
-
-        for (int i = 0; i < SLOTS_COUNT; i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            itemStacks.add(stack.isEmpty() ? new CompoundTag() : stack.save(registries));
-        }
-
-        tag.put("items", itemStacks);
 
         tag.putIntArray("cookingTimes", cookingTimes);
 
@@ -138,18 +145,6 @@ public class RoastingContraptionBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        if(tag.contains("items", Tag.TAG_LIST)){
-            ListTag itemStacks = tag.getList("items", Tag.TAG_COMPOUND);
-
-
-            for (int i = 0; i < SLOTS_COUNT && i < itemStacks.size(); i++) {
-                CompoundTag stackCompound = itemStacks.getCompound(i);
-                ItemStack itemStack = stackCompound.isEmpty() ? ItemStack.EMPTY : ItemStack.parse(registries, stackCompound).orElse(ItemStack.EMPTY);
-                itemHandler.setStackInSlot(i, itemStack);
-            }
-
-        }
-
         if (tag.contains("cookingTimes", Tag.TAG_INT_ARRAY)) {
             int[] loadedTimes = tag.getIntArray("cookingTimes");
             System.arraycopy(loadedTimes, 0, cookingTimes, 0, Math.min(loadedTimes.length, SLOTS_COUNT));
@@ -164,25 +159,7 @@ public class RoastingContraptionBlockEntity extends BlockEntity {
 
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if(level != null && !level.isClientSide() && level.isLoaded(worldPosition)){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-        }
-    }
-
-    @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
-    }
-
-    private class RoastingContraptionItemHandler extends ItemStackHandler{
+    private class RoastingContraptionItemHandler extends AbstractBEItemHandler {
 
         public RoastingContraptionItemHandler(int size) {
             super(size);
@@ -219,6 +196,11 @@ public class RoastingContraptionBlockEntity extends BlockEntity {
             }
 
             setChanged();
+        }
+
+        @Override
+        protected boolean testInput(ItemStack stack) {
+            return canInsert(stack.copyWithCount(1));
         }
 
         @Override

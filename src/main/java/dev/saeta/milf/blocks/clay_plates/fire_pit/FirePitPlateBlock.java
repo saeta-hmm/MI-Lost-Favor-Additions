@@ -82,7 +82,7 @@ public class FirePitPlateBlock extends ItemHandlerBlock implements CapabilityPro
     }
 
     @Override
-    protected SoundEvent getInsertSound(boolean isFailed,  UseItemOnContext context) {
+    public SoundEvent getInsertSound(boolean isFailed,  UseItemOnContext context) {
         return context.stack().getItem() instanceof BlockItem blockItem ?
                 blockItem.getBlock().defaultBlockState().getSoundType(context.level(), context.pos().above(), null).getPlaceSound() :
                 super.getInsertSound(isFailed, context);
@@ -90,7 +90,7 @@ public class FirePitPlateBlock extends ItemHandlerBlock implements CapabilityPro
     }
 
     @Override
-    protected SoundEvent getExtractSound(UseItemOnContext context) {
+    public SoundEvent getExtractSound(UseItemOnContext context) {
         return context.stack().getItem() instanceof BlockItem blockItem ?
                 blockItem.getBlock().defaultBlockState().getSoundType(context.level(), context.pos().above(), null).getBreakSound() :
                 super.getExtractSound(context);

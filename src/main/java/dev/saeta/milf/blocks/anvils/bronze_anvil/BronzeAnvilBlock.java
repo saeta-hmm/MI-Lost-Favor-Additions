@@ -5,6 +5,8 @@ import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.anvils.AbstractAnvilBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -24,6 +26,15 @@ public class BronzeAnvilBlock extends AbstractAnvilBlock {
         return CODEC;
     }
 
+    @Override
+    public SoundEvent getInsertSound(boolean isFailed, UseItemOnContext context) {
+        return isFailed ? SoundEvents.IRON_GOLEM_STEP : SoundEvents.ANVIL_HIT;
+    }
+
+    @Override
+    public SoundEvent getExtractSound(UseItemOnContext context) {
+        return SoundEvents.IRON_GOLEM_STEP;
+    }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

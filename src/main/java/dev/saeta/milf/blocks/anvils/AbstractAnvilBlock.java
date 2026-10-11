@@ -1,11 +1,13 @@
 package dev.saeta.milf.blocks.anvils;
 
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
+import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFDataComponents;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -26,7 +28,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.HashMap;
 
-public abstract class AbstractAnvilBlock extends BaseDirectionalEntityBlock implements CapabilityProvider {
+public abstract class AbstractAnvilBlock extends DirectionalItemHandlerBlock implements CapabilityProvider {
 
     private static final HashMap<Direction, VoxelShape> SHAPES = new HashMap<>();
 
@@ -99,75 +101,13 @@ public abstract class AbstractAnvilBlock extends BaseDirectionalEntityBlock impl
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        if(!state.is(newState.getBlock())){
-
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof AbstractAnvilBlockEntity anvilBlockEntity){
-                ItemStackHandler itemHandler = anvilBlockEntity.getItemHandler();
-
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-
-                    ItemStack stack = itemHandler.getStackInSlot(i);
-                    if(!stack.isEmpty()){
-                        Block.popResource(level, pos, stack);
-                    }
-                }
-            }
-        }
-
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
-    }
-
-    @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(level.isClientSide) return ItemInteractionResult.SUCCESS;
+        if(stack.is(MILFItemTags.HAMMERS)) {
 
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(!(blockEntity instanceof AbstractAnvilBlockEntity anvilBlockEntity)) return ItemInteractionResult.FAIL;
-
-        AbstractAnvilBlockEntity.AnvilItemHandler itemHandler = anvilBlockEntity.getItemHandler();
-
-        if(!stack.isEmpty()){
-
-            if(stack.is(MILFItemTags.HAMMERS)) {
-
-                return ItemInteractionResult.SUCCESS;
-            }
-
-            ItemStack toInsert = stack.copyWithCount(1);
-            toInsert.set(MILFDataComponents.RANDOM_SEED, level.random.nextInt(109, 109109));
-            ItemStack remainingStack = anvilBlockEntity.insertAnywhere(toInsert);
-
-            if(remainingStack.isEmpty()){
-                stack.shrink(1);
-                player.setItemInHand(hand, stack);
-
-                level.playSound(null, pos, SoundEvents.ANVIL_HIT, SoundSource.BLOCKS, 1,1);
-
-                return ItemInteractionResult.SUCCESS;
-            } else {
-                level.playSound(null, pos, SoundEvents.IRON_GOLEM_STEP, SoundSource.BLOCKS, 1,1);
-            }
-        } else {
-            if(player.isShiftKeyDown()){
-
-
-                for (int i = itemHandler.getSlots() - 1; i >= 0; i--) {
-                    ItemStack outputStack = itemHandler.extractItem(i,64, false);
-
-                    if(!outputStack.isEmpty()){
-                        Block.popResource(level, pos, outputStack);
-                        return ItemInteractionResult.SUCCESS;
-                    }
-                }
-            }
-
+            return ItemInteractionResult.SUCCESS;
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
 }

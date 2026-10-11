@@ -1,12 +1,17 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
+import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
+import dev.saeta.milf.networking.data.StoredItem;
 import dev.saeta.milf.recipes.clay_crucible.*;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFDataComponents;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -22,15 +27,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
+public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
@@ -41,7 +48,13 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
     private int progress;
 
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
+    private final AbstractBEItemHandler itemHandler = new AbstractBEItemHandler(2) {
+
+        @Override
+        public int getExtractAmount() {
+            return 64;
+        }
+
         @Override
         public int getSlotLimit(int slot) {
 
@@ -116,6 +129,17 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
             setChanged();
         }
 
+        @Override
+        protected boolean testInput(ItemStack stack) {
+            return !stack.isEmpty() && !isSealed();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            ItemStack itemStack = super.extractItem(slot, amount, simulate);
+            checkAndSetIfFull();
+            return itemStack;
+        }
     };
 
     private final FluidTank fluidTank = new FluidTank(1000) {
@@ -129,7 +153,8 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         super(MILFBlockEntities.CLAY_CRUCIBLE.get(), pos, blockState);
     }
 
-    public ItemStackHandler getItemHandler(){
+    @Override
+    public AbstractBEItemHandler getItemHandler(){
         return itemHandler;
     }
 
@@ -154,8 +179,8 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
 
     @Override
     public void ignite() {
-        setFull(true);
-        isLit = true;
+        if (checkAndSetIfFull()) isLit = true;
+
     }
 
     @Override
@@ -188,7 +213,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         return isFull;
     }
 
-    public void checkAndSetIfFull(){
+    public boolean checkAndSetIfFull(){
         CrucibleRecipe recipe = getCurrentRecipe();
         if(recipe != null){
 
@@ -197,21 +222,22 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
                     setFull(true);
                     setLit(true);
                     currentRecipeTime = recipe.time();
-                    return;
+                    return true;
                 } else {
                     setFull(false);
                     setLit(false);
-                    return;
+                    return false;
                 }
             } else {
                 setFull(true);
                 currentRecipeTime = recipe.time();
-                return;
+                return true;
             }
 
 
         }
         setFull(false);
+        return false;
     }
 
     private CrucibleRecipe getCurrentRecipe() {
@@ -250,12 +276,19 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         if(isKilnPart() && isLit) progress++;
     }
 
-    public ItemStack insertAnywhere(ItemStack stack) {
-        ItemStack remaining = stack;
-        for (int i = 0; i < 2 && !remaining.isEmpty(); i++) {
-            remaining = itemHandler.insertItem(i, remaining, false);
-        }
-        return remaining;
+    @Override
+    public boolean canExtract() {
+        return !isSealed() && !isInProgress();
+    }
+
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
+
+    @Override
+    public @NotNull BlockPos getOutputPos() {
+        return worldPosition;
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, ClayCrucibleBlockEntity clayCrucibleBlockEntity){
@@ -355,15 +388,6 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
 
-        ListTag itemStacks = new ListTag();
-
-        for (int i = 0; i < 2; i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            itemStacks.add(stack.isEmpty() ? new CompoundTag() : stack.save(registries));
-        }
-
-        tag.put("items", itemStacks);
-
         tag.put("fluid", fluidTank.writeToNBT(registries, new CompoundTag()));
 
         tag.putBoolean("isFull", isFull);
@@ -378,18 +402,6 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-
-        if(tag.contains("items", Tag.TAG_LIST)){
-            ListTag itemStacks = tag.getList("items", Tag.TAG_COMPOUND);
-
-
-            for (int i = 0; i < 2 && i < itemStacks.size(); i++) {
-                CompoundTag stackCompound = itemStacks.getCompound(i);
-                ItemStack itemStack = stackCompound.isEmpty() ? ItemStack.EMPTY : ItemStack.parse(registries, stackCompound).orElse(ItemStack.EMPTY);
-                itemHandler.setStackInSlot(i, itemStack);
-            }
-
-        }
 
         if (tag.contains("fluid")) {
             fluidTank.readFromNBT(registries, tag.getCompound("fluid"));
@@ -414,21 +426,22 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
     }
 
     @Override
-    public void setChanged() {
-        super.setChanged();
-        if(level != null && !level.isClientSide() && level.isLoaded(worldPosition)){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+
+        if(!fluidTank.isEmpty()){
+            components.set(MILFDataComponents.FLUID, SimpleFluidContent.copyOf(fluidTank.getFluid()));
         }
+
     }
 
     @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
+    protected void applyImplicitComponents(DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
 
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+        FluidStack fluidStack = componentInput.getOrDefault(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY).copy();
+        fluidTank.setFluid(fluidStack);
+
     }
 
 }

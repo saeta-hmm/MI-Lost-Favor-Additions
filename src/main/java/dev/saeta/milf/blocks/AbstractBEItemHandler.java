@@ -9,6 +9,10 @@ public abstract class AbstractBEItemHandler extends ItemStackHandler {
         super(size);
     }
 
+    public int getExtractAmount(){
+        return 1;
+    }
+
     @Override
     public abstract int getSlotLimit(int slot);
 

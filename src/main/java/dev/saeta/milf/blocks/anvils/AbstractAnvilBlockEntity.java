@@ -1,5 +1,7 @@
 package dev.saeta.milf.blocks.anvils;
 
+import dev.saeta.milf.blocks.AbstractBEItemHandler;
+import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
 import dev.saeta.milf.registries.MILFDataComponents;
@@ -21,13 +23,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class AbstractAnvilBlockEntity extends BlockEntity {
+public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
 
     protected final static int ITEM_SLOT = 0;
     protected final AnvilItemHandler itemHandler = new AnvilItemHandler(1);
@@ -66,17 +69,23 @@ public abstract class AbstractAnvilBlockEntity extends BlockEntity {
     }
 
     @Override
+    public boolean canExtract() {
+        return true;
+    }
+
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
+
+    @Override
+    public @NotNull BlockPos getOutputPos() {
+        return worldPosition;
+    }
+
+    @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-
-        ListTag itemStacks = new ListTag();
-
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            itemStacks.add(stack.isEmpty() ? new CompoundTag() : stack.save(registries));
-        }
-
-        tag.put("items", itemStacks);
 
         tag.putFloat("maxHit", currentRecipeMaxHit);
 
@@ -86,41 +95,12 @@ public abstract class AbstractAnvilBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        if(tag.contains("items", Tag.TAG_LIST)){
-            ListTag itemStacks = tag.getList("items", Tag.TAG_COMPOUND);
-
-
-            for (int i = 0; i < itemHandler.getSlots() && i < itemStacks.size(); i++) {
-                CompoundTag stackCompound = itemStacks.getCompound(i);
-                ItemStack itemStack = stackCompound.isEmpty() ? ItemStack.EMPTY : ItemStack.parse(registries, stackCompound).orElse(ItemStack.EMPTY);
-                itemHandler.setStackInSlot(i, itemStack);
-            }
-
-        }
-
         if(tag.contains("maxHit")){
             currentRecipeMaxHit = tag.getFloat("maxHit");
         }
 
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if(level != null && !level.isClientSide() && level.isLoaded(worldPosition)){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-        }
-    }
-
-    @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
-    }
 
     public float getMaxHit(){
         return currentRecipeMaxHit;
@@ -142,7 +122,7 @@ public abstract class AbstractAnvilBlockEntity extends BlockEntity {
         return getAllRecipes().filter(holder -> holder.value().matches(input, level)).findFirst();
     }
 
-    public class AnvilItemHandler extends ItemStackHandler {
+    public class AnvilItemHandler extends AbstractBEItemHandler {
         public AnvilItemHandler(int size) {
             super(size);
         }
@@ -170,8 +150,22 @@ public abstract class AbstractAnvilBlockEntity extends BlockEntity {
         }
 
         @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if(level == null) return super.insertItem(slot, stack, simulate);
+            ItemStack toInsert = stack.copy();
+            toInsert.set(MILFDataComponents.RANDOM_SEED, level.random.nextInt(109, 109109));
+            return super.insertItem(slot, toInsert, simulate);
+
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             setChanged();
+        }
+
+        @Override
+        protected boolean testInput(ItemStack stack) {
+            return !stack.isEmpty();
         }
 
         @Override
