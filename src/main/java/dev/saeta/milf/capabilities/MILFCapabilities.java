@@ -35,6 +35,9 @@ public class MILFCapabilities {
         MILFBlocks.CLAY_PLATE.get().registerCapabilities(event);
         MILFBlocks.FIRE_PIT_PLATE.get().registerCapabilities(event);
 
+        //all the molds
+        MILFBlocks.CLAY_MOLD_HAMMER.get().registerCapabilities(event);
+
 
     }
 

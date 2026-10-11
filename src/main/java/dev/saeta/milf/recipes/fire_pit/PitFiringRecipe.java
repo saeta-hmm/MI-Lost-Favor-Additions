@@ -15,7 +15,7 @@ public record PitFiringRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.PIT_FIRING_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.PIT_FIRING;
     }
 
     @Override

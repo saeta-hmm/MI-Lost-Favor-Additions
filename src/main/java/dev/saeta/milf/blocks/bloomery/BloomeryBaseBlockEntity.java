@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.bloomery;
 
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -31,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlockEntity {
+public class BloomeryBaseBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     protected static final int INPUT_SLOT_1 = 0;
     protected static final int INPUT_SLOT_2 = 1;

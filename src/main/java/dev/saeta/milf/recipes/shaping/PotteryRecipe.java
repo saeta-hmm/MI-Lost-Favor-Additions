@@ -45,7 +45,7 @@ public record PotteryRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.POTTERY_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.POTTERY;
     }
 
     @Override

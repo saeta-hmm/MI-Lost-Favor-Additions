@@ -38,6 +38,20 @@
   "item.milf.wooden_shovel_head" : "Wooden Shovel Head",
   "item.milf.wooden_sword_blade" : "Wooden Sword Blade",
 
+  "item.milf.bronze_axe_head" : "Bronze Axe Head",
+  "item.milf.bronze_hammer_head" : "Bronze Hammer Head",
+  "item.milf.bronze_hoe_head" : "Bronze Hoe Head",
+  "item.milf.bronze_pickaxe_head" : "Bronze Pickaxe Head",
+  "item.milf.bronze_shovel_head" : "Bronze Shovel Head",
+  "item.milf.bronze_sword_blade" : "Bronze Sword Blade",
+
+  "item.milf.lead_axe_head" : "Lead Axe Head",
+  "item.milf.lead_hammer_head" : "Lead Hammer Head",
+  "item.milf.lead_hoe_head" : "Lead Hoe Head",
+  "item.milf.lead_pickaxe_head" : "Lead Pickaxe Head",
+  "item.milf.lead_shovel_head" : "Lead Shovel Head",
+  "item.milf.lead_sword_blade" : "Lead Sword Blade",
+
   "item.milf.iron_bloom" : "Iron Bloom",
   "item.milf.crushed_iron" : "Crushed Iron",
   "item.milf.crushed_gold" : "Crushed Gold",
@@ -99,5 +113,8 @@
   "emi.category.milf.chisel.top_hits": "Requires %s hits on the top face of the block",
   "emi.category.milf.chisel.side_hits": "Requires %s hits on any side face of the block",
 
-  "emi.category.milf.impression_molding":  "Impression Molding"
+  "emi.category.milf.impression_molding":  "Impression Molding",
+
+  "emi.category.milf.casting":  "Casting"
+
 }

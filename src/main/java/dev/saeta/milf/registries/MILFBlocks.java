@@ -8,6 +8,7 @@ import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlock;
+import dev.saeta.milf.blocks.clay_plates.fired.ClayMoldBlock;
 import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlock;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
@@ -122,34 +123,34 @@ public class MILFBlocks {
             (block) -> new ClayPlateBlock.ClayPlateItem(block.get(), new Item.Properties())
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_AXE = registerBlock("clay_mold_axe",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 4)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_AXE = registerBlock("clay_mold_axe",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 4)
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_HAMMER = registerBlock("clay_mold_hammer",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_HAMMER = registerBlock("clay_mold_hammer",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME)
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_HOE = registerBlock("clay_mold_hoe",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 5)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_HOE = registerBlock("clay_mold_hoe",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(), FluidType.BUCKET_VOLUME / 5)
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_PICKAXE = registerBlock("clay_mold_pickaxe",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 4)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_PICKAXE = registerBlock("clay_mold_pickaxe",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 4)
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_SHOVEL = registerBlock("clay_mold_shovel",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 8)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_SHOVEL = registerBlock("clay_mold_shovel",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(),FluidType.BUCKET_VOLUME / 8)
     );
 
-    public static final DeferredBlock<ClayPlateBlock> CLAY_MOLD_SWORD = registerBlock("clay_mold_sword",
-            () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
-            (block) -> new ClayPlateBlock.ClayMoldItem(block.get(), new Item.Properties(), 175)
+    public static final DeferredBlock<ClayMoldBlock> CLAY_MOLD_SWORD = registerBlock("clay_mold_sword",
+            () -> new ClayMoldBlock(BlockBehaviour.Properties.of()),
+            (block) -> new ClayMoldBlock.ClayMoldItem(block.get(), new Item.Properties(), 175)
     );
 
     public static final DeferredBlock<ClayCrucibleBlock> CLAY_CRUCIBLE = registerBlock("clay_crucible", () -> new ClayCrucibleBlock(BlockBehaviour.Properties.of()

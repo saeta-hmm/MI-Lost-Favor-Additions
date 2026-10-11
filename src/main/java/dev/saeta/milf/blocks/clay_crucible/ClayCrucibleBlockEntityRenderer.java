@@ -3,6 +3,7 @@ package dev.saeta.milf.blocks.clay_crucible;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.Minecraft;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -37,8 +39,10 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
     private final static float MIN_Z = (float) 4 /16;
     private final static float MAX_Z = (float) 12 /16;
     private final static float MIN_Y = (float) 2 /16;
+    private final static float MAX_Y = (float) 8 /16;
 
     private final static float KILN_PART_Y_OFFSET = ClayCrucibleBlock.KILN_PART_Y_OFFSET;
+    private final static ResourceLocation BURNING_COAL_TEXTURE = MILostFavor.locate("block/burning_coal_block");
 
     public ClayCrucibleBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         blockRenderDispatcher = context.getBlockRenderDispatcher();
@@ -52,13 +56,14 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
 
         if(!fluidTank.isEmpty()){
 
-            poseStack.pushPose();
             applyKilnOffset(poseStack, blockEntity.getBlockState());
             FluidStack fluidStack = fluidTank.getFluid().copy();
 
             IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
 
             TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(extensions.getStillTexture());
+
+
 
             float percent = (float) fluidStack.getAmount() / 1000;
             float maxY = MIN_Y + (percent * ((float) 6 / 16));
@@ -80,41 +85,32 @@ public class ClayCrucibleBlockEntityRenderer implements BlockEntityRenderer<Clay
                     color
             );
 
-//            float u0 = sprite.getU0();
-//            float u1 = sprite.getU1();
-//            float v0 = sprite.getV0();
-//            float v1 = sprite.getV1();
-//
-//            consumer.addVertex(matrix, MIN_X, maxY, MIN_Z).setColor(color).setUv(u0, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-//            consumer.addVertex(matrix, MIN_X, maxY, MAX_Z).setColor(color).setUv(u0, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-//            consumer.addVertex(matrix, MAX_X, maxY, MAX_Z).setColor(color).setUv(u1, v1).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-//            consumer.addVertex(matrix, MAX_X, maxY, MIN_Z).setColor(color).setUv(u1, v0).setOverlay(packedOverlay).setLight(packedLight).setNormal(0, 1, 0);
-
-            poseStack.popPose();
         }
 
         ItemStackHandler itemHandler = blockEntity.getItemHandler();
 
         if(blockEntity.isFull()){
-            BlockState blockToRender = blockEntity.isLit() ? MILFBlocks.BURNING_COAL.get().defaultBlockState() : Blocks.COAL_BLOCK.defaultBlockState();
 
-            poseStack.pushPose();
             applyKilnOffset(poseStack, blockEntity.getBlockState());
 
-            poseStack.translate(0.25, 0, 0.25);
-            poseStack.scale(0.5F, 0.5F, 0.5F);
+            TextureAtlasSprite sprite = Minecraft.getInstance()
+                    .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+                    .apply(BURNING_COAL_TEXTURE);
 
-            blockRenderDispatcher.renderSingleBlock(
-                    blockToRender,
-                    poseStack,
-                    bufferSource,
-                    packedLight,
-                    packedOverlay,
-                    ModelData.EMPTY,
-                    RenderType.solid()
+            VertexConsumer consumer = bufferSource.getBuffer(RenderType.translucent());
+            Matrix4f matrix = poseStack.last().pose();
+
+            RenderUtil.renderUpFaceWithSprite(
+                    consumer,
+                    matrix,
+                    sprite,
+                    true,
+                    MIN_X, MAX_X,
+                    MAX_Y,
+                    MIN_Z, MAX_Z,
+                    packedLight, packedOverlay
             );
 
-            poseStack.popPose();
             return;
         }
 

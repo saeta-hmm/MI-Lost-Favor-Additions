@@ -46,10 +46,13 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
 
     public abstract boolean canExtract();
 
+    public abstract boolean shouldDropContent();
+
     @NotNull
     public abstract BlockPos getOutputPos();
 
     public void dropContent(BlockPos pos, Level level){
+        if(!shouldDropContent()) return;
         for (int i = 0; i < getItemHandler().getSlots(); i++) {
             ItemStack stack = getItemHandler().getStackInSlot(i);
             if(!stack.isEmpty()){

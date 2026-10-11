@@ -36,6 +36,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addCategory(MILFEmiRecipeCategories.STONE_ANVIL);
         registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
 
+        registry.addCategory(MILFEmiRecipeCategories.CASTING);
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE);
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
@@ -88,6 +89,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         addAll(registry, MILFRecipeTypes.CHISEL, ChiselEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.POTTERY, PotteryEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.IMPRESSION_MOLDING, ImpressionMoldingEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CASTING, CastingEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);

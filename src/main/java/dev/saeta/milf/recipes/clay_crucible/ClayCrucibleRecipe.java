@@ -46,7 +46,7 @@ public record ClayCrucibleRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.CLAY_CRUCIBLE_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.CLAY_CRUCIBLE;
     }
 
     @Override

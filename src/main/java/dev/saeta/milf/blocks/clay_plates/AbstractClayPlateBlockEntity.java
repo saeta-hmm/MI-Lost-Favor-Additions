@@ -13,4 +13,9 @@ public abstract class AbstractClayPlateBlockEntity extends ItemHandlerBlockEntit
     ) {
         super(type, pos, blockState);
     }
+
+    @Override
+    public boolean shouldDropContent() {
+        return true;
+    }
 }

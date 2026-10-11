@@ -49,7 +49,7 @@ public record AnvilRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.ANVIL_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.ANVIL;
     }
 
     @Override

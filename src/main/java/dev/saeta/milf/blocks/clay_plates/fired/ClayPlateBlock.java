@@ -49,15 +49,10 @@ public class ClayPlateBlock extends AbstractClayPlateBlock {
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                MILFBlockEntities.CLAY_PLATE.get(),
+                MILFBlockEntities.CLAY_MOLD.get(),
                 ( blockEntity,  direction) -> blockEntity.getItemHandler()
         );
 
-        event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
-                MILFBlockEntities.CLAY_PLATE.get(),
-                ( blockEntity,  direction) -> blockEntity.getFluidTank()
-        );
     }
 
     @Override
@@ -77,87 +72,4 @@ public class ClayPlateBlock extends AbstractClayPlateBlock {
         }
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(level.isClientSide) return ItemInteractionResult.SUCCESS;
-
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-
-        if(!(blockEntity instanceof ClayPlateBlockEntity clayPlateBlockEntity)) return ItemInteractionResult.FAIL;
-
-        if(FluidUtil.interactWithFluidHandler(player, hand,clayPlateBlockEntity.getFluidTank())){
-            return ItemInteractionResult.SUCCESS;
-        }
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
-    }
-
-    @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        ItemStack mold = new ItemStack(asBlock());
-
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(blockEntity instanceof ClayPlateBlockEntity clayPlateBlockEntity){
-            FluidTank fluidTank = clayPlateBlockEntity.getFluidTank();
-            FluidStack fluidStack = fluidTank.getFluid();
-
-            if(!fluidStack.isEmpty()){
-                FluidHandlerItemStack handler = (FluidHandlerItemStack) FluidUtil.getFluidHandler(mold).orElseThrow();
-
-                handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-            }
-
-        }
-
-        return mold;
-    }
-
-    @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.setPlacedBy(level, pos, state, placer, stack);
-        if(!level.isClientSide && stack.getItem() instanceof ClayMoldItem clayMoldItem){
-            int capacity = clayMoldItem.getCapacity();
-            if(level.getBlockEntity(pos) instanceof ClayPlateBlockEntity clayPlateBlockEntity){
-                clayPlateBlockEntity.setCapacity(capacity);
-//                FluidTank fluidTank = clayPlateBlockEntity.getFluidTank();
-//                fluidTank.setCapacity(capacity);
-            }
-        }
-
-
-
-    }
-
-    public static class ClayMoldItem extends AbstractClayPlateBlockItem implements CapabilityProvider{
-        private final int capacity;
-        public ClayMoldItem(Block block, Properties properties, int capacity) {
-            super(block, properties.stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY));
-            this.capacity = capacity;
-        }
-
-        public int getCapacity() {
-            return capacity;
-        }
-
-        @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-
-            Optional<FluidStack> fluidStack = FluidUtil.getFluidContained(stack);
-
-            fluidStack.ifPresent(fs -> {
-                tooltipComponents.add(Component.translatable("milf.tooltip.fluid", fs.getHoverName(), fs.getAmount(), capacity));
-            });
-
-            super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-        }
-
-        @Override
-        public void registerCapabilities(RegisterCapabilitiesEvent event) {
-            event.registerItem(
-                    Capabilities.FluidHandler.ITEM,
-                    (stack, something) -> new FluidHandlerItemStack(MILFDataComponents.FLUID, stack, capacity),
-                    this
-            );
-
-        }
-    }
 }

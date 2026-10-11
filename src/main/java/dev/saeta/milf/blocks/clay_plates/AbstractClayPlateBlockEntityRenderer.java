@@ -34,13 +34,10 @@ public class AbstractClayPlateBlockEntityRenderer<T extends AbstractClayPlateBlo
         }
     }
 
-    private void renderSingleItem(ItemStack stack, int index, PoseStack poseStack, int packedLight, int packedOverlay, MultiBufferSource bufferSource, Level level){
+    protected void renderSingleItem(ItemStack stack, int index, PoseStack poseStack, int packedLight, int packedOverlay, MultiBufferSource bufferSource, Level level){
         poseStack.pushPose();
 
         poseStack.translate(0.5, (double) 1.8 / 16 + 1/64f, 1 - 0.5*0.8);
-
-//        poseStack.translate(0.5, (double) 1.8 / 16 + 1/64f, 1 - 0.5*0.8);
-//        poseStack.scale(0.8F, 0.8F, 0.8F);
 
         poseStack.mulPose(Axis.XN.rotationDegrees(90));
 

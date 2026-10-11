@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.fire_pit;
 
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEntity {
+public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     private static final int LOG_SLOTS_COUNT = 4;
     public static final int COAL_SLOT = LOG_SLOTS_COUNT;
@@ -136,6 +137,7 @@ public class FirePitBlockEntity extends BlockEntity implements FlammableBlockEnt
         burnTime += amount;
     }
 
+    @Override
     public float getCurrentProgress(){
         return (float) burnTime / currentLogBurnTime;
     }

@@ -46,7 +46,7 @@ public record BloomeryRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.BLOOMERY_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.BLOOMERY;
     }
 
     @Override

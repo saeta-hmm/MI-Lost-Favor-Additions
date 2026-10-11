@@ -2,9 +2,11 @@ package dev.saeta.milf.registries;
 
 import com.mojang.serialization.Codec;
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.networking.data.StoredItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -20,6 +22,21 @@ public class MILFDataComponents {
                     .networkSynchronized(SimpleFluidContent.STREAM_CODEC)
                     .build()
     );
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<StoredItem>> CAST_RESULT = DATA_COMPONENTS.register(
+            "cast_result", () -> DataComponentType.<StoredItem>builder()
+                    .persistent(StoredItem.CODEC)
+                    .networkSynchronized(StoredItem.STREAM_CODEC)
+                    .build()
+    );
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<StoredItem>> SINGLE_STACK = DATA_COMPONENTS.register(
+            "single_stack", () -> DataComponentType.<StoredItem>builder()
+                    .persistent(StoredItem.CODEC)
+                    .networkSynchronized(StoredItem.STREAM_CODEC)
+                    .build()
+    );
+
 
     public static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_HORIZONTAL = DATA_COMPONENTS.register(
             "is_horizontal", () -> DataComponentType.<Boolean>builder()

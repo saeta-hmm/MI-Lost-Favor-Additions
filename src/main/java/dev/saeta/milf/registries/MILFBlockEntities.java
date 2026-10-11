@@ -6,6 +6,7 @@ import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
+import dev.saeta.milf.blocks.clay_plates.fired.ClayMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
@@ -80,7 +81,13 @@ public class MILFBlockEntities {
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<ClayPlateBlockEntity>> CLAY_PLATE = BLOCK_ENTITIES.register(
             "clay_plate", () -> BlockEntityType.Builder.of(
                     ClayPlateBlockEntity::new,
-                    MILFBlocks.CLAY_PLATE.get(),
+                    MILFBlocks.CLAY_PLATE.get()
+            ).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<ClayMoldBlockEntity>> CLAY_MOLD = BLOCK_ENTITIES.register(
+            "clay_mold", () -> BlockEntityType.Builder.of(
+                    ClayMoldBlockEntity::new,
                     MILFBlocks.CLAY_MOLD_AXE.get(),
                     MILFBlocks.CLAY_MOLD_HAMMER.get(),
                     MILFBlocks.CLAY_MOLD_PICKAXE.get(),

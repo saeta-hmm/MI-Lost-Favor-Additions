@@ -1,6 +1,7 @@
 package dev.saeta.milf.blocks.clay_crucible;
 
 import dev.saeta.milf.blocks.FlammableBlockEntity;
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.recipes.clay_crucible.*;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlockEntity {
+public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlockEntity, ProgressProvider {
 
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
@@ -178,6 +179,7 @@ public class ClayCrucibleBlockEntity extends BlockEntity implements FlammableBlo
         return getBlockState().getValue(ClayCrucibleBlock.DIRT);
     }
 
+    @Override
     public float getCurrentProgress(){
         return (float) progress / currentRecipeTime;
     }

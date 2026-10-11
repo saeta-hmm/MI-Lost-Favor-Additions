@@ -150,10 +150,18 @@ public class Throw {
     private static void renderHands(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight){
 
 
+
+
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
 
         if(player == null) return;
+
+        if(!player.getMainHandItem().is(MILFItems.POTSHERD)) {
+            isPrimed = false;
+            prepareAnimationProgress = 0;
+            return;
+        }
 
         EntityRenderDispatcher dispatcher = minecraft.getEntityRenderDispatcher();
 
@@ -187,7 +195,10 @@ public class Throw {
                 player
         );
 
-        if(useTicks != 0) return;
+        if(useTicks != 0) {
+            poseStack.popPose();
+            return;
+        };
 
         poseStack.mulPose(Axis.YP.rotationDegrees(-90));
         poseStack.translate(0.1, 0.6, 0.4);

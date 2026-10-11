@@ -1,5 +1,6 @@
 package dev.saeta.milf.blocks.kiln;
 
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
@@ -31,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class KilnBlockEntity extends BlockEntity {
+public class KilnBlockEntity extends BlockEntity implements ProgressProvider {
 
     private static final int INPUT_SLOT = 0;
 
@@ -188,6 +189,7 @@ public class KilnBlockEntity extends BlockEntity {
         return progress > 0;
     }
 
+    @Override
     public float getCurrentProgress(){
         return (float) progress / MAX_PROGRESS;
     }

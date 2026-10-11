@@ -12,7 +12,9 @@
                             "function": "minecraft:copy_components",
                             "source": "block_entity",
                             "include": [
-                                "milf:fluid"
+                                "milf:fluid",
+                                "milf:cast_result",
+                                "milf:single_stack"
                             ]
                         }
                     ]

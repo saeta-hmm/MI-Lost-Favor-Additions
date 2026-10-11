@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class MILFItemTags {
 
@@ -13,6 +14,8 @@ public class MILFItemTags {
 
     public static final TagKey<Item> FIRE_PIT_PLATE_CAN_HOLD = milf("fire_pit_plate_can_hold");
     public static final TagKey<Item> CERAMIC = milf("ceramic");
+    public static final TagKey<Item> MOLDS = milf("molds");
+
 
     public static final TagKey<Item> BLOOMERY_COALS = milf("bloomery_coals");
 

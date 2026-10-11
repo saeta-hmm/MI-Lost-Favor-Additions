@@ -45,7 +45,7 @@ public record ChiselRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.CHISEL_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.CHISEL;
     }
 
     @Override

@@ -85,7 +85,7 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
 
         String numberString;
         if (value == Math.rint(value)) {
-            numberString = String.valueOf(value);
+            numberString = String.format(Locale.ROOT, "%.0f", value);
         } else {
             numberString = String.format(Locale.ROOT, "%.2f", value);
         }

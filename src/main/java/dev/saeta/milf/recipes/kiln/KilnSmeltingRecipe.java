@@ -21,7 +21,7 @@ public record KilnSmeltingRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.KILN_SMELTING_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.KILN_SMELTING;
     }
 
     @Override

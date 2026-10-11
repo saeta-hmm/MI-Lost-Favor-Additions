@@ -20,7 +20,7 @@ public record FirePitCookingRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.FIRE_PIT_COOKING_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.FIRE_PIT_COOKING;
     }
 
     @Override

@@ -13,11 +13,9 @@ import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntityRenderer;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntityRenderer;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntityRenderer;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntityRenderer;
-import dev.saeta.milf.entities.potsherd.PotsherdProjectileEntity;
 import dev.saeta.milf.entities.potsherd.PotsherdProjectileEntityRenderer;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFEntityTypes;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class MILFEntityRenderers {
@@ -50,11 +48,12 @@ public class MILFEntityRenderers {
 
         event.registerBlockEntityRenderer(MILFBlockEntities.FIRE_PIT_PLATE.get(), FirePitPlateBlockEntityRenderer::new);
 
-        event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_PLATE.get(), ClayMoldBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD.get(), ClayMoldBlockEntityRenderer::new);
 
         //#endregion
 
         event.registerEntityRenderer(MILFEntityTypes.POTSHERD.get(), PotsherdProjectileEntityRenderer::new);
+
 
     }
 

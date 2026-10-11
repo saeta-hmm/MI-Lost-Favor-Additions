@@ -43,7 +43,7 @@ public record ImpressionMoldingRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MILFRecipeSerializers.IMPRESSION_MOLDING_RECIPE_SERIALIZER;
+        return MILFRecipeSerializers.IMPRESSION_MOLDING;
     }
 
     @Override

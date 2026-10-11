@@ -2,6 +2,7 @@ package dev.saeta.milf.blocks.clay_plates.fire_pit;
 
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
+import dev.saeta.milf.blocks.ProgressProvider;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFDataComponents;
@@ -25,7 +26,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity {
+public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity  {
 
     public static final int NE_PLATE_SLOT = 0;
     public static final int NW_PLATE_SLOT = 1;
@@ -148,6 +149,11 @@ public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity {
 
     @Override
     public boolean canExtract() {
+        return true;
+    }
+
+    @Override
+    public boolean shouldDropContent() {
         return true;
     }
 
