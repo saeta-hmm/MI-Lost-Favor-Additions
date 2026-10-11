@@ -38,6 +38,7 @@ public class MILFCapabilities {
         //all the molds
         MILFBlocks.CLAY_MOLD_HAMMER.get().registerCapabilities(event);
 
+        MILFBlocks.UNFIRED_CLAY_MOLD_BASE.get().registerCapabilities(event);
 
     }
 

@@ -9,6 +9,7 @@ import dev.saeta.milf.blocks.clay_plates.fired.ClayMoldBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntityRenderer;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntityRenderer;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntityRenderer;
+import dev.saeta.milf.blocks.mold_base.MoldBaseBlockEntityRenderer;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntityRenderer;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntityRenderer;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntityRenderer;
@@ -49,6 +50,8 @@ public class MILFEntityRenderers {
         event.registerBlockEntityRenderer(MILFBlockEntities.FIRE_PIT_PLATE.get(), FirePitPlateBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD.get(), ClayMoldBlockEntityRenderer::new);
+
+        event.registerBlockEntityRenderer(MILFBlockEntities.UNFIRED_MOLD_BASE.get(), MoldBaseBlockEntityRenderer::new);
 
         //#endregion
 

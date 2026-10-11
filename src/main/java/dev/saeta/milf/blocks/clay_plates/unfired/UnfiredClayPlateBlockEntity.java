@@ -6,6 +6,7 @@ import dev.saeta.milf.recipes.DoubleRecipeInput;
 import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFRecipeTypes;
+import dev.saeta.milf.util.RecipeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +32,7 @@ public class UnfiredClayPlateBlockEntity extends AbstractClayPlateBlockEntity {
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty() || level == null) return false;
 
-            var recipe = getValidRecipe(new DoubleRecipeInput(stack, new ItemStack(getBlockState().getBlock()) ));
+            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.IMPRESSION_MOLDING, new DoubleRecipeInput(stack, new ItemStack(getBlockState().getBlock())));
 
             return recipe.isPresent();
         }
@@ -51,7 +52,7 @@ public class UnfiredClayPlateBlockEntity extends AbstractClayPlateBlockEntity {
 
             var recipeInput = new DoubleRecipeInput(stack, new ItemStack(getBlockState().getBlock()));
 
-            var recipe = getValidRecipe( recipeInput);
+            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.IMPRESSION_MOLDING, new DoubleRecipeInput(stack, new ItemStack(getBlockState().getBlock())));
             if(recipe.isPresent()){
 
                 ItemStack outputStack = recipe.get().value().assemble(recipeInput, level.registryAccess());
@@ -72,21 +73,6 @@ public class UnfiredClayPlateBlockEntity extends AbstractClayPlateBlockEntity {
                 blockState
         );
     }
-
-    private Stream<RecipeHolder<ImpressionMoldingRecipe>> getAllRecipes(){
-        if (level == null) return Stream.empty();
-
-        RecipeManager recipeManager = level.getRecipeManager();
-
-        return recipeManager.getAllRecipesFor(MILFRecipeTypes.IMPRESSION_MOLDING).stream();
-    }
-
-    private Optional<RecipeHolder<ImpressionMoldingRecipe>> getValidRecipe(DoubleRecipeInput input){
-        if (level == null) return Optional.empty();
-
-        return getAllRecipes().filter(holder -> holder.value().matches(input, level)).findFirst();
-    }
-
 
 
     @Override

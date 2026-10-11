@@ -36,6 +36,10 @@ public class MILFCreativeModeTabs {
 
                         output.accept(MILFBlocks.UNFIRED_CLAY_PLATE);
 
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_BASE);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL);
+
+
                         output.accept(MILFBlocks.CLAY_CRUCIBLE.get());
 
                         output.accept(MILFItems.CLAY_MOLD_INGOT);
@@ -78,8 +82,6 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.FIRESTARTER);
                         output.accept(MILFItems.STONE_HAMMER);
                         output.accept(MILFItems.FLINT_CHISEL);
-
-                        output.accept(MILFBlocks.CLAY_SLAB);
 
 
                         output.accept(MILFBlocks.KILN);

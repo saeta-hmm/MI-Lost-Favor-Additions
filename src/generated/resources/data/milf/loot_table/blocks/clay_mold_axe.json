@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "milf:clay_mold_axe"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_components",
+          "include": [
+            "milf:fluid",
+            "milf:cast_result",
+            "milf:single_stack"
+          ],
+          "source": "block_entity"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "milf:blocks/clay_mold_axe"
+}

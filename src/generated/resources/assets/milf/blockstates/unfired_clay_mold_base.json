@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "milf:block/unfired_clay_mold_base",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "milf:block/unfired_clay_mold_base"
+    },
+    "facing=south": {
+      "model": "milf:block/unfired_clay_mold_base",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "milf:block/unfired_clay_mold_base",
+      "y": 270
+    }
+  }
+}

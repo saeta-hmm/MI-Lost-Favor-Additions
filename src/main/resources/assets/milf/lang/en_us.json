@@ -29,6 +29,9 @@
 
   "item.milf.unfired_clay_mold_ingot" : "Unfired Clay Ingot Mold",
 
+  "block.milf.unfired_clay_mold_base" : "Unfired Clay Big Mold",
+  "block.milf.unfired_clay_mold_anvil" : "Unfired Clay Anvil Mold",
+
   "block.milf.unfired_clay_plate" : "Unfired Clay Plate",
 
   "item.milf.wooden_axe_head" : "Wooden Axe Head",

@@ -1,10 +1,13 @@
 package dev.saeta.milf.datagen.models;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class MILFItemModelProvider extends ItemModelProvider {
     public MILFItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -30,6 +33,15 @@ public class MILFItemModelProvider extends ItemModelProvider {
 
         handheldItem(MILFItems.POTSHERD.get());
 
+
+        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_BASE);
+        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL);
+
+    }
+
+    private void simpleBlockItemModel(DeferredBlock<? extends Block> block){
+        String blockId = block.getId().getPath();
+        withExistingParent(blockId, MILostFavor.locate("block/" + blockId));
     }
 
 

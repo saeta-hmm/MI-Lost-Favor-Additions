@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "milf:unfired_clay_mold_anvil"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "milf:blocks/unfired_clay_mold_anvil"
+}

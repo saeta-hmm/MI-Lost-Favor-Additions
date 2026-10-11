@@ -1,15 +1,11 @@
 {
-  "type" : "milf:impression_molding",
+  "type" : "milf:pit_firing",
   "input" : {
-    "item": "milf:wooden_axe_head",
-    "count": 1
-  },
-  "block" : {
-    "item": "milf:unfired_clay_plate",
+    "item": "milf:unfired_clay_mold_axe",
     "count": 1
   },
   "output": {
-    "id": "milf:unfired_clay_mold_axe",
+    "id": "milf:clay_mold_axe",
     "count": 1
   }
 }

@@ -11,6 +11,7 @@ import dev.saeta.milf.blocks.clay_plates.fired.ClayPlateBlockEntity;
 import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
+import dev.saeta.milf.blocks.mold_base.MoldBaseBlockEntity;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntity;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
@@ -63,6 +64,14 @@ public class MILFBlockEntities {
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<FirePitPlateBlockEntity>> FIRE_PIT_PLATE = BLOCK_ENTITIES.register(
             "fire_pit_plate", () -> BlockEntityType.Builder.of(FirePitPlateBlockEntity::new, MILFBlocks.FIRE_PIT_PLATE.get()).build(null)
+    );
+
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<MoldBaseBlockEntity>> UNFIRED_MOLD_BASE = BLOCK_ENTITIES.register(
+            "unfired_mold_base", () -> BlockEntityType.Builder.of(
+                    MoldBaseBlockEntity::new,
+                    MILFBlocks.UNFIRED_CLAY_MOLD_BASE.get(),
+                    MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL.get()
+            ).build(null)
     );
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<UnfiredClayPlateBlockEntity>> UNFIRED_CLAY_PLATE = BLOCK_ENTITIES.register(

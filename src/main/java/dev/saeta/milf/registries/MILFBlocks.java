@@ -14,6 +14,7 @@ import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
+import dev.saeta.milf.blocks.mold_base.MoldBaseBlock;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
@@ -47,8 +48,6 @@ public class MILFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MILostFavor.MOD_ID);
 
     public static final DeferredBlock<Block> BURNING_COAL = registerBlock("burning_coal_block", () -> new Block(BlockBehaviour.Properties.of()));
-
-    public static final DeferredBlock<SlabBlock> CLAY_SLAB = registerBlock("clay_slab", () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
 
     public static final DeferredBlock<FirePitBlock> FIRE_PIT = registerBlock("fire_pit",
             () -> new FirePitBlock(BlockBehaviour.Properties.of()
@@ -116,6 +115,10 @@ public class MILFBlocks {
             () -> new UnfiredClayPlateBlock(BlockBehaviour.Properties.of()),
             (block) -> new UnfiredClayPlateBlock.UnfiredClayPlateItem(block.get(), new Item.Properties())
     );
+
+    public static final DeferredBlock<MoldBaseBlock> UNFIRED_CLAY_MOLD_BASE = registerBlock("unfired_clay_mold_base", () -> new MoldBaseBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
+    public static final DeferredBlock<MoldBaseBlock> UNFIRED_CLAY_MOLD_ANVIL = registerBlock("unfired_clay_mold_anvil", () -> new MoldBaseBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CLAY)));
+
 
     public static final DeferredBlock<ClayPlateBlock> CLAY_PLATE = registerBlock("clay_plate",
             () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
