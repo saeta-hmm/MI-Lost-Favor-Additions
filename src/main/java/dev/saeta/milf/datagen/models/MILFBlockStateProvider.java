@@ -1,15 +1,19 @@
 package dev.saeta.milf.datagen.models;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.AbstractMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlock;
+import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -21,9 +25,6 @@ public class MILFBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-
-        //horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_BASE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_base")));
-        horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half")));
 
         unfiredBaseMold(MILFBlocks.UNFIRED_CLAY_MOLD_BASE, MILostFavor.locate("block/overlay/mold_base_overlay_blank"));
         unfiredBaseMold(MILFBlocks.UNFIRED_CLAY_MOLD_INGOT, MILostFavor.locate("block/overlay/unfired_mold_base_overlay_ingots"));
@@ -45,71 +46,134 @@ public class MILFBlockStateProvider extends BlockStateProvider {
         );
 
 
-//        BlockModelBuilder unfiredMoldIngotsModel = models()
-//                .withExistingParent("block/unfired_clay_mold_ingot", MILostFavor.locate("block/unfired_clay_mold_base"))
-//                .texture("1", MILostFavor.locate("block/overlay/unfired_mold_base_overlay_ingots"));
-//
-//        horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_INGOT.get(), unfiredMoldIngotsModel);
-//        simpleBlockItem(MILFBlocks.UNFIRED_CLAY_MOLD_INGOT.get(), unfiredMoldIngotsModel);
-//
-//        BlockModelBuilder unfiredRoldRodsModel = models()
-//                .withExistingParent("block/unfired_clay_mold_rod", MILostFavor.locate("block/unfired_clay_mold_base"))
-//                .texture("1", MILostFavor.locate("block/overlay/unfired_mold_base_overlay_rods"));
-//
-//        horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_ROD.get(), unfiredRoldRodsModel);
-//        simpleBlockItem(MILFBlocks.UNFIRED_CLAY_MOLD_ROD.get(), unfiredRoldRodsModel);
-
-//        horizontalBlock(MILFBlocks.CLAY_MOLD_BASE.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_base")));
-//
-//        BlockModelBuilder moldIngotsModel = models()
-//                .withExistingParent("block/clay_mold_ingot", MILostFavor.locate("block/clay_mold_base"))
-//                .texture("1", MILostFavor.locate("block/overlay/mold_base_overlay_ingots"))
-//                .texture("2", MILostFavor.locate("block/overlay/mold_base_overlay_overlay_ingots"));
-//
-//        horizontalBlock(MILFBlocks.CLAY_MOLD_INGOT.get(), moldIngotsModel);
-//        simpleBlockItem(MILFBlocks.CLAY_MOLD_INGOT.get(), moldIngotsModel);
-//
-//        BlockModelBuilder moldRodsModel = models()
-//                .withExistingParent("block/clay_mold_rod", MILostFavor.locate("block/clay_mold_base"))
-//                .texture("1", MILostFavor.locate("block/overlay/mold_base_overlay_rods"))
-//                .texture("2", MILostFavor.locate("block/overlay/mold_base_overlay_overlay_rods"));
-//
-//        horizontalBlock(MILFBlocks.CLAY_MOLD_ROD.get(), moldRodsModel);
-//        simpleBlockItem(MILFBlocks.CLAY_MOLD_ROD.get(), moldRodsModel);
-
-
         simpleBlock(MILFBlocks.STONE_BASIN.get(), models().getExistingFile(MILostFavor.locate("block/stone_basin")));
+        simpleBlock(MILFBlocks.BLOOMERY_BASE.get(), models().getExistingFile(MILostFavor.locate("block/bloomery_base")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_CRUCIBLE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_crucible")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_PLATE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_plate")));
+        simpleBlock(MILFBlocks.CLAY_PLATE.get(), models().getExistingFile(MILostFavor.locate("block/clay_plate")));
+
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_AXE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_axe")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_HAMMER.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_hammer")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_PICKAXE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_pickaxe")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_HOE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_hoe")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_SWORD.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_sword")));
+        simpleBlock(MILFBlocks.UNFIRED_CLAY_MOLD_SHOVEL.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_shovel")));
+
+        simpleBlock(MILFBlocks.CLAY_MOLD_AXE.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_axe")));
+        simpleBlock(MILFBlocks.CLAY_MOLD_HAMMER.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_hammer")));
+        simpleBlock(MILFBlocks.CLAY_MOLD_PICKAXE.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_pickaxe")));
+        simpleBlock(MILFBlocks.CLAY_MOLD_HOE.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_hoe")));
+        simpleBlock(MILFBlocks.CLAY_MOLD_SWORD.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_sword")));
+        simpleBlock(MILFBlocks.CLAY_MOLD_SHOVEL.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_shovel")));
+
+        horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half")));
+        horizontalBlock(MILFBlocks.BRONZE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/bronze_anvil")));
+        horizontalBlock(MILFBlocks.STONE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/stone_anvil")));
+        horizontalBlock(MILFBlocks.KILN.get(), models().getExistingFile(MILostFavor.locate("block/kiln")));
+        horizontalBlock(MILFBlocks.POT_BELLOWS.get(), models().getExistingFile(MILostFavor.locate("block/pot_bellows")));
+        horizontalBlock(MILFBlocks.ROASTING_CONTRAPTION.get(), models().getExistingFile(MILostFavor.locate("block/roasting_contraption")));
+
+        simpleBlockWithItem(MILFBlocks.BURNING_COAL.get(),
+                models().withExistingParent(MILFBlocks.BURNING_COAL.getId().getPath(), mcLoc("block/cube_all"))
+                        .texture("all",MILostFavor.locate("block/burning_coal_block"))
+        );
+
+        simpleBlockWithItem(MILFBlocks.MOLDED_BLOCK.get(),
+                models().withExistingParent(MILFBlocks.MOLDED_BLOCK.getId().getPath(), mcLoc("block/cube_all"))
+                        .texture("all",MILostFavor.locate("block/pottery_clay"))
+        );
+
+        simpleBlockWithItem(MILFBlocks.CHISELED_BLOCK.get(),
+                models().withExistingParent(MILFBlocks.CHISELED_BLOCK.getId().getPath(), mcLoc("block/cube_all"))
+                        .texture("all",mcLoc("block/stone"))
+        );
 
         simpleBlockWithItem(MILFBlocks.POTTERY_CLAY.get(), cubeAll(MILFBlocks.POTTERY_CLAY.get()));
         simpleBlockWithItem(MILFBlocks.FIRE_CLAY.get(), cubeAll(MILFBlocks.FIRE_CLAY.get()));
 
-        getVariantBuilder(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL.get()).forAllStates(state -> {
-
-            ModelFile model = state.getValue(AbstractAnvilMoldBlock.SIDE) ?
-                        models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_full_side")) :
-                        models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_full"));
-
-            return ConfiguredModel.builder()
-                    .modelFile(model)
-                    .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
-                    .build();
-            }
-
+        simpleBlockWithItem(MILFBlocks.FIRE_PIT_PLATE.get(),
+                models().withExistingParent(MILFBlocks.FIRE_PIT_PLATE.getId().getPath(), MILostFavor.locate("block/clay_plate"))
         );
 
-        getVariantBuilder(MILFBlocks.CLAY_MOLD_ANVIL_FULL.get()).forAllStates(state -> {
-
-                    ModelFile model = state.getValue(AbstractAnvilMoldBlock.SIDE) ?
-                            models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full_side")) :
-                            models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full"));
-
-                    return ConfiguredModel.builder()
-                            .modelFile(model)
-                            .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
-                            .build();
-                }
-
+        horizontalBlockWithBooleanProperty(
+                MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL,
+                AbstractAnvilMoldBlock.SIDE,
+                models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_full")),
+                models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_full_side"))
         );
+
+        horizontalBlockWithBooleanProperty(
+                MILFBlocks.CLAY_MOLD_ANVIL_FULL,
+                AbstractAnvilMoldBlock.SIDE,
+                models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full")),
+                models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full_side"))
+        );
+
+        getMultipartBuilder(MILFBlocks.FIRE_PIT.get())
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit")))
+                .addModel()
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit_logs_1")))
+                .addModel()
+                .condition(FirePitBlock.LOGS, 1)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit_logs_2")))
+                .addModel()
+                .condition(FirePitBlock.LOGS, 2)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit_logs_3")))
+                .addModel()
+                .condition(FirePitBlock.LOGS, 3)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit_logs_4")))
+                .addModel()
+                .condition(FirePitBlock.LOGS, 4)
+                .end();
+
+        getMultipartBuilder(MILFBlocks.CLAY_CRUCIBLE.get())
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible")))
+                .addModel()
+                .condition(ClayCrucibleBlock.KILN_PART, false)
+                .condition(ClayCrucibleBlock.DIRT, false)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible_kiln_part")))
+                .addModel()
+                .condition(ClayCrucibleBlock.KILN_PART, true)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible_dirt")))
+                .addModel()
+                .condition(ClayCrucibleBlock.DIRT, true)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible_lid")))
+                .addModel()
+                .condition(ClayCrucibleBlock.KILN_PART, false)
+                .condition(ClayCrucibleBlock.SEALED, true)
+                .end()
+
+                .part()
+                .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible_kiln_part_lid")))
+                .addModel()
+                .condition(ClayCrucibleBlock.KILN_PART, true)
+                .condition(ClayCrucibleBlock.SEALED, true)
+                .end();
+
 
     }
 
@@ -168,5 +232,24 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                     .build();
         });
 
+    }
+
+    private void horizontalBlockWithBooleanProperty(
+            DeferredBlock<? extends Block> block,
+            BooleanProperty property,
+            ModelFile modelWhenFalse,
+            ModelFile modelWhenTrue
+    ) {
+        getVariantBuilder(block.get()).forAllStates(state -> {
+
+                    ModelFile model = state.getValue(property) ? modelWhenTrue :modelWhenFalse;
+
+                    return ConfiguredModel.builder()
+                            .modelFile(model)
+                            .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                            .build();
+                }
+
+        );
     }
 }

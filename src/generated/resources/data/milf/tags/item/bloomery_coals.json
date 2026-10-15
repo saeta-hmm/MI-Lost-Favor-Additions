@@ -1,0 +1,8 @@
+{
+  "remove": [
+    "minecraft:charcoal"
+  ],
+  "values": [
+    "#minecraft:coals"
+  ]
+}

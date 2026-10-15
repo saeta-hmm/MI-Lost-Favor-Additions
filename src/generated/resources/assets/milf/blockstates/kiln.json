@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "contains_block=false,facing=east": {
+      "model": "milf:block/kiln",
+      "y": 90
+    },
+    "contains_block=false,facing=north": {
+      "model": "milf:block/kiln"
+    },
+    "contains_block=false,facing=south": {
+      "model": "milf:block/kiln",
+      "y": 180
+    },
+    "contains_block=false,facing=west": {
+      "model": "milf:block/kiln",
+      "y": 270
+    },
+    "contains_block=true,facing=east": {
+      "model": "milf:block/kiln",
+      "y": 90
+    },
+    "contains_block=true,facing=north": {
+      "model": "milf:block/kiln"
+    },
+    "contains_block=true,facing=south": {
+      "model": "milf:block/kiln",
+      "y": 180
+    },
+    "contains_block=true,facing=west": {
+      "model": "milf:block/kiln",
+      "y": 270
+    }
+  }
+}

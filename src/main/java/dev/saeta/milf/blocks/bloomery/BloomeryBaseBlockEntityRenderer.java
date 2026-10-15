@@ -50,7 +50,7 @@ public class BloomeryBaseBlockEntityRenderer implements BlockEntityRenderer<Bloo
 
             ResourceLocation coalTexture = blockEntity.isLit() ?
                     MILostFavor.locate("block/burning_coal_block") :
-                    coalStack.is(MILFItemTags.LIGNITE_COALS) ?
+                    coalStack.is(MILFItemTags.C_LIGNITE_COALS) ?
                             ResourceLocation.fromNamespaceAndPath("modern_industrialization", "block/lignite_coal_block") :
                             ResourceLocation.fromNamespaceAndPath("minecraft", "block/coal_block");
 

@@ -1,0 +1,12 @@
+{
+  "parent": "neoforge:item/default",
+  "apply_tint": true,
+  "cover_is_mask": false,
+  "flip_gas": true,
+  "fluid": "milf:dummy_fluid",
+  "loader": "neoforge:fluid_container",
+  "textures": {
+    "base": "milf:item/clay_mold_pickaxe",
+    "fluid": "milf:item/clay_mold_pickaxe_overlay"
+  }
+}

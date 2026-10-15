@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "milf:block/bronze_anvil" },
-    "facing=south": { "model": "milf:block/bronze_anvil", "y": 180 },
-    "facing=west":  { "model": "milf:block/bronze_anvil", "y": 270 },
-    "facing=east":  { "model": "milf:block/bronze_anvil", "y": 90 }
-  }
-}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "milf:block/stone_anvil",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "milf:block/stone_anvil"
+    },
+    "facing=south": {
+      "model": "milf:block/stone_anvil",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "milf:block/stone_anvil",
+      "y": 270
+    }
+  }
+}
