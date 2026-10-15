@@ -4,6 +4,7 @@ import dev.saeta.milf.blocks.shapeable_blocks.AbstractShapeableBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.recipes.shaping.ShapingRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 public class MoldedBlockEntity extends AbstractShapeableBlockEntity {
 
     protected Block currentOutputBlock = Blocks.AIR;
-    protected ItemStack currentInputBlockItem = new ItemStack(Blocks.CLAY);
+    protected ItemStack currentInputBlockItem = new ItemStack(MILFBlocks.POTTERY_CLAY);
 
     public MoldedBlockEntity(BlockPos pos, BlockState blockState) {
         super(MILFBlockEntities.MOLDED_BLOCK.get(), pos, blockState);

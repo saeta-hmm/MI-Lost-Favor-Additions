@@ -2,8 +2,10 @@
 	"format_version": "1.9.0",
 	"credit": "Made by Saeta",
 	"texture_size": [32, 32],
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "milf:block/unfired_mold_base",
+		"1": "milf:block/overlay/mold_base_overlay_blank",
 		"particle": "milf:block/unfired_mold_base"
 	},
 	"elements": [
@@ -17,6 +19,20 @@
 				"west": {"uv": [7, 6, 12, 8], "texture": "#0"},
 				"up": {"uv": [0, 0, 7, 5], "texture": "#0"},
 				"down": {"uv": [0, 5, 7, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "overlay",
+			"from": [1, 4.01, 3],
+			"to": [15, 4.01, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 4.01, 3]},
+			"faces": {
+				"north": {"uv": [0, 0, 7, 0], "texture": "#1"},
+				"east": {"uv": [0, 0, 5, 0], "texture": "#1"},
+				"south": {"uv": [0, 0, 7, 0], "texture": "#1"},
+				"west": {"uv": [0, 0, 5, 0], "texture": "#1"},
+				"up": {"uv": [0, 0, 7, 5], "texture": "#1"},
+				"down": {"uv": [0, 5, 7, 10], "texture": "#1"}
 			}
 		}
 	],

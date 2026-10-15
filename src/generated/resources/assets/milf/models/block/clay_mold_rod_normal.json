@@ -1,0 +1,7 @@
+{
+  "parent": "milf:block/clay_mold_base",
+  "textures": {
+    "1": "milf:block/overlay/mold_base_overlay_rods",
+    "2": "milf:block/overlay/mold_base_overlay_overlay_rods"
+  }
+}

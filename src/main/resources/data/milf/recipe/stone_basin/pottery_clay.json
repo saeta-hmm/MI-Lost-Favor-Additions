@@ -1,0 +1,26 @@
+{
+  "type" : "milf:stone_basin",
+  "inputs" : [
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    }
+  ],
+  "fluid" :{
+    "fluid": "minecraft:water",
+    "amount": 500
+  },
+  "output": {
+    "id": "milf:pottery_clay_ball",
+    "count": 4
+  },
+  "stirs": 7
+}

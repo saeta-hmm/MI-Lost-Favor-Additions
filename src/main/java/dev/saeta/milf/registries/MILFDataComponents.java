@@ -2,10 +2,12 @@ package dev.saeta.milf.registries;
 
 import com.mojang.serialization.Codec;
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.networking.data.MultiFluidContents;
 import dev.saeta.milf.networking.data.StoredItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -19,6 +21,13 @@ public class MILFDataComponents {
             "fluid", () -> DataComponentType.<SimpleFluidContent>builder()
                     .persistent(SimpleFluidContent.CODEC)
                     .networkSynchronized(SimpleFluidContent.STREAM_CODEC)
+                    .build()
+    );
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<MultiFluidContents>> FLUIDS = DATA_COMPONENTS.register(
+            "fluids", () -> DataComponentType.<MultiFluidContents>builder()
+                    .persistent(MultiFluidContents.CODEC)
+                    .networkSynchronized(MultiFluidContents.STREAM_CODEC)
                     .build()
     );
 
@@ -36,6 +45,12 @@ public class MILFDataComponents {
                     .build()
     );
 
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> STACKS = DATA_COMPONENTS.register(
+            "stacks", () -> DataComponentType.<ItemContainerContents>builder()
+                    .persistent(ItemContainerContents.CODEC)
+                    .networkSynchronized(ItemContainerContents.STREAM_CODEC)
+                    .build()
+    );
 
     public static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_HORIZONTAL = DATA_COMPONENTS.register(
             "is_horizontal", () -> DataComponentType.<Boolean>builder()

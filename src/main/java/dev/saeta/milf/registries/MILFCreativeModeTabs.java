@@ -26,7 +26,6 @@ public class MILFCreativeModeTabs {
 
                         output.accept(MILFBlocks.UNFIRED_CLAY_CRUCIBLE);
 
-                        output.accept(MILFItems.UNFIRED_CLAY_MOLD_INGOT);
                         output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_AXE);
                         output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_HAMMER);
                         output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_HOE);
@@ -36,13 +35,26 @@ public class MILFCreativeModeTabs {
 
                         output.accept(MILFBlocks.UNFIRED_CLAY_PLATE);
 
+                        output.accept(MILFItems.POTTERY_CLAY_BALL);
+                        output.accept(MILFItems.UNFIRED_BRICK);
+
+                        output.accept(MILFItems.FIRE_CLAY_BALL);
+                        output.accept(MILFItems.UNFIRED_FIRE_CLAY_BRICK);
+
                         output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_BASE);
-                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_INGOT);
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_ROD);
+
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF);
+
+
+
+                        output.accept(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL);
+                        output.accept(MILFBlocks.POTTERY_CLAY);
+                        output.accept(MILFBlocks.FIRE_CLAY);
 
 
                         output.accept(MILFBlocks.CLAY_CRUCIBLE.get());
-
-                        output.accept(MILFItems.CLAY_MOLD_INGOT);
 
                         output.accept(MILFBlocks.CLAY_MOLD_AXE);
                         output.accept(MILFBlocks.CLAY_MOLD_HAMMER);
@@ -53,7 +65,11 @@ public class MILFCreativeModeTabs {
 
                         output.accept(MILFBlocks.CLAY_PLATE);
 
+                        output.accept(MILFBlocks.CLAY_MOLD_BASE);
+                        output.accept(MILFBlocks.CLAY_MOLD_INGOT);
+                        output.accept(MILFBlocks.CLAY_MOLD_ROD);
 
+                        output.accept(MILFBlocks.CLAY_MOLD_ANVIL_FULL);
 
                         output.accept(MILFItems.IRON_BLOOM);
 
@@ -90,6 +106,7 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFBlocks.ROASTING_CONTRAPTION);
                         output.accept(MILFBlocks.BRONZE_ANVIL);
                         output.accept(MILFBlocks.STONE_ANVIL);
+                        output.accept(MILFBlocks.STONE_BASIN);
 
                         output.accept(MILFBlocks.BLOOMERY_BASE);
 

@@ -2,7 +2,7 @@ package dev.saeta.milf.blocks.fire_pit;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.ItemHandlerBlock;
-import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
+import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -89,11 +89,6 @@ public class FirePitBlock extends ItemHandlerBlock implements CapabilityProvider
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LOGS).add(BlockStateProperties.LIT);
     }
@@ -153,7 +148,7 @@ public class FirePitBlock extends ItemHandlerBlock implements CapabilityProvider
 
         if(firePitBlockEntity.isLit() && level instanceof ServerLevel serverLevel){
 
-            float yOffset = serverLevel.getBlockState(pos.above()).is(MILFBlocks.ROASTING_CONTRAPTION) ? 0.5f : 0;
+            float yOffset = serverLevel.getBlockState(pos.above()).isAir() ? 0 : 0.5f;
 
             serverLevel.sendParticles(
                     ParticleTypes.FLAME,

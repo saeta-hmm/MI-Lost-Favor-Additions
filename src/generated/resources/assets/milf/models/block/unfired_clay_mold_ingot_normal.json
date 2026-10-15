@@ -1,0 +1,6 @@
+{
+  "parent": "milf:block/unfired_clay_mold_base",
+  "textures": {
+    "1": "milf:block/overlay/unfired_mold_base_overlay_ingots"
+  }
+}

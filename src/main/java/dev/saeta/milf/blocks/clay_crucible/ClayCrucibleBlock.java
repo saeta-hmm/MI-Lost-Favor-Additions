@@ -88,11 +88,6 @@ public class ClayCrucibleBlock extends ItemHandlerBlock implements CapabilityPro
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(KILN_PART).add(SEALED).add(DIRT);
     }

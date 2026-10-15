@@ -73,7 +73,8 @@ public abstract class ItemHandlerBlockEntity extends BlockEntity {
         if(!shouldDropContent()) return;
         for (int i = 0; i < getItemHandler().getSlots(); i++) {
             if(!shouldDropSlot(i)) continue;
-            ItemStack stack = getItemHandler().getStackInSlot(i);
+            if(getItemHandler().getStackInSlot(i).isEmpty()) continue;
+            ItemStack stack = getItemHandler().extractItem(i, getItemHandler().getSlotLimit(i), false);
             if(!stack.isEmpty()){
                 Block.popResource(level, pos, stack);
             }

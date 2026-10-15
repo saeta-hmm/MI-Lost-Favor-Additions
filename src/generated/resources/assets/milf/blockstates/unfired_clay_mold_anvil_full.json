@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,side=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_full",
+      "y": 90
+    },
+    "facing=east,side=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_full_side",
+      "y": 90
+    },
+    "facing=north,side=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_full"
+    },
+    "facing=north,side=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_full_side"
+    },
+    "facing=south,side=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_full",
+      "y": 180
+    },
+    "facing=south,side=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_full_side",
+      "y": 180
+    },
+    "facing=west,side=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_full",
+      "y": 270
+    },
+    "facing=west,side=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_full_side",
+      "y": 270
+    }
+  }
+}

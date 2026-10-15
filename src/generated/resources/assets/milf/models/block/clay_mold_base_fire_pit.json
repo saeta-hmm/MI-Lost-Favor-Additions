@@ -1,0 +1,7 @@
+{
+  "parent": "milf:block/clay_mold_base_fire_pit_part",
+  "textures": {
+    "1": "milf:block/overlay/mold_base_overlay_blank",
+    "2": "milf:block/overlay/mold_base_overlay_blank"
+  }
+}

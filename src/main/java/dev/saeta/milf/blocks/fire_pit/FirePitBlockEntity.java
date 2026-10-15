@@ -4,9 +4,9 @@ import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
-import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.kiln.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFBlockTags;
 import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -221,8 +221,8 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
             setChanged();
         }
 
-        if(stateAbove.is(MILFBlocks.FIRE_PIT_PLATE) && level.getBlockEntity(worldPosition.above()) instanceof FirePitPlateBlockEntity firePitPlateBlockEntity){
-            firePitPlateBlockEntity.firePitTick();
+        if(stateAbove.is(MILFBlockTags.FIRE_PIT_CAN_PROCESS) && level.getBlockEntity(worldPosition.above()) instanceof FirePitProcessable firePitProcessable){
+            firePitProcessable.firePitTick();
         }
 
 

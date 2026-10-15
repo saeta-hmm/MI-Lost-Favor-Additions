@@ -7,6 +7,7 @@ import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.*;
 import dev.saeta.milf.recipes.anvil.AnvilTier;
+import dev.saeta.milf.recipes.basin.StoneBasinRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -41,6 +42,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
         registry.addCategory(MILFEmiRecipeCategories.BLOOMERY);
+        registry.addCategory(MILFEmiRecipeCategories.STONE_BASIN);
 
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
@@ -71,6 +73,8 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFBlocks.KILN));
         registry.addWorkstation(MILFEmiRecipeCategories.BLOOMERY, EmiStack.of(MILFItems.FIRESTARTER));
 
+        registry.addWorkstation(MILFEmiRecipeCategories.STONE_BASIN, EmiStack.of(MILFBlocks.STONE_BASIN));
+
     }
 
     private void registerRecipes(EmiRegistry registry){
@@ -90,6 +94,7 @@ public class MILFEmiPlugin implements EmiPlugin {
         addAll(registry, MILFRecipeTypes.POTTERY, PotteryEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.IMPRESSION_MOLDING, ImpressionMoldingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.CASTING, CastingEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.STONE_BASIN, StoneBasinEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);

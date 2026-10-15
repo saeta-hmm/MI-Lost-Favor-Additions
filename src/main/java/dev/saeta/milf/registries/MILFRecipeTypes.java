@@ -2,6 +2,7 @@ package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.anvil.AnvilRecipe;
+import dev.saeta.milf.recipes.basin.StoneBasinRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.recipes.casting.CastingRecipe;
 import dev.saeta.milf.recipes.clay_crucible.ClayCrucibleKilnRecipe;
@@ -42,6 +43,8 @@ public class MILFRecipeTypes {
     public static final RecipeType<PitFiringRecipe> PIT_FIRING = register("pit_firing");
 
     public static final RecipeType<CastingRecipe> CASTING = register("casting");
+
+    public static final RecipeType<StoneBasinRecipe> STONE_BASIN = register("stone_basin");
 
 
     private static <T extends Recipe<?>> RecipeType<T> register(String id) {

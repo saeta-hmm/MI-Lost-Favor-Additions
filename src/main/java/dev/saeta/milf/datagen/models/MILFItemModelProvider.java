@@ -31,11 +31,21 @@ public class MILFItemModelProvider extends ItemModelProvider {
         basicItem(MILFItems.LEAD_SWORD_BLADE.get());
         basicItem(MILFItems.LEAD_SHOVEL_HEAD.get());
 
+        basicItem(MILFItems.POTTERY_CLAY_BALL.get());
+        basicItem(MILFItems.FIRE_CLAY_BALL.get());
+        basicItem(MILFItems.UNFIRED_BRICK.get());
+        basicItem(MILFItems.UNFIRED_FIRE_CLAY_BRICK.get());
+
         handheldItem(MILFItems.POTSHERD.get());
 
 
-        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_BASE);
-        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL);
+        //simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_BASE);
+        //simpleBlockItemModel(MILFBlocks.CLAY_MOLD_BASE);
+
+        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF);
+        simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL);
+        simpleBlockItemModel(MILFBlocks.CLAY_MOLD_ANVIL_FULL);
+        basicItem(MILFBlocks.STONE_BASIN.get().asItem());
 
     }
 

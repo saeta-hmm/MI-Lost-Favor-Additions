@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CastingEmiRecipe implements EmiRecipe {
     public final ItemStack output;
     public final ItemStack molfRemains;
 
-    public final FluidIngredient fluid;
+    public final SizedFluidIngredient fluid;
     public final ResourceLocation id;
     public final int time;
 
@@ -73,7 +74,7 @@ public class CastingEmiRecipe implements EmiRecipe {
     public List<EmiIngredient> getInputs() {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(mold));
-        FluidStack[] fluids = fluid.getStacks();
+        FluidStack[] fluids = fluid.getFluids();
         inputs.add(EmiIngredient.of(Arrays.stream(fluids).map( fluidStack -> EmiStack.of(fluidStack.getFluid()).setAmount(fluidStack.getAmount())).toList()));
 
         return inputs;

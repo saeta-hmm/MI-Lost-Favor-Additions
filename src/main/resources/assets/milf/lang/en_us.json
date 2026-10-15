@@ -29,8 +29,26 @@
 
   "item.milf.unfired_clay_mold_ingot" : "Unfired Clay Ingot Mold",
 
-  "block.milf.unfired_clay_mold_base" : "Unfired Clay Big Mold",
-  "block.milf.unfired_clay_mold_anvil" : "Unfired Clay Anvil Mold",
+  "item.milf.fire_clay_ball" : "Fire Clay Ball",
+  "item.milf.pottery_clay_ball" : "Pottery Clay Ball",
+  "item.milf.unfired_brick" : "Unfired Brick",
+  "item.milf.unfired_fire_clay_brick" : "Unfired Fire Clay Brick",
+
+  "block.milf.pottery_clay" : "Pottery Clay",
+  "block.milf.fire_clay" : "Fire Clay",
+
+
+  "block.milf.unfired_clay_mold_base" : "Unfired Clay Big Mold Base",
+  "block.milf.unfired_clay_mold_ingot" : "Unfired Clay Ingot Mold",
+  "block.milf.unfired_clay_mold_rod" : "Unfired Clay Rod Mold",
+
+  "block.milf.clay_mold_base" : "Clay Big Mold Base",
+  "block.milf.clay_mold_ingot" : "Clay Ingot Mold",
+  "block.milf.clay_mold_rod" : "Clay Rod Mold",
+
+  "block.milf.unfired_clay_mold_anvil_half" : "Unfired Clay Anvil Mold Half",
+  "block.milf.unfired_clay_mold_anvil_full" : "Unfired Clay Anvil Mold",
+  "block.milf.clay_mold_anvil_full" : "Clay Anvil Mold",
 
   "block.milf.unfired_clay_plate" : "Unfired Clay Plate",
 
@@ -79,10 +97,16 @@
   "block.milf.roasting_contraption" : "Roasting Contraption",
   "block.milf.bronze_anvil" : "Bronze Anvil",
   "block.milf.stone_anvil" : "Stone Anvil",
+  "block.milf.stone_basin" : "Stone Basin",
+
+
+
+
   "block.milf.chiseled" : "Chiseled %s",
   "block.milf.molded" : "Molded %s",
 
   "milf.tooltip.fluid": "%1$s: %2$s / %3$smB",
+  "milf.tooltip.mold": "Contains %s",
 
 
 
@@ -118,6 +142,10 @@
 
   "emi.category.milf.impression_molding":  "Impression Molding",
 
-  "emi.category.milf.casting":  "Casting"
+  "emi.category.milf.casting":  "Casting",
+
+  "emi.category.milf.stone_basin":  "Stone Basin",
+  "emi.category.milf.stone_basin.stirs_tooltip" : "Stir for %s full rotations"
+
 
 }

@@ -2,14 +2,18 @@ package dev.saeta.milf.registries.client;
 
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntityRenderer;
+import dev.saeta.milf.blocks.basin.StoneBasinBlockEntityRenderer;
 import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntityRenderer;
-import dev.saeta.milf.blocks.clay_plates.fire_pit.FirePitPlateBlockEntityRenderer;
-import dev.saeta.milf.blocks.clay_plates.fired.ClayMoldBlockEntityRenderer;
-import dev.saeta.milf.blocks.clay_plates.unfired.UnfiredClayPlateBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.rod.RoeMoldBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.small.unfired.UnfiredClayPlateBlockEntityRenderer;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntityRenderer;
 import dev.saeta.milf.blocks.kiln.KilnBlockEntityRenderer;
-import dev.saeta.milf.blocks.mold_base.MoldBaseBlockEntityRenderer;
+import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlockEntityRenderer;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntityRenderer;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntityRenderer;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntityRenderer;
@@ -51,7 +55,18 @@ public class MILFEntityRenderers {
 
         event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD.get(), ClayMoldBlockEntityRenderer::new);
 
-        event.registerBlockEntityRenderer(MILFBlockEntities.UNFIRED_MOLD_BASE.get(), MoldBaseBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(MILFBlockEntities.UNFIRED_MOLD_BASE.get(), UnfiredMoldBaseBlockEntityRenderer::new);
+
+        event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD_ANVIL_FULL.get(), AnvilMoldBlockEntityRenderer::new);
+
+        event.registerBlockEntityRenderer(MILFBlockEntities.STONE_BASIN.get(), StoneBasinBlockEntityRenderer::new);
+
+       // event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD_BASE.get(), AbstractMultislotMoldBaseBlockEntityRenderer::new);
+
+        event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD_INGOT.get(), IngotMoldBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(MILFBlockEntities.CLAY_MOLD_ROD.get(), RoeMoldBlockEntityRenderer::new);
+
+
 
         //#endregion
 

@@ -14,7 +14,9 @@ public enum EmiTexture {
     CHISEL(96, 64, MILostFavor.locate("textures/gui/chisel_emi.png")),
     BLOOMERY(64, 96, MILostFavor.locate("textures/gui/bloomery_emi.png")),
     IMPRESSION_MOLDING(64, 64, MILostFavor.locate("textures/gui/impression_molding_emi.png")),
-    CASTING(112, 80, MILostFavor.locate("textures/gui/casting_emi.png"))
+    CASTING(112, 80, MILostFavor.locate("textures/gui/casting_emi.png")),
+    STONE_BASIN(96, 64, MILostFavor.locate("textures/gui/stone_basin_emi.png")),
+    STONE_BASIN_EMI_ARROW(96, 32, MILostFavor.locate("textures/gui/stone_basin_emi_arrow.png"))
 
 
     ;

@@ -7,6 +7,7 @@ import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
+import dev.saeta.milf.registries.MILFBlockTags;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
@@ -237,7 +238,7 @@ public class Pottery {
             BlockPos pos = blockHitResult.getBlockPos();
             BlockState blockState = level.getBlockState(pos);
 
-            if (blockState.is(Blocks.CLAY) || blockState.is(MILFBlocks.MOLDED_BLOCK)) {
+            if (blockState.is(MILFBlockTags.POTTERY_CLAYS) || blockState.is(MILFBlocks.MOLDED_BLOCK)) {
                 return pos;
             }
         }

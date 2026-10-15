@@ -1,0 +1,11 @@
+{
+  "type" : "milf:kiln_smelting",
+  "input" : {
+    "item": "milf:pottery_clay",
+    "count": 1
+  },
+  "output": {
+    "id": "minecraft:clay",
+    "count": 1
+  }
+}

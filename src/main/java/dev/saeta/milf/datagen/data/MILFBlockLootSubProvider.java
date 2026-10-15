@@ -3,7 +3,6 @@ package dev.saeta.milf.datagen.data;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFDataComponents;
-import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -28,7 +27,10 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_BASE.get());
-        dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL.get());
+        dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_INGOT.get());
+        dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_ROD.get());
+        dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF.get());
+        dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL.get());
 
         dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_HOE.get());
         dropSelf(MILFBlocks.UNFIRED_CLAY_MOLD_AXE.get());
@@ -48,6 +50,15 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
         dropMold(MILFBlocks.CLAY_MOLD_PICKAXE.get());
         dropMold(MILFBlocks.CLAY_MOLD_HAMMER.get());
 
+        dropSelf(MILFBlocks.CLAY_MOLD_BASE.get());
+
+
+        dropMultislotMold(MILFBlocks.CLAY_MOLD_ROD.get());
+        dropMultislotMold(MILFBlocks.CLAY_MOLD_INGOT.get());
+
+
+        dropMold(MILFBlocks.CLAY_MOLD_ANVIL_FULL.get());
+
         dropSelf(MILFBlocks.CLAY_PLATE.get());
         add(MILFBlocks.CLAY_CRUCIBLE.get(), crucibleDrop(MILFBlocks.CLAY_CRUCIBLE.get()));
 
@@ -55,6 +66,10 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
         dropSelf(MILFBlocks.POT_BELLOWS.get());
         dropSelf(MILFBlocks.KILN.get());
         dropSelf(MILFBlocks.BRONZE_ANVIL.get());
+
+        dropSelf(MILFBlocks.STONE_BASIN.get());
+        dropSelf(MILFBlocks.POTTERY_CLAY.get());
+        dropSelf(MILFBlocks.FIRE_CLAY.get());
 
         dropWhenSilkTouch(MILFBlocks.STONE_ANVIL.get());
 
@@ -75,6 +90,27 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
         add(block, moldDrop(block));
     }
 
+    private void dropMultislotMold(Block block){
+        add(block, multislotMoldDrop(block));
+    }
+
+    private LootTable.Builder multislotMoldDrop(Block block){
+
+        return LootTable.lootTable()
+                .withPool(
+                        applyExplosionCondition(block, LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(block)))
+                                .apply(CopyComponentsFunction
+                                        .copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                        .include(MILFDataComponents.FLUIDS.get())
+                                        .include(MILFDataComponents.STACKS.get())
+                                        .include(MILFDataComponents.SINGLE_STACK.get())
+                                )
+                );
+
+    }
+
     private LootTable.Builder moldDrop(Block block){
 
         return LootTable.lootTable()
@@ -90,13 +126,6 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
                                 )
                 );
 
-//        return createSingleItemTable(block)
-//                .apply(CopyComponentsFunction.copyComponents(
-//                        CopyComponentsFunction.Source.BLOCK_ENTITY)
-//                        .include(MILFDataComponents.FLUID.get())
-//                        .include(MILFDataComponents.CAST_RESULT.get())
-//                        .include(MILFDataComponents.SINGLE_STACK.get())
-//                );
     }
 
     private LootTable.Builder crucibleDrop(Block block){

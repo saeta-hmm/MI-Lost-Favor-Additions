@@ -18,9 +18,10 @@ public class MILFItems {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MILostFavor.MOD_ID);
 
-    public static final DeferredItem<Item> CLAY_MOLD_INGOT = ITEMS.register("clay_mold_ingot", () -> new ClayMoldItem(new Item.Properties().stacksTo(1).component(MILFDataComponents.FLUID, SimpleFluidContent.EMPTY), FluidType.BUCKET_VOLUME / 8));
-
-    public static final DeferredItem<Item> UNFIRED_CLAY_MOLD_INGOT = ITEMS.register("unfired_clay_mold_ingot", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FIRE_CLAY_BALL = ITEMS.register("fire_clay_ball", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POTTERY_CLAY_BALL = ITEMS.register("pottery_clay_ball", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> UNFIRED_BRICK = ITEMS.register("unfired_brick", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> UNFIRED_FIRE_CLAY_BRICK = ITEMS.register("unfired_fire_clay_brick", () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> WOODEN_AXE_HEAD = ITEMS.register("wooden_axe_head", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WOODEN_HAMMER_HEAD = ITEMS.register("wooden_hammer_head", () -> new Item(new Item.Properties()));

@@ -9,6 +9,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -17,6 +18,39 @@ import org.joml.Quaternionf;
 import org.joml.Vector4f;
 
 public class RenderUtil {
+
+    public static float getInterpolatedProgress(int maxTicks){
+        Minecraft minecraft = Minecraft.getInstance();
+        if(minecraft.level == null) return 0;
+        float partialTick = minecraft.getTimer().getGameTimeDeltaPartialTick(false);
+        long gameTime = minecraft.level.getGameTime();
+
+        long currentTick = (gameTime) % maxTicks;
+        long nextTick = (gameTime + 1) % maxTicks;
+
+        if(nextTick == 0 &&  currentTick == maxTicks - 1){
+            nextTick = maxTicks;
+        }
+
+        return Mth.lerp(partialTick, currentTick, nextTick) / maxTicks;
+
+    }
+
+    public static float mapProgressTo010(float progress){
+        return 1 - Math.abs(1 - progress * 2);
+    }
+
+    public static float expandProgressToNegativeValues(float progress){
+        return -1f + progress * 2f;
+    }
+
+    public static int modifyAlpha(int color, float alphaPercent) {
+        int a = (int) (((color >> 24) & 0xFF) * alphaPercent);
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
 
     public static void renderCuboidFromBlockItemStack(
             VertexConsumer consumer,
@@ -376,6 +410,14 @@ public class RenderUtil {
 
         public static float easeInExpo(float progress) {
             return progress == 0 ? 0 : (float) Math.pow(2, 10 * progress - 10);
+        }
+
+        public static float easeInOutQuad(float progress) {
+            return progress < 0.5 ? 2 * progress * progress : (float) (1 - Math.pow(-2 * progress + 2, 2) / 2);
+        }
+
+        public static float easeInOutSine(float progress) {
+            return (float) (-(Math.cos(Math.PI * progress) - 1) / 2);
         }
 
         public static float easeOutExpo17(float progress) {

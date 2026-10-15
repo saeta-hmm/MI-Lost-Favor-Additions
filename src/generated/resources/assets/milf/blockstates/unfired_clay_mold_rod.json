@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,fire_pit_part=false": {
+      "model": "milf:block/unfired_clay_mold_rod_normal",
+      "y": 90
+    },
+    "facing=east,fire_pit_part=true": {
+      "model": "milf:block/unfired_clay_mold_rod_fire_pit",
+      "y": 90
+    },
+    "facing=north,fire_pit_part=false": {
+      "model": "milf:block/unfired_clay_mold_rod_normal"
+    },
+    "facing=north,fire_pit_part=true": {
+      "model": "milf:block/unfired_clay_mold_rod_fire_pit"
+    },
+    "facing=south,fire_pit_part=false": {
+      "model": "milf:block/unfired_clay_mold_rod_normal",
+      "y": 180
+    },
+    "facing=south,fire_pit_part=true": {
+      "model": "milf:block/unfired_clay_mold_rod_fire_pit",
+      "y": 180
+    },
+    "facing=west,fire_pit_part=false": {
+      "model": "milf:block/unfired_clay_mold_rod_normal",
+      "y": 270
+    },
+    "facing=west,fire_pit_part=true": {
+      "model": "milf:block/unfired_clay_mold_rod_fire_pit",
+      "y": 270
+    }
+  }
+}

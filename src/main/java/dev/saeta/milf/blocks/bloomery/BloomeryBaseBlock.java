@@ -84,11 +84,6 @@ public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityPro
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }

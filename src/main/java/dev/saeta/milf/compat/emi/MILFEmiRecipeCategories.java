@@ -26,6 +26,7 @@ public class MILFEmiRecipeCategories {
 
     public static final EmiRecipeCategory PIT_FIRING = new MILFCategory(MILostFavor.locate("pit_firing"), EmiStack.of(MILFBlocks.FIRE_PIT));
     public static final EmiRecipeCategory CASTING = new MILFCategory(MILostFavor.locate("casting"), EmiStack.of(MILFBlocks.CLAY_MOLD_HAMMER));
+    public static final EmiRecipeCategory STONE_BASIN = new MILFCategory(MILostFavor.locate("stone_basin"), EmiStack.of(MILFBlocks.STONE_BASIN));
 
     private static class MILFCategory extends EmiRecipeCategory {
 

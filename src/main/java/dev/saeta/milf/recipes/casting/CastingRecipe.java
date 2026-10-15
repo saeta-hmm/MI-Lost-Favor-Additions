@@ -16,10 +16,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public record CastingRecipe(
         Ingredient mold,
-        FluidIngredient fluid,
+        SizedFluidIngredient fluid,
         ItemStack output,
         ItemStack moldRemains,
         int time
@@ -59,7 +60,7 @@ public record CastingRecipe(
 
         private final static MapCodec<CastingRecipe> CODEC = RecordCodecBuilder.mapCodec(castingRecipeInstance -> castingRecipeInstance.group(
                 Ingredient.CODEC_NONEMPTY.fieldOf("mold").forGetter(CastingRecipe::mold),
-                FluidIngredient.CODEC.fieldOf("fluid").forGetter(CastingRecipe::fluid),
+                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid").forGetter(CastingRecipe::fluid),
                 ItemStack.CODEC.fieldOf("output").forGetter(CastingRecipe::output),
                 ItemStack.CODEC.fieldOf("mold_remains").forGetter(CastingRecipe::moldRemains),
                 Codec.INT.optionalFieldOf("time", 109).forGetter(CastingRecipe::time)
@@ -67,7 +68,7 @@ public record CastingRecipe(
 
         private final static StreamCodec<RegistryFriendlyByteBuf, CastingRecipe> STREAM_CODEC = StreamCodec.composite(
                 Ingredient.CONTENTS_STREAM_CODEC, CastingRecipe::mold,
-                FluidIngredient.STREAM_CODEC, CastingRecipe::fluid,
+                SizedFluidIngredient.STREAM_CODEC, CastingRecipe::fluid,
                 ItemStack.STREAM_CODEC, CastingRecipe::output,
                 ItemStack.STREAM_CODEC, CastingRecipe::moldRemains,
                 ByteBufCodecs.VAR_INT, CastingRecipe::time,

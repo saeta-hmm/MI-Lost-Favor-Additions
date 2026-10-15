@@ -14,12 +14,15 @@ public class MILFItemDecorations {
     @SubscribeEvent
     public static void registerItemDecorations(RegisterItemDecorationsEvent event){
 
-        event.register(MILFBlocks.CLAY_MOLD_PICKAXE, new MoldsItemDecorator());
-        event.register(MILFBlocks.CLAY_MOLD_AXE, new MoldsItemDecorator());
-        event.register(MILFBlocks.CLAY_MOLD_HAMMER, new MoldsItemDecorator());
-        event.register(MILFBlocks.CLAY_MOLD_HOE, new MoldsItemDecorator());
-        event.register(MILFBlocks.CLAY_MOLD_SHOVEL, new MoldsItemDecorator());
-        event.register(MILFBlocks.CLAY_MOLD_SWORD, new MoldsItemDecorator());
+        MoldsItemDecorator moldsItemDecorator = new MoldsItemDecorator();
+
+        event.register(MILFBlocks.CLAY_MOLD_PICKAXE, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_AXE, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_HAMMER, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_HOE, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_SHOVEL, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_SWORD, moldsItemDecorator);
+        event.register(MILFBlocks.CLAY_MOLD_ANVIL_FULL, moldsItemDecorator);
 
 
     }
