@@ -90,22 +90,36 @@ public class PitFiringEmiRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         //left
 
+        var inputSlot1 = new MILFEmiSlotWidget(getInputs().get(0), 23,5, EmiSlot.CLAY);
+        var inputSlot2 = new MILFEmiSlotWidget(getInputs().get(1), 23,24, EmiSlot.FIRE_PIT);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 10)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
                 .addEmiStackRemainderTooltip(getCatalysts().get(0))
+                .addTooltipRenderBounds(
+                        MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot(inputSlot1),
+                        MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot(inputSlot2)
+                )
         );
 
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,5, EmiSlot.CLAY));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,24, EmiSlot.FIRE_PIT));
+        widgets.add(inputSlot1);
+        widgets.add(inputSlot2);
 
         //right
 
+        var outputSlot1 = new MILFEmiSlotWidget(getOutputs().get(0), 105,5, EmiSlot.CRUCIBLE).recipeContext(this);
+        var outputSlot2 = new MILFEmiSlotWidget(getOutputs().get(1), 105,24, EmiSlot.FIRE_PIT).recipeContext(this);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 82, 10)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addTooltipRenderBounds(
+                        MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot((MILFEmiSlotWidget) outputSlot1),
+                        MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot((MILFEmiSlotWidget) outputSlot2)
+                )
         );
 
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 105,5, EmiSlot.CRUCIBLE).recipeContext(this));
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 105,24, EmiSlot.FIRE_PIT).recipeContext(this));
+        widgets.add(outputSlot1);
+        widgets.add(outputSlot2);
 
         //center
 

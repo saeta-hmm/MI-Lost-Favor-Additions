@@ -2,12 +2,15 @@ package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
+import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlockEntity;
+import dev.saeta.milf.blocks.UnfiredBlockEntity;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.rod.RodMoldBlockEntity;
@@ -17,7 +20,8 @@ import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.small.fired.ClayPlateBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.small.unfired.UnfiredClayPlateBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlockEntity;
+import dev.saeta.milf.blocks.kiln.unfired.UnfiredKilnBlockEntity;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntity;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntity;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
@@ -76,8 +80,21 @@ public class MILFBlockEntities {
             "fire_pit_plate", () -> BlockEntityType.Builder.of(FirePitPlateBlockEntity::new, MILFBlocks.FIRE_PIT_PLATE.get()).build(null)
     );
 
-    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<UnfiredAnvilMoldBlockEntity>> UNFIRED_CLAY_MOLD_ANVIL_FULL = BLOCK_ENTITIES.register(
-            "unfired_clay_mold_anvil_full", () -> BlockEntityType.Builder.of(UnfiredAnvilMoldBlockEntity::new, MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL.get()).build(null)
+    public static DeferredHolder<BlockEntityType<?>, BlockEntityType<UnfiredBlockEntity>> UNFIRED_BLOCK = BLOCK_ENTITIES.register(
+            "unfired_block", () -> BlockEntityType.Builder.of((pos, state) -> {
+                        if(state.is(MILFBlocks.UNFIRED_KILN)) {
+                            return new UnfiredKilnBlockEntity(pos, state);
+                        } else if (state.is(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL)) {
+                            return new UnfiredAnvilMoldBlockEntity(pos,state);
+                        } else {
+                            return new UnfiredBloomeryBaseBlockEntity(pos, state);
+                        }
+                    },
+                    MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL.get(),
+                    MILFBlocks.UNFIRED_KILN.get(),
+                    MILFBlocks.UNFIRED_BLOOMERY_BASE.get()
+
+            ).build(null)
     );
 
     public static DeferredHolder<BlockEntityType<?>, BlockEntityType<AnvilMoldBlockEntity>> CLAY_MOLD_ANVIL_FULL = BLOCK_ENTITIES.register(

@@ -14,6 +14,7 @@ public class MILFItemTags {
     public static final TagKey<Item> FIRE_PIT_PLATE_CAN_HOLD = milf("fire_pit_plate_can_hold");
     public static final TagKey<Item> CERAMIC = milf("ceramic");
     public static final TagKey<Item> MOLDS = milf("molds");
+    public static final TagKey<Item> PLACEABLE_CLAY_BALLS = milf("placeable_clay_balls");
 
 
     public static final TagKey<Item> BLOOMERY_COALS = milf("bloomery_coals");

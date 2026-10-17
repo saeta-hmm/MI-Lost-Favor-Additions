@@ -1,9 +1,9 @@
-package dev.saeta.milf.blocks.kiln;
+package dev.saeta.milf.blocks.kiln.fired;
 
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.recipes.SingleRecipeInput;

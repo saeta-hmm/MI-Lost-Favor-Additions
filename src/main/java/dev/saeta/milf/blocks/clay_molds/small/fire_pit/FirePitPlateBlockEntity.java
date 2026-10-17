@@ -3,6 +3,7 @@ package dev.saeta.milf.blocks.clay_molds.small.fire_pit;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
+import dev.saeta.milf.blocks.MultislotProgressProvider;
 import dev.saeta.milf.blocks.fire_pit.FirePitProcessable;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
@@ -23,7 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import org.jetbrains.annotations.NotNull;
 
-public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity implements FirePitProcessable {
+public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity implements FirePitProcessable, MultislotProgressProvider {
 
     public static final int NE_PLATE_SLOT = 0;
     public static final int NW_PLATE_SLOT = 1;
@@ -135,7 +136,11 @@ public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity implements F
 
         var recipe = level.getRecipeManager().getRecipeFor(MILFRecipeTypes.PIT_FIRING, input, level);
 
-        recipe.ifPresent(pitFiringRecipeRecipeHolder -> itemHandler.setStackInSlot(slot, pitFiringRecipeRecipeHolder.value().assemble(input, level.registryAccess())));
+        recipe.ifPresent(pitFiringRecipeRecipeHolder -> {
+            ItemStack newItemStack = pitFiringRecipeRecipeHolder.value().assemble(input, level.registryAccess());
+            newItemStack.set(MILFDataComponents.FIRING_PROGRESS, -109);
+            itemHandler.setStackInSlot(slot, newItemStack);
+        });
 
         setChanged();
     }
@@ -158,6 +163,18 @@ public class FirePitPlateBlockEntity extends ItemHandlerBlockEntity implements F
     @Override
     public @NotNull BlockPos getOutputPos() {
         return worldPosition;
+    }
+
+    @Override
+    public float getCurrentProgress(int slot) {
+        ItemStack stack = itemHandler.getStackInSlot(slot);
+        if(!stack.isEmpty()) return (float) stack.getOrDefault(MILFDataComponents.FIRING_PROGRESS, 0) / 200;
+        return 0;
+    }
+
+    @Override
+    public float getProgressSlots() {
+        return 4;
     }
 
     public class FirePitPlateItemHandler extends AbstractBEItemHandler {

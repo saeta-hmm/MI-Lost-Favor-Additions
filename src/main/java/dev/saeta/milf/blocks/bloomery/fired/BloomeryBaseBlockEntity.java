@@ -1,10 +1,10 @@
-package dev.saeta.milf.blocks.bloomery;
+package dev.saeta.milf.blocks.bloomery.fired;
 
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlock;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipe;
 import dev.saeta.milf.recipes.bloomery.BloomeryRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;

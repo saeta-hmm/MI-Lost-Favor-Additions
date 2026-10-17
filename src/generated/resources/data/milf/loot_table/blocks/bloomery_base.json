@@ -18,6 +18,15 @@
     },
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "milf:bloomery_base",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "fire_pit_part": "false"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",

@@ -1,11 +1,10 @@
-package dev.saeta.milf.blocks.kiln;
+package dev.saeta.milf.blocks.kiln.fired;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
+import dev.saeta.milf.blocks.kiln.AbstractKilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -30,94 +28,11 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-
-public class KilnBlock extends DirectionalItemHandlerBlock implements Equipable, CapabilityProvider {
+public class KilnBlock extends AbstractKilnBlock implements Equipable, CapabilityProvider {
 
     public static final MapCodec<KilnBlock> CODEC = simpleCodec(KilnBlock::new);
 
     public static final BooleanProperty CONTAINS_BLOCK = BooleanProperty.create("contains_block");
-
-    private static final VoxelShape LAYER_1 = Shapes.or(
-            Block.box(1,0,0,15,3,16),
-            Block.box(0,0,1,16,3,15)
-    );
-    private static final VoxelShape LAYER_2 = Block.box(1,3,1,15,7,15);
-    private static final VoxelShape LAYER_3 = Block.box(2,7,2,14,16,14);
-
-    private static final VoxelShape INSIDES = Shapes.or(
-            Block.box(3,0,3,13,16,13),
-            Block.box(1,0,1,15,3,15),
-            Block.box(2,3,2,14,7,14)
-    );
-
-    private static final HashMap<Direction, VoxelShape> SHAPES = new HashMap<>();
-
-    static {
-        SHAPES.put(Direction.NORTH, Shapes.join(
-                Shapes.or(
-                        LAYER_1,
-                        LAYER_2,
-                        LAYER_3,
-                        Block.box(1,7,3,15,11,13)
-                ),
-                Shapes.or(
-                        INSIDES,
-                        Block.box(4,0,0,12,3,8),
-                        Block.box(5,3,0,11,6,8),
-                        Block.box(2,7,3,14,11,13)
-                ),
-                BooleanOp.ONLY_FIRST
-        ));
-
-        SHAPES.put(Direction.EAST, Shapes.join(
-                Shapes.or(
-                        LAYER_1,
-                        LAYER_2,
-                        LAYER_3,
-                        Block.box(3,7,1,13,11,15)
-                ),
-                Shapes.or(
-                        INSIDES,
-                        Block.box(8,0,4,16,3,12),
-                        Block.box(8,3,5,16,6,11),
-                        Block.box(3,7,2,13,11,14)
-                ),
-                BooleanOp.ONLY_FIRST
-        ));
-
-        SHAPES.put(Direction.SOUTH, Shapes.join(
-                Shapes.or(
-                        LAYER_1,
-                        LAYER_2,
-                        LAYER_3,
-                        Block.box(1,7,3,15,11,13)
-                ),
-                Shapes.or(
-                        INSIDES,
-                        Block.box(4,0,8,12,3,16),
-                        Block.box(5,3,8,11,6,16),
-                        Block.box(2,7,3,14,11,13)
-                ),
-                BooleanOp.ONLY_FIRST
-        ));
-
-        SHAPES.put(Direction.WEST, Shapes.join(
-                Shapes.or(
-                        LAYER_1,
-                        LAYER_2,
-                        LAYER_3,
-                        Block.box(3,7,1,13,11,15)
-                ),
-                Shapes.or(
-                        INSIDES,
-                        Block.box(0,0,4,8,3,12),
-                        Block.box(0,3,5,8,6,11),
-                        Block.box(3,7,2,13,11,14)
-                ),
-                BooleanOp.ONLY_FIRST
-        ));
-    }
 
     public KilnBlock(Properties properties) {
         super(properties);
@@ -170,11 +85,6 @@ public class KilnBlock extends DirectionalItemHandlerBlock implements Equipable,
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(CONTAINS_BLOCK, false);
-    }
-
-    @Override
     public EquipmentSlot getEquipmentSlot() {
         return EquipmentSlot.HEAD;
     }
@@ -182,6 +92,11 @@ public class KilnBlock extends DirectionalItemHandlerBlock implements Equipable,
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new KilnBlockEntity(pos,state);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(CONTAINS_BLOCK, false);
     }
 
     @Override

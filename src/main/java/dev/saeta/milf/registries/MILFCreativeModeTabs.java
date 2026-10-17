@@ -79,6 +79,8 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.CRUSHED_LEAD);
                         output.accept(MILFItems.CRUSHED_TIN);
 
+                        output.accept(MILFItems.STONE_ROD);
+
                         output.accept(MILFItems.BRONZE_AXE_HEAD);
                         output.accept(MILFItems.BRONZE_HAMMER_HEAD);
                         output.accept(MILFItems.BRONZE_HOE_HEAD);
@@ -99,16 +101,21 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.STONE_HAMMER);
                         output.accept(MILFItems.FLINT_CHISEL);
 
+                        output.accept(MILFBlocks.UNFIRED_KILN);
 
                         output.accept(MILFBlocks.KILN);
+
+                        output.accept(MILFBlocks.UNFIRED_BLOOMERY_BASE);
+                        output.accept(MILFBlocks.BLOOMERY_BASE);
+
+
                         output.accept(MILFBlocks.FIRE_PIT);
                         output.accept(MILFBlocks.POT_BELLOWS);
                         output.accept(MILFBlocks.ROASTING_CONTRAPTION);
                         output.accept(MILFBlocks.BRONZE_ANVIL);
                         output.accept(MILFBlocks.STONE_ANVIL);
                         output.accept(MILFBlocks.STONE_BASIN);
-
-                        output.accept(MILFBlocks.BLOOMERY_BASE);
+                        output.accept(MILFBlocks.STONE_POLE);
 
                         output.accept(MILFItems.CLUNKY_DRILL);
                         output.accept(MILFItems.BIG_BULKY_DRILL);

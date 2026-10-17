@@ -10,7 +10,7 @@ public enum EmiSlot {
     BRONZE(36,0, 18, 18),
     BELLOWS(18,0, 18, 18),
     FIRE_PIT(0,54, 18, 18),
-
+    GENERIC(18,54,18,18)
     ;
 
     private final int u;

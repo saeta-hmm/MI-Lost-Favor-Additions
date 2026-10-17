@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "milf:block/unfired_kiln",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "milf:block/unfired_kiln"
+    },
+    "facing=south": {
+      "model": "milf:block/unfired_kiln",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "milf:block/unfired_kiln",
+      "y": 270
+    }
+  }
+}

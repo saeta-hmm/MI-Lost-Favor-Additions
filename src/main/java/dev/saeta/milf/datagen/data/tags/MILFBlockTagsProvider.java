@@ -30,7 +30,10 @@ public class MILFBlockTagsProvider extends BlockTagsProvider {
                         MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL.get(),
                         MILFBlocks.UNFIRED_CLAY_MOLD_BASE.get(),
                         MILFBlocks.UNFIRED_CLAY_MOLD_INGOT.get(),
-                        MILFBlocks.UNFIRED_CLAY_MOLD_ROD.get()
+                        MILFBlocks.UNFIRED_CLAY_MOLD_ROD.get(),
+                        MILFBlocks.UNFIRED_KILN.get(),
+                        MILFBlocks.UNFIRED_BLOOMERY_BASE.get()
+
                 );
 
         tag(MILFBlockTags.POTTERY_CLAYS)

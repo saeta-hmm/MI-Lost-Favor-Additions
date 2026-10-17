@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
+import dev.saeta.milf.networking.data.ShapingType;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -78,7 +79,7 @@ public class Chiseling {
                         if (level.getBlockEntity(pos) instanceof ChiseledBlockEntity chiseledBlockEntity) {
                             PacketDistributor.sendToServer(new ShapeableHitPayload(pos, blockHitResult.getDirection()));
                         } else {
-                            PacketDistributor.sendToServer(new ShapingStartPayload(pos, blockHitResult.getDirection()));
+                            PacketDistributor.sendToServer(new ShapingStartPayload(pos, blockHitResult.getDirection(), ShapingType.CHISEL));
                         }
 
 

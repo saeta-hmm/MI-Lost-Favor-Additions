@@ -1,8 +1,8 @@
 {
   "type" : "milf:impression_molding",
   "input" : {
-    "item": "minecraft:stick",
-    "count": 1
+    "item": "milf:stone_rod",
+    "count": 4
   },
   "block" : {
     "item": "milf:unfired_clay_mold_base",

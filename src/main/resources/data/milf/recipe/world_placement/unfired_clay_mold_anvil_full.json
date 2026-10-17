@@ -1,0 +1,15 @@
+{
+  "type" : "milf:world_placement",
+  "inputs" : [
+    {
+      "item": "milf:unfired_clay_mold_anvil_half"
+    },
+    {
+      "item": "milf:unfired_clay_mold_anvil_half"
+    }
+  ],
+  "output": {
+    "id": "milf:unfired_clay_mold_anvil_full",
+    "count": 1
+  }
+}

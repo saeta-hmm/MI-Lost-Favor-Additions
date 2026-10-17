@@ -1,0 +1,21 @@
+{
+  "type" : "milf:world_placement",
+  "inputs" : [
+    {
+      "item": "milf:pottery_clay_ball"
+    },
+    {
+      "item": "milf:pottery_clay_ball"
+    },
+    {
+      "item": "milf:pottery_clay_ball"
+    },
+    {
+      "item": "milf:pottery_clay_ball"
+    }
+  ],
+  "output": {
+    "id": "milf:pottery_clay",
+    "count": 1
+  }
+}

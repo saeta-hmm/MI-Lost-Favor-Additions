@@ -13,6 +13,8 @@ import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
 import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.recipes.shaping.PotteryRecipe;
+import dev.saeta.milf.recipes.world.ChiselHitRecipe;
+import dev.saeta.milf.recipes.world.WorldPlacementRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -45,6 +47,10 @@ public class MILFRecipeTypes {
     public static final RecipeType<CastingRecipe> CASTING = register("casting");
 
     public static final RecipeType<StoneBasinRecipe> STONE_BASIN = register("stone_basin");
+
+    public static final RecipeType<WorldPlacementRecipe> WORLD_PLACEMENT = register("world_placement");
+
+    public static final RecipeType<ChiselHitRecipe> CHISEL_HIT = register("chisel_hit");
 
 
     private static <T extends Recipe<?>> RecipeType<T> register(String id) {

@@ -2,12 +2,13 @@ package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.basin.StoneBasinBlock;
+import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlock;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlock;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockItem;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlock;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockItem;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
@@ -22,12 +23,14 @@ import dev.saeta.milf.blocks.clay_molds.small.fired.ClayPlateBlock;
 import dev.saeta.milf.blocks.clay_molds.small.unfired.UnfiredClayPlateBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlock;
+import dev.saeta.milf.blocks.kiln.unfired.UnfiredKilnBlock;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlock;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockItem;
 import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlock;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlock;
+import dev.saeta.milf.blocks.stone_pole.StonePoleBlock;
 import dev.saeta.milf.items.ClayBucketItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -74,6 +77,14 @@ public class MILFBlocks {
                     .noOcclusion()
                     .lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 8 : 0)),
             (block) -> new BloomeryBaseBlockItem(block.get(), new Item.Properties())
+    );
+
+    public static final DeferredBlock<UnfiredBloomeryBaseBlock> UNFIRED_BLOOMERY_BASE = registerBlock("unfired_bloomery_base",
+            () -> new UnfiredBloomeryBaseBlock(BlockBehaviour.Properties.of()
+                    .strength(0.5f,2)
+                    .sound(SoundType.MUD)
+                    .noOcclusion())
+
     );
 
     public static final DeferredBlock<RoastingContraptionBlock> ROASTING_CONTRAPTION = registerBlock("roasting_contraption",
@@ -183,6 +194,15 @@ public class MILFBlocks {
             (block) -> new AnvilMoldBlock.AnvilMoldBlockItem(block.get(), new Item.Properties())
     );
 
+    public static final DeferredBlock<UnfiredKilnBlock> UNFIRED_KILN = registerBlock("unfired_kiln",
+            () -> new UnfiredKilnBlock(BlockBehaviour.Properties.of()
+                    .strength(0.9f,2)
+                    .sound(SoundType.MUD)
+                    .noOcclusion())
+
+    );
+
+
 
     public static final DeferredBlock<ClayPlateBlock> CLAY_PLATE = registerBlock("clay_plate",
             () -> new ClayPlateBlock(BlockBehaviour.Properties.of()),
@@ -242,6 +262,11 @@ public class MILFBlocks {
             .sound(SoundType.STONE)
             .noOcclusion()
             .forceSolidOn()
+    ));
+
+    public static final DeferredBlock<StonePoleBlock> STONE_POLE = registerBlock("stone_pole", () -> new StonePoleBlock(BlockBehaviour.Properties.of()
+            .strength(1.3f, 6)
+            .sound(SoundType.STONE)
     ));
 
     public static final DeferredBlock<StoneBasinBlock> STONE_BASIN = registerBlock("stone_basin", () -> new StoneBasinBlock(BlockBehaviour.Properties.of()

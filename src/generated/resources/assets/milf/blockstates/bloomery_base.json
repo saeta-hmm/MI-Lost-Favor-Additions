@@ -1,7 +1,16 @@
 {
   "variants": {
-    "": {
+    "fire_pit_part=false,lit=false": {
       "model": "milf:block/bloomery_base"
+    },
+    "fire_pit_part=false,lit=true": {
+      "model": "milf:block/bloomery_base"
+    },
+    "fire_pit_part=true,lit=false": {
+      "model": "milf:block/bloomery_base_fire_pit_part"
+    },
+    "fire_pit_part=true,lit=true": {
+      "model": "milf:block/bloomery_base_fire_pit_part"
     }
   }
 }

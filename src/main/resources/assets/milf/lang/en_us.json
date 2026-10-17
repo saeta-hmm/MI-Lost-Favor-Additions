@@ -74,6 +74,9 @@
   "item.milf.lead_sword_blade" : "Lead Sword Blade",
 
   "item.milf.iron_bloom" : "Iron Bloom",
+  "item.milf.stone_rod" : "Stone Rod",
+  "block.milf.stone_pole" : "Stone Pole",
+
   "item.milf.crushed_iron" : "Crushed Iron",
   "item.milf.crushed_gold" : "Crushed Gold",
   "item.milf.crushed_tin" : "Crushed Tin",
@@ -88,11 +91,14 @@
   "item.milf.clunky_drill" : "Clunky Drill",
   "item.milf.big_bulky_drill" : "Big Bulky Drill",
 
-  "block.milf.clay_slab" : "Clay Slab",
+  "block.milf.fire_pit" : "Fire Pit",
 
   "block.milf.kiln" : "Kiln",
-  "block.milf.fire_pit" : "Fire Pit",
+  "block.milf.unfired_kiln" : "Unfired Kiln",
+
   "block.milf.bloomery_base" : "Bloomery Base",
+  "block.milf.unfired_bloomery_base" : "Unfired Bloomery Base",
+
   "block.milf.pot_bellows" : "Pot Bellows",
   "block.milf.roasting_contraption" : "Roasting Contraption",
   "block.milf.bronze_anvil" : "Bronze Anvil",
@@ -145,7 +151,11 @@
   "emi.category.milf.casting":  "Casting",
 
   "emi.category.milf.stone_basin":  "Stone Basin",
-  "emi.category.milf.stone_basin.stirs_tooltip" : "Stir for %s full rotations"
+  "emi.category.milf.stone_basin.stirs_tooltip" : "Stir for %s full rotations",
+
+  "emi.category.milf.world_placement" : "World Placement",
+
+  "emi.category.milf.chisel_hit" : "Chisel Hit"
 
 
 }

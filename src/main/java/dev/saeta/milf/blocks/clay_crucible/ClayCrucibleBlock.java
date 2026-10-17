@@ -2,7 +2,7 @@ package dev.saeta.milf.blocks.clay_crucible;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.ItemHandlerBlock;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -26,7 +26,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;

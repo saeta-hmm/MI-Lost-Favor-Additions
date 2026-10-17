@@ -2,6 +2,7 @@ package dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
+import dev.saeta.milf.blocks.UnfiredBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;

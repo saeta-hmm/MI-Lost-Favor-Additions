@@ -1,7 +1,8 @@
-package dev.saeta.milf.blocks.bloomery;
+package dev.saeta.milf.blocks.bloomery.fired;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.ItemHandlerBlock;
+import dev.saeta.milf.blocks.bloomery.AbstractBloomeryBaseBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -26,9 +26,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityProvider {
-
-    public static final MapCodec<BloomeryBaseBlock> CODEC = simpleCodec(BloomeryBaseBlock::new);
+public class BloomeryBaseBlock extends AbstractBloomeryBaseBlock implements CapabilityProvider {
 
     private final static VoxelShape DIRT = Block.box(0,0,0,16,11,16);
     private final static VoxelShape BASE = Block.box(0,11,0,16,16,16);
@@ -36,7 +34,7 @@ public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityPro
 
     private final static VoxelShape PIT = Block.box(2,12,2,14,16,14);
 
-    private final static VoxelShape SHAPE =Shapes.or(
+    protected final static VoxelShape SHAPE = Shapes.or(
             Shapes.join(
                     Shapes.or(
                             DIRT,
@@ -49,9 +47,20 @@ public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityPro
     );
 
 
+    protected final static VoxelShape FIRE_PIT_PART_SHAPE = Shapes.or(
+            Shapes.join(
+                    BASE,
+                    PIT,
+                    BooleanOp.ONLY_FIRST
+            ),
+            BASE_CENTER
+    ).move(0, -10/16f,0);
+
+    public static final MapCodec<BloomeryBaseBlock> CODEC = simpleCodec(BloomeryBaseBlock::new);
+
     public BloomeryBaseBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.LIT, false));
+        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.LIT, false).setValue(FIRE_PIT_PART, false));
 
     }
 
@@ -85,11 +94,12 @@ public class BloomeryBaseBlock extends ItemHandlerBlock implements CapabilityPro
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        return state.getValue(FIRE_PIT_PART) ? FIRE_PIT_PART_SHAPE : SHAPE;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(BlockStateProperties.LIT);
     }
 

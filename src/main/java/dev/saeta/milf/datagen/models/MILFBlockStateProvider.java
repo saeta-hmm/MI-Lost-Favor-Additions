@@ -1,6 +1,7 @@
 package dev.saeta.milf.datagen.models;
 
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.bloomery.AbstractBloomeryBaseBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.AbstractMoldBaseBlock;
@@ -47,7 +48,6 @@ public class MILFBlockStateProvider extends BlockStateProvider {
 
 
         simpleBlock(MILFBlocks.STONE_BASIN.get(), models().getExistingFile(MILostFavor.locate("block/stone_basin")));
-        simpleBlock(MILFBlocks.BLOOMERY_BASE.get(), models().getExistingFile(MILostFavor.locate("block/bloomery_base")));
         simpleBlock(MILFBlocks.UNFIRED_CLAY_CRUCIBLE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_crucible")));
         simpleBlock(MILFBlocks.UNFIRED_CLAY_PLATE.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_plate")));
         simpleBlock(MILFBlocks.CLAY_PLATE.get(), models().getExistingFile(MILostFavor.locate("block/clay_plate")));
@@ -70,6 +70,7 @@ public class MILFBlockStateProvider extends BlockStateProvider {
         horizontalBlock(MILFBlocks.BRONZE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/bronze_anvil")));
         horizontalBlock(MILFBlocks.STONE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/stone_anvil")));
         horizontalBlock(MILFBlocks.KILN.get(), models().getExistingFile(MILostFavor.locate("block/kiln")));
+        horizontalBlock(MILFBlocks.UNFIRED_KILN.get(), models().getExistingFile(MILostFavor.locate("block/unfired_kiln")));
         horizontalBlock(MILFBlocks.POT_BELLOWS.get(), models().getExistingFile(MILostFavor.locate("block/pot_bellows")));
         horizontalBlock(MILFBlocks.ROASTING_CONTRAPTION.get(), models().getExistingFile(MILostFavor.locate("block/roasting_contraption")));
 
@@ -95,6 +96,8 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                 models().withExistingParent(MILFBlocks.FIRE_PIT_PLATE.getId().getPath(), MILostFavor.locate("block/clay_plate"))
         );
 
+        simpleBlockWithItem(MILFBlocks.STONE_POLE.get(), models().getExistingFile(MILostFavor.locate("block/stone_pole")));
+
         horizontalBlockWithBooleanProperty(
                 MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL,
                 AbstractAnvilMoldBlock.SIDE,
@@ -107,6 +110,20 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                 AbstractAnvilMoldBlock.SIDE,
                 models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full")),
                 models().getExistingFile(MILostFavor.locate("block/clay_mold_anvil_full_side"))
+        );
+
+        blockWithBooleanProperty(
+                MILFBlocks.UNFIRED_BLOOMERY_BASE,
+                AbstractBloomeryBaseBlock.FIRE_PIT_PART,
+                models().getExistingFile(MILostFavor.locate("block/unfired_bloomery_base")),
+                models().getExistingFile(MILostFavor.locate("block/unfired_bloomery_base_fire_pit_part"))
+        );
+
+        blockWithBooleanProperty(
+                MILFBlocks.BLOOMERY_BASE,
+                AbstractBloomeryBaseBlock.FIRE_PIT_PART,
+                models().getExistingFile(MILostFavor.locate("block/bloomery_base")),
+                models().getExistingFile(MILostFavor.locate("block/bloomery_base_fire_pit_part"))
         );
 
         getMultipartBuilder(MILFBlocks.FIRE_PIT.get())
@@ -248,6 +265,22 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                             .modelFile(model)
                             .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
                             .build();
+                }
+
+        );
+    }
+
+    private void blockWithBooleanProperty(
+            DeferredBlock<? extends Block> block,
+            BooleanProperty property,
+            ModelFile modelWhenFalse,
+            ModelFile modelWhenTrue
+    ) {
+        getVariantBuilder(block.get()).forAllStates(state -> {
+
+                    ModelFile model = state.getValue(property) ? modelWhenTrue :modelWhenFalse;
+
+                    return ConfiguredModel.builder().modelFile(model).build();
                 }
 
         );

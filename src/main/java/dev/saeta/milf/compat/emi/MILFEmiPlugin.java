@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.*;
 import dev.saeta.milf.recipes.anvil.AnvilTier;
 import dev.saeta.milf.recipes.basin.StoneBasinRecipe;
+import dev.saeta.milf.recipes.world.ChiselHitRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -31,8 +32,15 @@ public class MILFEmiPlugin implements EmiPlugin {
 
         registry.addCategory(MILFEmiRecipeCategories.PIT_FIRING);
         registry.addCategory(MILFEmiRecipeCategories.FIRE_PIT_COOKING);
+        registry.addCategory(MILFEmiRecipeCategories.WORLD_PLACEMENT);
+
+
         registry.addCategory(MILFEmiRecipeCategories.POTTERY);
         registry.addCategory(MILFEmiRecipeCategories.CHISEL);
+        registry.addCategory(MILFEmiRecipeCategories.CHISEL_HIT);
+
+        registry.addCategory(MILFEmiRecipeCategories.STONE_BASIN);
+
         registry.addCategory(MILFEmiRecipeCategories.IMPRESSION_MOLDING);
         registry.addCategory(MILFEmiRecipeCategories.STONE_ANVIL);
         registry.addCategory(MILFEmiRecipeCategories.BRONZE_ANVIL);
@@ -42,7 +50,6 @@ public class MILFEmiPlugin implements EmiPlugin {
         registry.addCategory(MILFEmiRecipeCategories.CLAY_CRUCIBLE_KILN);
         registry.addCategory(MILFEmiRecipeCategories.KILN_SMELTING);
         registry.addCategory(MILFEmiRecipeCategories.BLOOMERY);
-        registry.addCategory(MILFEmiRecipeCategories.STONE_BASIN);
 
 
         registry.addWorkstation(MILFEmiRecipeCategories.CLAY_CRUCIBLE, EmiStack.of(MILFBlocks.CLAY_CRUCIBLE));
@@ -95,6 +102,8 @@ public class MILFEmiPlugin implements EmiPlugin {
         addAll(registry, MILFRecipeTypes.IMPRESSION_MOLDING, ImpressionMoldingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.CASTING, CastingEmiRecipe::new);
         addAll(registry, MILFRecipeTypes.STONE_BASIN, StoneBasinEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.WORLD_PLACEMENT, WorldPlacementEmiRecipe::new);
+        addAll(registry, MILFRecipeTypes.CHISEL_HIT, ChiselHitEmiRecipe::new);
 
         FirePitCookingEmiRecipe.parseCampfireRecipes(registry);
         KilnSmeltingEmiRecipe.parseFurnaceRecipes(registry);

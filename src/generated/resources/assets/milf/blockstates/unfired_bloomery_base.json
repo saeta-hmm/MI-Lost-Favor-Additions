@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "fire_pit_part=false": {
+      "model": "milf:block/unfired_bloomery_base"
+    },
+    "fire_pit_part=true": {
+      "model": "milf:block/unfired_bloomery_base_fire_pit_part"
+    }
+  }
+}

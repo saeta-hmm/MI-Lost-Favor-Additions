@@ -20,14 +20,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class MoldedBlockEntity extends AbstractShapeableBlockEntity {
@@ -43,6 +47,10 @@ public class MoldedBlockEntity extends AbstractShapeableBlockEntity {
         return currentOutputBlock;
     }
 
+    public void setCurrentInputBlockItem(ItemStack currentInputBlockItem) {
+        this.currentInputBlockItem = currentInputBlockItem;
+        setChanged();
+    }
 
     @Override
     public ItemStack getCurrentInputBlockItem() {
@@ -144,7 +152,28 @@ public class MoldedBlockEntity extends AbstractShapeableBlockEntity {
         int z = worldPosition.getZ();
 
         if(!currentOutputBlock.defaultBlockState().isAir() && !player.isShiftKeyDown()) {
-            level.setBlock(worldPosition, currentOutputBlock.defaultBlockState(), Block.UPDATE_NONE);
+
+            BlockState stateToPlace = currentOutputBlock.getStateForPlacement(new BlockPlaceContext(
+                    level,
+                    player,
+                    InteractionHand.MAIN_HAND,
+                    new ItemStack(currentOutputBlock),
+                    new BlockHitResult(
+                            new Vec3(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5),
+                            face,
+                            worldPosition,
+                            false
+                    )
+            ));
+
+            if(stateToPlace == null) return;
+
+            level.setBlock(
+                    worldPosition,
+                    stateToPlace,
+                    Block.UPDATE_NONE
+            );
+
             serverLevel.sendParticles(
                     new BlockParticleOption(ParticleTypes.BLOCK, inputBlockState),
                     x + 0.5, y + 1, z + 0.5,

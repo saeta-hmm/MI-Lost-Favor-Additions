@@ -1,4 +1,4 @@
-package dev.saeta.milf.blocks.bloomery;
+package dev.saeta.milf.blocks.bloomery.fired;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

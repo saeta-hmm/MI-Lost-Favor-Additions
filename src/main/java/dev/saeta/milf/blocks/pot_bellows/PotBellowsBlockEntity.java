@@ -1,6 +1,6 @@
 package dev.saeta.milf.blocks.pot_bellows;
 
-import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlockEntity;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

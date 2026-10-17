@@ -151,27 +151,33 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         //left
 
+        var firePitInput = new MILFEmiSlotWidget(getInputs().get(1), 23,67, EmiSlot.FIRE_PIT);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 53)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
                 .addEmiStackRemainderTooltip(getCatalysts().get(0))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot(firePitInput))
         );
 
         widgets.add(new MILFEmiTextureWidget(EmiTexture.KILN, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.KILN));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,67, EmiSlot.FIRE_PIT));
+        widgets.add(firePitInput);
 
 
         //right
 
+        var firePitOutput = new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 80, 53)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot((MILFEmiSlotWidget) firePitOutput))
         );
 
         widgets.add(new MILFEmiTextureWidget(EmiTexture.KILN, 80, 0));
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 103,21, EmiSlot.KILN).recipeContext(this));
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this));
+        widgets.add(firePitOutput);
 
         //center
 

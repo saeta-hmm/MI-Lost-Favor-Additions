@@ -1,4 +1,4 @@
-package dev.saeta.milf.blocks.bloomery;
+package dev.saeta.milf.blocks.bloomery.fired;
 
 import dev.saeta.milf.blocks.ReplacerBlockItem;
 import net.minecraft.tags.BlockTags;

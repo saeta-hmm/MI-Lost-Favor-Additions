@@ -1,4 +1,4 @@
-package dev.saeta.milf.blocks.kiln;
+package dev.saeta.milf.blocks.kiln.fired;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

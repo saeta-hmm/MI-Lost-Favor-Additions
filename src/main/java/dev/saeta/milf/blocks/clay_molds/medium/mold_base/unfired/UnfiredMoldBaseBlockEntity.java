@@ -33,14 +33,14 @@ public class UnfiredMoldBaseBlockEntity extends ItemHandlerBlockEntity implement
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty() || level == null) return false;
 
-            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.IMPRESSION_MOLDING, new DoubleRecipeInput(stack, new ItemStack(getBlockState().getBlock())));
+            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.IMPRESSION_MOLDING, new DoubleRecipeInput(stack.copyWithCount(64), new ItemStack(getBlockState().getBlock())));
 
             return recipe.isPresent();
         }
 
         @Override
         public int getSlotLimit(int slot) {
-            return 1;
+            return 4;
         }
 
         @Override

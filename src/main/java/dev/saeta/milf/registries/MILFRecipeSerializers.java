@@ -13,6 +13,8 @@ import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
 import dev.saeta.milf.recipes.shaping.ChiselRecipe;
 import dev.saeta.milf.recipes.shaping.PotteryRecipe;
+import dev.saeta.milf.recipes.world.ChiselHitRecipe;
+import dev.saeta.milf.recipes.world.WorldPlacementRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -46,6 +48,10 @@ public class MILFRecipeSerializers {
     public static final RecipeSerializer<CastingRecipe> CASTING = register("casting", new CastingRecipe.Serializer());
 
     public static final RecipeSerializer<StoneBasinRecipe> STONE_BASIN = register("stone_basin", new StoneBasinRecipe.Serializer());
+
+    public static final RecipeSerializer<WorldPlacementRecipe> WORLD_PLACEMENT = register("world_placement", new WorldPlacementRecipe.Serializer());
+
+    public static final RecipeSerializer<ChiselHitRecipe> CHISEL_HIT = register("chisel_hit", new ChiselHitRecipe.Serializer());
 
     private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
         RECIPE_SERIALIZERS.register(id, () -> serializer);

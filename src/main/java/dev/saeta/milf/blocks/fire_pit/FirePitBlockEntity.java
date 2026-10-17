@@ -4,7 +4,7 @@ import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.ProgressProvider;
-import dev.saeta.milf.blocks.kiln.KilnBlock;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlock;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlockTags;
 import dev.saeta.milf.registries.MILFBlocks;

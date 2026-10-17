@@ -109,29 +109,35 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
 
         //left
 
+        var firePitInput = new MILFEmiSlotWidget(getInputs().get(2), 23,67, EmiSlot.FIRE_PIT);
         int clayPlateIndex = requiresBellows ? 1 : 0;
 
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 53)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
                 .addEmiStackRemainderTooltip(getCatalysts().get(clayPlateIndex + 1))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot(firePitInput))
         );
 
         widgets.add(new MILFEmiTextureWidget(EmiTexture.CRUCIBLE_KILN, 0, 0));
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,3, EmiSlot.CRUCIBLE));
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,21, EmiSlot.CRUCIBLE));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(2), 23,67, EmiSlot.FIRE_PIT));
+        widgets.add(firePitInput);
 
         //right
+
+        var firePitOutput = new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 80, 53)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot((MILFEmiSlotWidget) firePitOutput))
         );
 
         widgets.add(new MILFEmiTextureWidget(EmiTexture.CRUCIBLE_KILN, 80, 0));
 
         widgets.addTank(getOutputs().get(0), 80 + 22, 3, 20, 37, 1000).recipeContext(this).drawBack(false);
 
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 103,67, EmiSlot.FIRE_PIT).recipeContext(this));
+        widgets.add(firePitOutput);
 
 
         //center

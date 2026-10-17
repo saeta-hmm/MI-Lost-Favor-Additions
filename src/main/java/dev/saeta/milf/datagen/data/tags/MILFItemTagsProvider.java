@@ -44,6 +44,11 @@ public class MILFItemTagsProvider extends ItemTagsProvider {
                 MIItem.NETHERITE_HAMMER.asItem()
         );
 
+        tag(MILFItemTags.PLACEABLE_CLAY_BALLS).add(
+                MILFItems.POTTERY_CLAY_BALL.get(),
+                MILFItems.FIRE_CLAY_BALL.get()
+        );
+
         tag(MILFItemTags.HAMMERS)
                 .add(MILFItems.STONE_HAMMER.get())
                 .addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "hammers"));

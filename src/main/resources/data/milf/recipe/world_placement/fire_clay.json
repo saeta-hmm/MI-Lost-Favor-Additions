@@ -1,0 +1,21 @@
+{
+  "type" : "milf:world_placement",
+  "inputs" : [
+    {
+      "item": "milf:fire_clay_ball"
+    },
+    {
+      "item": "milf:fire_clay_ball"
+    },
+    {
+      "item": "milf:fire_clay_ball"
+    },
+    {
+      "item": "milf:fire_clay_ball"
+    }
+  ],
+  "output": {
+    "id": "milf:fire_clay",
+    "count": 1
+  }
+}

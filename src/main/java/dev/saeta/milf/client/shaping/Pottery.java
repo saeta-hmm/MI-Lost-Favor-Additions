@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
+import dev.saeta.milf.networking.data.ShapingType;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
 import dev.saeta.milf.registries.MILFBlockTags;
@@ -126,7 +127,7 @@ public class Pottery {
                         if (level.getBlockEntity(pos) instanceof MoldedBlockEntity) {
                             PacketDistributor.sendToServer(new ShapeableHitPayload(pos, blockHitResult.getDirection()));
                         } else {
-                            PacketDistributor.sendToServer(new ShapingStartPayload(pos, blockHitResult.getDirection()));
+                            PacketDistributor.sendToServer(new ShapingStartPayload(pos, blockHitResult.getDirection(), ShapingType.POTTERY));
                         }
                     }
                 }

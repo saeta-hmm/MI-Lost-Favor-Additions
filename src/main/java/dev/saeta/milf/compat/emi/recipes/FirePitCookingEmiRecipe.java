@@ -121,26 +121,32 @@ public class FirePitCookingEmiRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         //left
 
+        var firePitInput = new MILFEmiSlotWidget(getInputs().get(1), 23,46, EmiSlot.FIRE_PIT);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 0, 32)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
                 .addEmiStackRemainderTooltip(getCatalysts().get(0))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot(firePitInput))
         );
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 0,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 23,0, EmiSlot.WOOD));
-        widgets.add(new MILFEmiSlotWidget(getInputs().get(1), 23,46, EmiSlot.FIRE_PIT));
+        widgets.add(firePitInput);
 
         //right
 
+        var firePitOutput = new MILFEmiSlotWidget(getOutputs().get(1), 105,46, EmiSlot.FIRE_PIT).recipeContext(this);
+
         widgets.add(new MILFEmiTextureWidget(EmiTexture.FIRE_PIT, 82, 32)
                 .addEmiStackTooltip(EmiStack.of(MILFBlocks.FIRE_PIT))
+                .addTooltipRenderBounds(MILFEmiTextureWidget.TooltipNoRenderBounds.ofSlot((MILFEmiSlotWidget) firePitOutput))
         );
 
         widgets.addTexture(MILostFavor.locate("textures/gui/fire_pit_cooking_emi.png"), 82,0,64,64,0,0, 64, 64, 64, 64);
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 105,0, EmiSlot.WOOD).recipeContext(this));
-        widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 105,46, EmiSlot.FIRE_PIT).recipeContext(this));
+        widgets.add(firePitOutput);
 
         //center
 

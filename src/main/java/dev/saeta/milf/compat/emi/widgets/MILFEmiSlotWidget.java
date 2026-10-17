@@ -2,6 +2,7 @@ package dev.saeta.milf.compat.emi.widgets;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.saeta.milf.MILostFavor;
@@ -29,6 +30,27 @@ public class MILFEmiSlotWidget extends SlotWidget {
     public MILFEmiSlotWidget customSize(int x, int y){
         this.customBackground(SLOTS_TEXTURE, slotType.getU(), slotType.getV(), x, y);
         return this;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getWidth(){
+        return slotType.getWidth();
+    }
+
+    public int getHeight(){
+        return slotType.getHeight();
+    }
+
+    @Override
+    public SlotWidget recipeContext(EmiRecipe recipe) {
+        return super.recipeContext(recipe);
     }
 
     @Override

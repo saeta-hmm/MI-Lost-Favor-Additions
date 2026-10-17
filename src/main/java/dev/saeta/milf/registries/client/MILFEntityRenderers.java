@@ -3,7 +3,7 @@ package dev.saeta.milf.registries.client;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntityRenderer;
 import dev.saeta.milf.blocks.basin.StoneBasinBlockEntityRenderer;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntityRenderer;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntityRenderer;
@@ -12,7 +12,7 @@ import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlockEntityRe
 import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_molds.small.unfired.UnfiredClayPlateBlockEntityRenderer;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntityRenderer;
-import dev.saeta.milf.blocks.kiln.KilnBlockEntityRenderer;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlockEntityRenderer;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlockEntityRenderer;
 import dev.saeta.milf.blocks.pot_bellows.PotBellowsBlockEntityRenderer;
 import dev.saeta.milf.blocks.roasting_contraption.RoastingContraptionBlockEntityRenderer;

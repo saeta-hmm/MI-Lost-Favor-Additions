@@ -3,15 +3,13 @@ package dev.saeta.milf.compat.jade;
 import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.AbstractCastableMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.AbstractMultislotCastableMoldBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlockEntity;
-import dev.saeta.milf.blocks.bloomery.BloomeryBaseBlockEntity;
+import dev.saeta.milf.blocks.UnfiredBlockEntity;
+import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.rod.RodMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlockEntity;
+import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
-import dev.saeta.milf.blocks.kiln.KilnBlockEntity;
+import dev.saeta.milf.blocks.kiln.fired.KilnBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -28,11 +26,12 @@ public class MILFJadePlugin implements IWailaPlugin {
         registration.registerProgress(new ProgressComponentProvider.Progress(), FirePitBlockEntity.class);
         registration.registerProgress(new ProgressComponentProvider.Progress(), BloomeryBaseBlockEntity.class);
         registration.registerProgress(new ProgressComponentProvider.Progress(), AbstractCastableMoldBlockEntity.class);
-        registration.registerProgress(new ProgressComponentProvider.Progress(), UnfiredAnvilMoldBlockEntity.class);
+        registration.registerProgress(new ProgressComponentProvider.Progress(), UnfiredBlockEntity.class);
         registration.registerProgress(new ProgressComponentProvider.Progress(), UnfiredMoldBaseBlockEntity.class);
         registration.registerProgress(new ProgressComponentProvider.Progress(), StoneBasinBlockEntity.class);
 
         registration.registerProgress(new MultislotProgressComponentProvider.Progress(), AbstractMultislotCastableMoldBlockEntity.class);
+        registration.registerProgress(new MultislotProgressComponentProvider.Progress(), FirePitPlateBlockEntity.class);
 
     }
 

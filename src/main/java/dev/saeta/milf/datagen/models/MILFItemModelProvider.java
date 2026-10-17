@@ -56,6 +56,9 @@ public class MILFItemModelProvider extends ItemModelProvider {
 
         basicItem(MILFItems.IRON_BLOOM.get());
 
+        basicItem(MILFItems.STONE_ROD.get());
+
+
         basicItem(MILFBlocks.UNFIRED_CLAY_MOLD_AXE.get().asItem());
         basicItem(MILFBlocks.UNFIRED_CLAY_MOLD_PICKAXE.get().asItem());
         basicItem(MILFBlocks.UNFIRED_CLAY_MOLD_SWORD.get().asItem());
@@ -67,6 +70,7 @@ public class MILFItemModelProvider extends ItemModelProvider {
         basicItem(MILFBlocks.STONE_BASIN.get().asItem());
         basicItem(MILFBlocks.FIRE_PIT.get().asItem());
         basicItem(MILFBlocks.BLOOMERY_BASE.get().asItem());
+        basicItem(MILFBlocks.UNFIRED_BLOOMERY_BASE.get().asItem());
         basicItem(MILFBlocks.CLAY_PLATE.get().asItem());
         basicItem(MILFBlocks.ROASTING_CONTRAPTION.get().asItem());
 
@@ -82,6 +86,7 @@ public class MILFItemModelProvider extends ItemModelProvider {
         simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF);
         simpleBlockItemModel(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_FULL);
         simpleBlockItemModel(MILFBlocks.CLAY_MOLD_ANVIL_FULL);
+        simpleBlockItemModel(MILFBlocks.UNFIRED_KILN);
         simpleBlockItemModel(MILFBlocks.POT_BELLOWS);
         simpleBlockItemModel(MILFBlocks.STONE_ANVIL);
         simpleBlockItemModel(MILFBlocks.BRONZE_ANVIL);

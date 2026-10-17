@@ -27,6 +27,8 @@ public class MILFEmiRecipeCategories {
     public static final EmiRecipeCategory PIT_FIRING = new MILFCategory(MILostFavor.locate("pit_firing"), EmiStack.of(MILFBlocks.FIRE_PIT));
     public static final EmiRecipeCategory CASTING = new MILFCategory(MILostFavor.locate("casting"), EmiStack.of(MILFBlocks.CLAY_MOLD_HAMMER));
     public static final EmiRecipeCategory STONE_BASIN = new MILFCategory(MILostFavor.locate("stone_basin"), EmiStack.of(MILFBlocks.STONE_BASIN));
+    public static final EmiRecipeCategory WORLD_PLACEMENT = new MILFCategory(MILostFavor.locate("world_placement"), EmiStack.of(MILFItems.POTTERY_CLAY_BALL));
+    public static final EmiRecipeCategory CHISEL_HIT = new MILFCategory(MILostFavor.locate("chisel_hit"), EmiStack.of(MILFItems.FLINT_CHISEL));
 
     private static class MILFCategory extends EmiRecipeCategory {
 

@@ -1,5 +1,6 @@
 package dev.saeta.milf.datagen.data.loottables;
 
+import dev.saeta.milf.blocks.bloomery.AbstractBloomeryBaseBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFDataComponents;
@@ -70,13 +71,15 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
         dropSelf(MILFBlocks.STONE_BASIN.get());
         dropSelf(MILFBlocks.POTTERY_CLAY.get());
         dropSelf(MILFBlocks.FIRE_CLAY.get());
+        dropSelf(MILFBlocks.UNFIRED_KILN.get());
+        dropSelf(MILFBlocks.UNFIRED_BLOOMERY_BASE.get());
+        dropSelf(MILFBlocks.STONE_POLE.get());
 
         dropWhenSilkTouch(MILFBlocks.STONE_ANVIL.get());
 
         dropOther(MILFBlocks.FIRE_PIT.get(), Blocks.DIRT);
 
-        dropMultiple(MILFBlocks.BLOOMERY_BASE.get(), Blocks.DIRT);
-
+        bloomeryDrop(MILFBlocks.BLOOMERY_BASE.get());
 
         add(MILFBlocks.BURNING_COAL.get(), noDrop());
         add(MILFBlocks.FIRE_PIT_PLATE.get(), noDrop());
@@ -159,6 +162,22 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
                     .add(LootItem.lootTableItem(drop))
             );
         }
+
+        add(block, builder);
+    }
+
+    private void bloomeryDrop(Block block){
+        LootTable.Builder builder = createSingleItemTable(block);
+
+        builder.withPool(LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .setBonusRolls(ConstantValue.exactly(0))
+                .add(LootItem.lootTableItem(Blocks.DIRT))
+                .when(
+                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(MILFBlocks.BLOOMERY_BASE.get())
+                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AbstractBloomeryBaseBlock.FIRE_PIT_PART, false))
+                )
+        );
 
         add(block, builder);
     }

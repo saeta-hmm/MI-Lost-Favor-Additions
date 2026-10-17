@@ -30,6 +30,8 @@ public class MILFItems {
     public static final DeferredItem<Item> WOODEN_SHOVEL_HEAD = ITEMS.register("wooden_shovel_head", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WOODEN_SWORD_BLADE = ITEMS.register("wooden_sword_blade", () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> STONE_ROD = ITEMS.register("stone_rod", () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> IRON_BLOOM = ITEMS.register("iron_bloom", () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> CRUSHED_COPPER = ITEMS.register("crushed_copper", () -> new Item(new Item.Properties()));
