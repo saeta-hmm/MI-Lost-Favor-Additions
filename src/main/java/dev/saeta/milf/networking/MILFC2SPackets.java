@@ -21,6 +21,8 @@ public class MILFC2SPackets {
 
         registrar.playToServer(ThrowPayload.TYPE, ThrowPayload.CODEC, ThrowPayload.getPayloadHandler());
 
+        registrar.playToServer(ClunkyDrillModePayload.TYPE, ClunkyDrillModePayload.CODEC, ClunkyDrillModePayload.getPayloadHandler());
+
     }
 
 }

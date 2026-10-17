@@ -54,7 +54,7 @@ public class ImpressionMoldingEmiRecipe implements EmiRecipe {
     public List<EmiIngredient> getInputs() {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(input.ingredient()).setAmount(input.count()));
-        inputs.add(EmiIngredient.of(block.ingredient()).setAmount(input.count()));
+        inputs.add(EmiIngredient.of(block.ingredient()).setAmount(block.count()));
 
         return inputs;
     }

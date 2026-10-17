@@ -4,6 +4,7 @@ import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.bloomery.AbstractBloomeryBaseBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldHalfBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.AbstractMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlock;
@@ -66,7 +67,7 @@ public class MILFBlockStateProvider extends BlockStateProvider {
         simpleBlock(MILFBlocks.CLAY_MOLD_SWORD.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_sword")));
         simpleBlock(MILFBlocks.CLAY_MOLD_SHOVEL.get(), models().getExistingFile(MILostFavor.locate("block/clay_mold_shovel")));
 
-        horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half")));
+        //horizontalBlock(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF.get(), models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half")));
         horizontalBlock(MILFBlocks.BRONZE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/bronze_anvil")));
         horizontalBlock(MILFBlocks.STONE_ANVIL.get(), models().getExistingFile(MILostFavor.locate("block/stone_anvil")));
         horizontalBlock(MILFBlocks.KILN.get(), models().getExistingFile(MILostFavor.locate("block/kiln")));
@@ -126,7 +127,39 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                 models().getExistingFile(MILostFavor.locate("block/bloomery_base_fire_pit_part"))
         );
 
-        getMultipartBuilder(MILFBlocks.FIRE_PIT.get())
+
+        clayCrucible(MILFBlocks.CLAY_CRUCIBLE);
+
+        firePit(MILFBlocks.FIRE_PIT);
+
+        unfiredAnvilHalfMold(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF);
+
+
+    }
+
+    private void unfiredAnvilHalfMold(DeferredBlock<? extends Block> block){
+        getVariantBuilder(block.get()).forAllStates(state -> {
+
+            ModelFile model;
+            if(state.getValue(UnfiredAnvilMoldHalfBlock.VERTICAL)){
+                model=models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half_vertical"));
+            } else if(state.getValue(AbstractMoldBaseBlock.FIRE_PIT_PART)) {
+                model=models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half_fire_pit_part"));
+            } else {
+                model =  models().getExistingFile(MILostFavor.locate("block/unfired_clay_mold_anvil_half"));
+            }
+
+            return ConfiguredModel.builder()
+                .modelFile(model)
+                .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                .build();
+        }
+
+        );
+    }
+
+    private void firePit(DeferredBlock<FirePitBlock> block){
+        getMultipartBuilder(block.get())
                 .part()
                 .modelFile(models().getExistingFile(MILostFavor.locate("block/fire_pit")))
                 .addModel()
@@ -155,8 +188,10 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                 .addModel()
                 .condition(FirePitBlock.LOGS, 4)
                 .end();
+    }
 
-        getMultipartBuilder(MILFBlocks.CLAY_CRUCIBLE.get())
+    private void clayCrucible(DeferredBlock<ClayCrucibleBlock> block){
+        getMultipartBuilder(block.get())
 
                 .part()
                 .modelFile(models().getExistingFile(MILostFavor.locate("block/clay_crucible")))
@@ -190,8 +225,6 @@ public class MILFBlockStateProvider extends BlockStateProvider {
                 .condition(ClayCrucibleBlock.KILN_PART, true)
                 .condition(ClayCrucibleBlock.SEALED, true)
                 .end();
-
-
     }
 
     private void baseMold(

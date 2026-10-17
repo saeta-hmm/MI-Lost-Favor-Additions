@@ -34,6 +34,7 @@ public class MILostFavor {
         MILFRecipeTypes.register(modEventBus);
         MILFRecipeSerializers.register(modEventBus);
         MILFEntityTypes.register(modEventBus);
+        MILFSounds.register(modEventBus);
 
         modEventBus.addListener(MILFC2SPackets::register);
 

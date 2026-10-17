@@ -1,33 +1,63 @@
 {
   "variants": {
-    "facing=east,fire_pit_part=false": {
+    "facing=east,fire_pit_part=false,vertical=false": {
       "model": "milf:block/unfired_clay_mold_anvil_half",
       "y": 90
     },
-    "facing=east,fire_pit_part=true": {
-      "model": "milf:block/unfired_clay_mold_anvil_half",
+    "facing=east,fire_pit_part=false,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
       "y": 90
     },
-    "facing=north,fire_pit_part=false": {
+    "facing=east,fire_pit_part=true,vertical=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_fire_pit_part",
+      "y": 90
+    },
+    "facing=east,fire_pit_part=true,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
+      "y": 90
+    },
+    "facing=north,fire_pit_part=false,vertical=false": {
       "model": "milf:block/unfired_clay_mold_anvil_half"
     },
-    "facing=north,fire_pit_part=true": {
-      "model": "milf:block/unfired_clay_mold_anvil_half"
+    "facing=north,fire_pit_part=false,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical"
     },
-    "facing=south,fire_pit_part=false": {
+    "facing=north,fire_pit_part=true,vertical=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_fire_pit_part"
+    },
+    "facing=north,fire_pit_part=true,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical"
+    },
+    "facing=south,fire_pit_part=false,vertical=false": {
       "model": "milf:block/unfired_clay_mold_anvil_half",
       "y": 180
     },
-    "facing=south,fire_pit_part=true": {
-      "model": "milf:block/unfired_clay_mold_anvil_half",
+    "facing=south,fire_pit_part=false,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
       "y": 180
     },
-    "facing=west,fire_pit_part=false": {
+    "facing=south,fire_pit_part=true,vertical=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_fire_pit_part",
+      "y": 180
+    },
+    "facing=south,fire_pit_part=true,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
+      "y": 180
+    },
+    "facing=west,fire_pit_part=false,vertical=false": {
       "model": "milf:block/unfired_clay_mold_anvil_half",
       "y": 270
     },
-    "facing=west,fire_pit_part=true": {
-      "model": "milf:block/unfired_clay_mold_anvil_half",
+    "facing=west,fire_pit_part=false,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
+      "y": 270
+    },
+    "facing=west,fire_pit_part=true,vertical=false": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_fire_pit_part",
+      "y": 270
+    },
+    "facing=west,fire_pit_part=true,vertical=true": {
+      "model": "milf:block/unfired_clay_mold_anvil_half_vertical",
       "y": 270
     }
   }

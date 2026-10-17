@@ -11,6 +11,7 @@ import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlock;
 import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockItem;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldHalfBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.MultislotMoldBlockItem;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlock;
@@ -175,10 +176,11 @@ public class MILFBlocks {
             (block) -> new MultislotMoldBlockItem(block.get(), new Item.Properties(), 125, 4)
     );
 
-    public static final DeferredBlock<UnfiredMoldBaseBlock> UNFIRED_CLAY_MOLD_ANVIL_HALF = registerBlock("unfired_clay_mold_anvil_half",
-            () -> new UnfiredMoldBaseBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<UnfiredAnvilMoldHalfBlock> UNFIRED_CLAY_MOLD_ANVIL_HALF = registerBlock("unfired_clay_mold_anvil_half",
+            () -> new UnfiredAnvilMoldHalfBlock(BlockBehaviour.Properties.of()
                     .strength(0.6f,2)
-                    .sound(SoundType.MUD))
+                    .sound(SoundType.MUD)),
+            (block) -> new UnfiredAnvilMoldHalfBlock.UnfiredAnvilMoldHalfBlockItem(block.get(), new Item.Properties())
     );
 
 
