@@ -26,6 +26,7 @@ public class MILFCapabilities {
         ((CapabilityProvider) MILFBlocks.CLAY_MOLD_ROD.get().asItem()).registerCapabilities(event);
         ((CapabilityProvider) MILFBlocks.CLAY_MOLD_BASE.get().asItem()).registerCapabilities(event);
 
+        MILFItems.WATERSKIN.get().registerCapabilities(event);
 
         MILFBlocks.CLAY_CRUCIBLE.get().registerCapabilities(event);
         MILFBlocks.FIRE_PIT.get().registerCapabilities(event);

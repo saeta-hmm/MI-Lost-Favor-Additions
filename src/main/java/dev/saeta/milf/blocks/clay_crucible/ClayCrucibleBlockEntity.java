@@ -121,7 +121,7 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
 
         @Override
         protected boolean testInput(ItemStack stack) {
-            return !stack.isEmpty() && !isSealed();
+            return !stack.isEmpty() && !isSealed() && fluidTank.isEmpty();
         }
 
         @Override
@@ -133,6 +133,12 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
     };
 
     private final FluidTank fluidTank = new FluidTank(1000) {
+
+        @Override
+        public boolean isFluidValid(FluidStack stack) {
+            return itemHandler.getStackInSlot(INPUT_SLOT_1).isEmpty() && itemHandler.getStackInSlot(INPUT_SLOT_2).isEmpty();
+        }
+
         @Override
         protected void onContentsChanged() {
             setChanged();
@@ -313,7 +319,7 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
 
                 FluidStack fluidStack = clayCrucibleKilnRecipe.output();
 
-                fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                fluidTank.setFluid(fluidStack);
 
                 itemHandler.extractItem(INPUT_SLOT_1, clayCrucibleKilnRecipe.input1().count(),false);
                 itemHandler.extractItem(INPUT_SLOT_2, clayCrucibleKilnRecipe.input2().count(),false);
@@ -354,7 +360,7 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
 
                 FluidStack fluidStack = clayCrucibleRecipe.output();
 
-                fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                fluidTank.setFluid(fluidStack);
 
                 itemHandler.extractItem(INPUT_SLOT_1,clayCrucibleRecipe.input1().count(),false);
                 itemHandler.extractItem(INPUT_SLOT_2,clayCrucibleRecipe.input2().count(),false);

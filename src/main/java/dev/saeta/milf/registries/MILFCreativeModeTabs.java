@@ -96,6 +96,7 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.LEAD_SHOVEL_HEAD);
 
                         output.accept(MILFItems.POTSHERD);
+                        output.accept(MILFItems.WATERSKIN);
 
                         output.accept(MILFItems.FIRESTARTER);
                         output.accept(MILFItems.STONE_HAMMER);

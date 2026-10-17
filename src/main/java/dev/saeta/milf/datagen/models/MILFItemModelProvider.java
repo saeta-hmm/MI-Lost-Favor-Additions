@@ -104,6 +104,19 @@ public class MILFItemModelProvider extends ItemModelProvider {
         );
 
 
+        var waterskinFullModel = withExistingParent("item/waterskin_full", "item/handheld").
+                texture("layer0", MILostFavor.locate("item/waterskin_full"));
+
+        getBuilder(MILFItems.WATERSKIN.getId().getPath())
+                .parent(getExistingFile(mcLoc("item/handheld")))
+                .texture("layer0", MILostFavor.locate("item/waterskin"))
+
+                .override()
+                .predicate(MILostFavor.locate("fluid"), 1)
+                .model(waterskinFullModel)
+                .end();
+
+
 
     }
 
