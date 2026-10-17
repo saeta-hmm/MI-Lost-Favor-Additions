@@ -6,13 +6,11 @@ import dev.saeta.milf.registries.MILFFluids;
 import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 
 public class MILFItemModelProvider extends ItemModelProvider {
     public MILFItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {

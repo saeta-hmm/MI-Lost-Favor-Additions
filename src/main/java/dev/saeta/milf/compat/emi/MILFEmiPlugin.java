@@ -7,8 +7,6 @@ import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.saeta.milf.compat.emi.recipes.*;
 import dev.saeta.milf.recipes.anvil.AnvilTier;
-import dev.saeta.milf.recipes.basin.StoneBasinRecipe;
-import dev.saeta.milf.recipes.world.ChiselHitRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;

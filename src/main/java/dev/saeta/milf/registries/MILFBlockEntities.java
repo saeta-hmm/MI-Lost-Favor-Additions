@@ -1,15 +1,14 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
-import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntity;
 import dev.saeta.milf.blocks.UnfiredBlockEntity;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
+import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
 import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
+import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntity;

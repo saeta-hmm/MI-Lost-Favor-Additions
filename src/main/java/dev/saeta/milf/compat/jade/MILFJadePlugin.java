@@ -1,11 +1,11 @@
 package dev.saeta.milf.compat.jade;
 
-import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.AbstractCastableMoldBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.AbstractMultislotCastableMoldBlockEntity;
 import dev.saeta.milf.blocks.UnfiredBlockEntity;
+import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
 import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
+import dev.saeta.milf.blocks.clay_molds.AbstractCastableMoldBlockEntity;
+import dev.saeta.milf.blocks.clay_molds.AbstractMultislotCastableMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;

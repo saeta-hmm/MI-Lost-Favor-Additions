@@ -1,6 +1,5 @@
 package dev.saeta.milf.blocks.clay_molds.small.fire_pit;
 
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
 import dev.saeta.milf.blocks.MultislotProgressProvider;

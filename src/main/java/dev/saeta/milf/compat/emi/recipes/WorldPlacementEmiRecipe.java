@@ -10,21 +10,14 @@ import dev.saeta.milf.compat.emi.widgets.EmiSlot;
 import dev.saeta.milf.compat.emi.widgets.EmiTexture;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiSlotWidget;
 import dev.saeta.milf.compat.emi.widgets.MILFEmiTextureWidget;
-import dev.saeta.milf.recipes.basin.StoneBasinRecipe;
 import dev.saeta.milf.recipes.world.WorldPlacementRecipe;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class WorldPlacementEmiRecipe implements EmiRecipe {

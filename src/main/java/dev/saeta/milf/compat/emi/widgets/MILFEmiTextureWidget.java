@@ -3,11 +3,7 @@ package dev.saeta.milf.compat.emi.widgets;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.TextureWidget;
 import dev.emi.emi.screen.tooltip.RemainderTooltipComponent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;

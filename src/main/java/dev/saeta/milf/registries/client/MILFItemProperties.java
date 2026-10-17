@@ -9,7 +9,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
 
 @EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)
 public class MILFItemProperties {

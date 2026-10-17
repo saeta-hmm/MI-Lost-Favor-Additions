@@ -2,10 +2,8 @@ package dev.saeta.milf.blocks.basin;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.ItemHandlerBlock;
-import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
-import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;

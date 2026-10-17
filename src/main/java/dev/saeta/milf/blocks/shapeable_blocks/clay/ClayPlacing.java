@@ -4,7 +4,6 @@ import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.recipes.MultiRecipeInput;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItemTags;
-import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import dev.saeta.milf.util.RecipeUtil;
 import net.minecraft.core.BlockPos;

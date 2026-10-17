@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.saeta.milf.client.render_stuff.AlphaMultiBufferSource;
-import dev.saeta.milf.util.RecipeUtil;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

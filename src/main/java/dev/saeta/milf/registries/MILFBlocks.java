@@ -1,16 +1,16 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.basin.StoneBasinBlock;
-import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlock;
 import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlock;
 import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlock;
+import dev.saeta.milf.blocks.basin.StoneBasinBlock;
 import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlock;
 import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockItem;
+import dev.saeta.milf.blocks.bloomery.unfired.UnfiredBloomeryBaseBlock;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlock;
 import dev.saeta.milf.blocks.clay_crucible.UnfiredClayCrucibleBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlock;
+import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldHalfBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.MultislotMoldBlockItem;

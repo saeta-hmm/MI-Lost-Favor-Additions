@@ -3,12 +3,7 @@ package dev.saeta.milf.networking.payloads;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.basin.StoneBasinBlockEntity;
-import dev.saeta.milf.blocks.shapeable_blocks.AbstractShapeableBlockEntity;
-import dev.saeta.milf.blocks.shapeable_blocks.chisel.ChiseledBlockEntity;
-import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
-import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

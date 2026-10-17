@@ -1,11 +1,9 @@
 package dev.saeta.milf.blocks.clay_molds;
 
 import com.google.common.base.Preconditions;
-import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired.AnvilMoldBlockEntity;
 import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

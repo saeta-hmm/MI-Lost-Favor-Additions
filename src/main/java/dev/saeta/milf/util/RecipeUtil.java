@@ -1,10 +1,5 @@
 package dev.saeta.milf.util;
 
-import dev.saeta.milf.recipes.DoubleRecipeInput;
-import dev.saeta.milf.recipes.MultiRecipeInput;
-import dev.saeta.milf.recipes.molding.ImpressionMoldingRecipe;
-import dev.saeta.milf.registries.MILFRecipeTypes;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;

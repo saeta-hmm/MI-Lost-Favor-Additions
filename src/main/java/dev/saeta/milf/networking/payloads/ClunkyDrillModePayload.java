@@ -1,21 +1,15 @@
 package dev.saeta.milf.networking.payloads;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.entities.potsherd.PotsherdProjectileEntity;
-import dev.saeta.milf.items.PotsherdItem;
 import dev.saeta.milf.items.mi.ClunkyDrillItem;
 import dev.saeta.milf.registries.MILFDataComponents;
-import dev.saeta.milf.registries.MILFSounds;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
-
-import java.util.logging.Level;
 
 public record ClunkyDrillModePayload() implements CustomPacketPayload {
 

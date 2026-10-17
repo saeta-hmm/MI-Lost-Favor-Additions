@@ -1,25 +1,14 @@
 package dev.saeta.milf.client.notifications;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.blocks.anvils.AbstractAnvilBlockEntity;
-import dev.saeta.milf.blocks.anvils.bronze_anvil.BronzeAnvilBlockEntity;
-import dev.saeta.milf.blocks.anvils.stone_anvil.StoneAnvilBlockEntity;
-import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 @EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)

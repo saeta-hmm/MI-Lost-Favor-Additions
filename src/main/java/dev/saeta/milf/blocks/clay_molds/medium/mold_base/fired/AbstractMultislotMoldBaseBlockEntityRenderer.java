@@ -2,7 +2,6 @@ package dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.clay_molds.AbstractMultislotCastableMoldBlockEntity;
 import dev.saeta.milf.client.render_stuff.AlphaMultiBufferSource;
@@ -19,9 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;

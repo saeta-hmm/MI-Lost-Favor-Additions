@@ -1,7 +1,6 @@
 package dev.saeta.milf.blocks.bloomery.fired;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.blocks.bloomery.AbstractBloomeryBaseBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;

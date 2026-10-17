@@ -2,10 +2,7 @@ package dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot;
 
 import com.mojang.serialization.MapCodec;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractMultislotMoldBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.rod.RodMoldBlockEntity;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;

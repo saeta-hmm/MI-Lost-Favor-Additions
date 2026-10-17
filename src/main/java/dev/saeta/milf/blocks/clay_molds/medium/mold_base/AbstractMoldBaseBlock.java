@@ -1,10 +1,8 @@
 package dev.saeta.milf.blocks.clay_molds.medium.mold_base;
 
 import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
-import dev.saeta.milf.blocks.clay_molds.AbstractClayMoldBlockItem;
 import dev.saeta.milf.blocks.clay_molds.CastableMoldBlock;
 import dev.saeta.milf.registries.MILFBlocks;
-import dev.saeta.milf.registries.MILFDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,9 +13,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

@@ -7,7 +7,6 @@ import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBloc
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.unfired.UnfiredAnvilMoldHalfBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.AbstractMoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMoldBaseBlock;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.base.MoldBaseBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.registries.MILFBlocks;
@@ -16,7 +15,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.neoforged.neoforge.client.model.generators.*;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 

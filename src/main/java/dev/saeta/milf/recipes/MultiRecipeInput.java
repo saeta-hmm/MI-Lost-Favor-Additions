@@ -2,7 +2,6 @@ package dev.saeta.milf.recipes;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
-import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 

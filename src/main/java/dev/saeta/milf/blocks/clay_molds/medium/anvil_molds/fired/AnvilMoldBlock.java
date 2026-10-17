@@ -1,43 +1,29 @@
 package dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.fired;
 
 import com.mojang.serialization.MapCodec;
-import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.clay_molds.AbstractClayMoldBlockItem;
 import dev.saeta.milf.blocks.clay_molds.CastableMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.medium.anvil_molds.AbstractAnvilMoldBlock;
-import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlockEntity;
 import dev.saeta.milf.capabilities.CapabilityProvider;
-import dev.saeta.milf.networking.data.StoredItem;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFDataComponents;
-import dev.saeta.milf.registries.MILFItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AnvilMoldBlock extends AbstractAnvilMoldBlock implements CapabilityProvider, CastableMoldBlock {
 

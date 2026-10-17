@@ -2,7 +2,6 @@ package dev.saeta.milf.registries.client;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.registries.MILFBlocks;
-import dev.saeta.milf.registries.MILFItems;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

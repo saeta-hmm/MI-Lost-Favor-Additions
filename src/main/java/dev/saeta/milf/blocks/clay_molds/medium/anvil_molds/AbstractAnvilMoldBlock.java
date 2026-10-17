@@ -1,6 +1,5 @@
 package dev.saeta.milf.blocks.clay_molds.medium.anvil_molds;
 
-import dev.saeta.milf.blocks.BaseDirectionalEntityBlock;
 import dev.saeta.milf.blocks.DirectionalItemHandlerBlock;
 import dev.saeta.milf.registries.MILFBlocks;
 import net.minecraft.core.BlockPos;

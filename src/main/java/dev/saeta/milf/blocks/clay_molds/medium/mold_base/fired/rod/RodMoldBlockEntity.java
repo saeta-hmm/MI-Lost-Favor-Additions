@@ -1,8 +1,6 @@
 package dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.rod;
 
-import dev.saeta.milf.blocks.clay_molds.AbstractCastableMoldBlockEntity;
 import dev.saeta.milf.blocks.clay_molds.AbstractMultislotCastableMoldBlockEntity;
-import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.ingot.IngotMoldBlockEntity;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
