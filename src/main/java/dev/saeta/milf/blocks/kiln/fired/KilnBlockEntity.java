@@ -7,7 +7,6 @@ import dev.saeta.milf.blocks.bloomery.fired.BloomeryBaseBlockEntity;
 import dev.saeta.milf.blocks.clay_crucible.ClayCrucibleBlockEntity;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockEntity;
 import dev.saeta.milf.recipes.SingleRecipeInput;
-import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFRecipeTypes;
@@ -27,8 +26,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressProvider {
 
@@ -144,7 +141,7 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
         if(level.getBlockEntity(worldPosition.below()) instanceof BloomeryBaseBlockEntity bloomeryBaseBlockEntity){
             if(bloomeryBaseBlockEntity.isLit()){
-                bloomeryBaseBlockEntity.handleBellowsTick();
+                bloomeryBaseBlockEntity.handleTick();
             }
 
             return;

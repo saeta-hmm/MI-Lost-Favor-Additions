@@ -41,6 +41,8 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
 
     private int progress;
     private int currentRecipeTime = 109;
+    private int currentRecipeCoalCount = 4;
+    private boolean requiresBellows = false;
 
     public BloomeryBaseBlockEntity(BlockPos pos, BlockState blockState) {
         super(MILFBlockEntities.BLOOMERY_BASE.get(), pos, blockState);
@@ -123,6 +125,8 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
 
             currentRecipe.ifPresentOrElse(bloomeryRecipeRecipeHolder -> {
                         currentRecipeTime = bloomeryRecipeRecipeHolder.value().time();
+                        currentRecipeCoalCount = bloomeryRecipeRecipeHolder.value().coalCount();
+                        requiresBellows = bloomeryRecipeRecipeHolder.value().requiresBellows();
                         hasValidRecipe = true;
                     }, () -> hasValidRecipe = false);
 
@@ -196,10 +200,10 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
     private void tick(){
         if(level == null) return;
         if(!isLit) return;
-
+        if(hasValidRecipe && !requiresBellows) handleTick();
     }
 
-    public void handleBellowsTick(){
+    public void handleTick(){
         if(level == null) return;
         if(!(level instanceof ServerLevel serverLevel)) return;
         if(!isLit || !hasValidRecipe) return;
@@ -219,7 +223,7 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
 
 
 
-        if(progress % (currentRecipeTime / 4) == 0){
+        if(progress % (currentRecipeTime / currentRecipeCoalCount) == 0){
             ItemStack coalStack = itemHandler.getStackInSlot(COAL_SLOT);
             coalStack.shrink(1);
             itemHandler.setStackInSlot(COAL_SLOT, coalStack);
@@ -232,6 +236,8 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
         if(progress >= currentRecipeTime){
             progress = 0;
             setLit(false);
+            hasValidRecipe = false;
+            requiresBellows = true;
 
             ItemStack stack1 = itemHandler.getStackInSlot(INPUT_SLOT_1);
             ItemStack stack2 = itemHandler.getStackInSlot(INPUT_SLOT_2);
@@ -251,7 +257,6 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
                 itemHandler.setStackInSlot(INPUT_SLOT_2, ItemStack.EMPTY);
 
                 itemHandler.setStackInSlot(INPUT_SLOT_1, recipe.get().value().assemble(recipeInput, level.registryAccess()));
-
 
             }
 
@@ -274,9 +279,13 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
 
         tag.putBoolean("hasValidRecipe", hasValidRecipe);
 
+        tag.putBoolean("requiresBellows", requiresBellows);
+
         tag.putInt("progress", progress);
 
         tag.putInt("currentRecipeTime", currentRecipeTime);
+
+        tag.putInt("currentRecipeCoalCount", currentRecipeCoalCount);
 
     }
 
@@ -292,12 +301,20 @@ public class BloomeryBaseBlockEntity extends ItemHandlerBlockEntity implements F
             hasValidRecipe = tag.getBoolean("hasValidRecipe");
         }
 
+        if (tag.contains("requiresBellows")) {
+            requiresBellows = tag.getBoolean("requiresBellows");
+        }
+
         if (tag.contains("progress")) {
             progress = tag.getInt("progress");
         }
 
         if (tag.contains("currentRecipeTime")) {
             currentRecipeTime = tag.getInt("currentRecipeTime");
+        }
+
+        if (tag.contains("currentRecipeCoalCount")) {
+            currentRecipeCoalCount = tag.getInt("currentRecipeCoalCount");
         }
 
     }

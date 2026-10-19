@@ -31,6 +31,8 @@ public class BloomeryEmiRecipe implements EmiRecipe {
     public final ItemStack output;
 
     public final int time;
+    public final int coalCount;
+
     public final boolean requiresBellows;
     public final ResourceLocation id;
 
@@ -44,6 +46,8 @@ public class BloomeryEmiRecipe implements EmiRecipe {
         this.time = bloomeryRecipe.time();
 
         this.requiresBellows = bloomeryRecipe.requiresBellows();
+
+        this.coalCount = bloomeryRecipe.coalCount();
 
         this.id = holder.id();
     }
@@ -72,7 +76,7 @@ public class BloomeryEmiRecipe implements EmiRecipe {
         List<EmiIngredient> inputs = new ArrayList<>();
         inputs.add(EmiIngredient.of(input1.ingredient()).setAmount(input1.count()));
         inputs.add(EmiIngredient.of(input2.ingredient()).setAmount(input2.count()));
-        inputs.add(EmiIngredient.of(MILFItemTags.BLOOMERY_COALS).setAmount(4));
+        inputs.add(EmiIngredient.of(MILFItemTags.BLOOMERY_COALS).setAmount(coalCount));
         return inputs;
     }
 

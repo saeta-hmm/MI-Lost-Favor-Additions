@@ -21,7 +21,8 @@ public record BloomeryRecipe(
         SizedIngredient input2,
         ItemStack output,
         int time,
-        boolean requiresBellows
+        boolean requiresBellows,
+        int coalCount
 ) implements Recipe<BloomeryRecipeInput> {
 
     @Override
@@ -61,8 +62,9 @@ public record BloomeryRecipe(
                 SizedIngredient.FLAT_CODEC.fieldOf("input2").forGetter(BloomeryRecipe::input2),
                 ItemStack.CODEC.fieldOf("output").forGetter(BloomeryRecipe::output),
                 Codec.INT.optionalFieldOf("time", 109).forGetter(BloomeryRecipe::time),
-                Codec.BOOL.optionalFieldOf("requires_bellows", false).forGetter(BloomeryRecipe::requiresBellows)
-        ).apply(bloomeryRecipeInstance, BloomeryRecipe::new));
+                Codec.BOOL.optionalFieldOf("requires_bellows", false).forGetter(BloomeryRecipe::requiresBellows),
+                Codec.INT.optionalFieldOf("coal_count", 4).forGetter(BloomeryRecipe::coalCount)
+                ).apply(bloomeryRecipeInstance, BloomeryRecipe::new));
 
         private final static StreamCodec<RegistryFriendlyByteBuf, BloomeryRecipe> STREAM_CODEC = StreamCodec.of(
                 (buf, recipe) -> {
@@ -71,13 +73,16 @@ public record BloomeryRecipe(
                     ItemStack.STREAM_CODEC.encode(buf, recipe.output());
                     ByteBufCodecs.VAR_INT.encode(buf, recipe.time());
                     ByteBufCodecs.BOOL.encode(buf, recipe.requiresBellows());
+                    ByteBufCodecs.VAR_INT.encode(buf, recipe.coalCount());
+
                 },
                 buf -> new BloomeryRecipe(
                         SizedIngredient.STREAM_CODEC.decode(buf),
                         SizedIngredient.STREAM_CODEC.decode(buf),
                         ItemStack.STREAM_CODEC.decode(buf),
                         ByteBufCodecs.VAR_INT.decode(buf),
-                        ByteBufCodecs.BOOL.decode(buf)
+                        ByteBufCodecs.BOOL.decode(buf),
+                        ByteBufCodecs.VAR_INT.decode(buf)
                 )
         );
 

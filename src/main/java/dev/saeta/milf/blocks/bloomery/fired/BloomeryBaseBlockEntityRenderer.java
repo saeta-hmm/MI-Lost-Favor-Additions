@@ -110,7 +110,7 @@ public class BloomeryBaseBlockEntityRenderer implements BlockEntityRenderer<Bloo
         poseStack.pushPose();
         poseStack.translate(0.5, (double) 15 / 16 + 1/64f, 0.5);
         poseStack.scale(0.8F, 0.8F, 0.8F);
-        poseStack.translate(0, 1.5 / 16 * index * 0.5, 0);
+        poseStack.translate(0, 0.65 / 16f * index, 0);
         poseStack.mulPose(Axis.XN.rotationDegrees(90));
         poseStack.mulPose(Axis.ZP.rotationDegrees((float) (Math.abs(Math.sin(seed + index * 109109) % 1) * 360)));
 
