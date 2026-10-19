@@ -11,6 +11,7 @@ import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlockEntities;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFRecipeTypes;
+import dev.saeta.milf.util.RecipeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -37,6 +38,8 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
     private int progress;
     private boolean hasItemForExtraction = false;
 
+    private boolean requiresBellows = false;
+
     private final AbstractBEItemHandler itemHandler = new AbstractBEItemHandler(1) {
         @Override
         public int getSlotLimit(int slot) {
@@ -48,13 +51,14 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
             if (stack.isEmpty()) return false;
             if (level == null) return false;
 
-            RecipeManager recipeManager = level.getRecipeManager();
+            ItemStack singleItem = stack.copyWithCount(1);
 
-            List<KilnSmeltingRecipe> allRecipes = KilnSmeltingRecipe.getAllRecipes(recipeManager, level.registryAccess());
-            return allRecipes.stream()
-                    .anyMatch(kilnSmeltingRecipe -> {
-                        return kilnSmeltingRecipe.input().test(stack);
-                    });
+            var furnaceRecipe = RecipeUtil.getValidRecipe(level, RecipeType.SMELTING, new net.minecraft.world.item.crafting.SingleRecipeInput(singleItem));
+            if(furnaceRecipe.isPresent()) return true;
+
+            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.KILN_SMELTING, new SingleRecipeInput(singleItem));
+
+            return recipe.isPresent();
 
         }
 
@@ -64,16 +68,36 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
             if(level == null) return;
 
-            if (getStackInSlot(slot).isEmpty()) {
+            ItemStack stack = getStackInSlot(slot);
+
+            if (stack.isEmpty()) {
                 progress = 0;
                 hasItemForExtraction=false;
+                requiresBellows = false;
                 level.setBlock(worldPosition, getBlockState().setValue(KilnBlock.CONTAINS_BLOCK, false), Block.UPDATE_NONE);
                 setChanged();
                 return;
             }
 
-            level.setBlock(worldPosition, getBlockState().setValue(KilnBlock.CONTAINS_BLOCK, true), Block.UPDATE_NONE);
-            setChanged();
+            ItemStack singleItem = stack.copyWithCount(1);
+
+            var recipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.KILN_SMELTING, new SingleRecipeInput(singleItem));
+
+            if(recipe.isPresent()){
+                level.setBlock(worldPosition, getBlockState().setValue(KilnBlock.CONTAINS_BLOCK, true), Block.UPDATE_NONE);
+                if(recipe.get().value().requiresBellows()) requiresBellows = true;
+                setChanged();
+                return;
+            }
+
+            var furnaceRecipe = RecipeUtil.getValidRecipe(level, RecipeType.SMELTING, new net.minecraft.world.item.crafting.SingleRecipeInput(singleItem));
+
+            if(furnaceRecipe.isPresent()){
+                level.setBlock(worldPosition, getBlockState().setValue(KilnBlock.CONTAINS_BLOCK, true), Block.UPDATE_NONE);
+                setChanged();
+                return;
+            }
+
         }
 
         @Override
@@ -130,14 +154,16 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
         if(!firePitBlockEntity.isLit()) return;
 
-        firePitBlockEntity.increaseBurnTicks(8);
 
         if(isInProgress()) {
             progress++;
+            firePitBlockEntity.increaseBurnTicks(3);
+            return;
         }
 
         if((level.getBlockEntity(worldPosition.above()) instanceof ClayCrucibleBlockEntity clayCrucibleBlockEntity)){
             clayCrucibleBlockEntity.increaseProgress();
+            firePitBlockEntity.increaseBurnTicks(8);
             return;
         }
 
@@ -155,29 +181,34 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
         if(!firePitBlockEntity.isLit()) return;
 
-        progress++;
+        if(!requiresBellows) {
+            progress++;
+        }
 
         if(progress >= MAX_PROGRESS){
 
             RecipeManager recipeManager = level.getRecipeManager();
 
             progress=0;
+            requiresBellows=false;
             ItemStack input = itemHandler.getStackInSlot(INPUT_SLOT);
 
-            SingleRecipeInput recipeInput = new SingleRecipeInput(input);
+            var furnaceRecipeInput =  new net.minecraft.world.item.crafting.SingleRecipeInput(input);
 
             var smeltingRecipeOutput = recipeManager.getRecipeFor(
                     RecipeType.SMELTING,
-                    new net.minecraft.world.item.crafting.SingleRecipeInput(input),
+                    furnaceRecipeInput,
                     level
             );
 
             if(smeltingRecipeOutput.isPresent()){
-                itemHandler.setStackInSlot(INPUT_SLOT, smeltingRecipeOutput.get().value().getResultItem(level.registryAccess()));
+                itemHandler.setStackInSlot(INPUT_SLOT, smeltingRecipeOutput.get().value().assemble(furnaceRecipeInput, level.registryAccess()));
                 hasItemForExtraction =true;
                 setChanged();
                 return;
             }
+
+            SingleRecipeInput recipeInput = new SingleRecipeInput(input);
 
             var ownRecipeOutput = recipeManager.getRecipeFor(
                     MILFRecipeTypes.KILN_SMELTING,
@@ -186,7 +217,7 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
             );
 
             if(ownRecipeOutput.isPresent()){
-                itemHandler.setStackInSlot(INPUT_SLOT, ownRecipeOutput.get().value().getResultItem(level.registryAccess()));
+                itemHandler.setStackInSlot(INPUT_SLOT, ownRecipeOutput.get().value().assemble(recipeInput, level.registryAccess()));
                 hasItemForExtraction =true;
                 setChanged();
                 return;
@@ -199,7 +230,7 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
     }
 
     public boolean isInProgress(){
-        return progress > 0;
+        return progress > 0 || (!itemHandler.getStackInSlot(0).isEmpty() && requiresBellows && !hasItemForExtraction);
     }
 
     @Override
@@ -246,6 +277,8 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
         tag.putBoolean("hasItemForExtraction", hasItemForExtraction);
 
+        tag.putBoolean("requiresBellows", requiresBellows);
+
     }
 
     @Override
@@ -258,6 +291,10 @@ public class KilnBlockEntity extends ItemHandlerBlockEntity implements ProgressP
 
         if (tag.contains("hasItemForExtraction")) {
             hasItemForExtraction = tag.getBoolean("hasItemForExtraction");
+        }
+
+        if (tag.contains("requiresBellows")) {
+            requiresBellows = tag.getBoolean("requiresBellows");
         }
 
 

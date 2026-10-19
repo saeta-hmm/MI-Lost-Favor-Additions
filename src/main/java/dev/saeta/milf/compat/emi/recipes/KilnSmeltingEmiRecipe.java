@@ -12,6 +12,8 @@ import dev.saeta.milf.compat.emi.widgets.*;
 import dev.saeta.milf.recipes.kiln.KilnSmeltingRecipe;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItems;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +28,7 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class KilnSmeltingEmiRecipe implements EmiRecipe {
@@ -34,12 +37,14 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
     public final ItemStack output;
     public final ResourceLocation id;
     private final int time = 200;
+    private final boolean requiresBellows;
 
     public KilnSmeltingEmiRecipe(RecipeHolder<KilnSmeltingRecipe> holder) {
         KilnSmeltingRecipe kilnSmeltingRecipe = holder.value();
         this.input = kilnSmeltingRecipe.input();
 
         this.output = kilnSmeltingRecipe.output();
+        this.requiresBellows = kilnSmeltingRecipe.requiresBellows();
 
         this.id = holder.id();
     }
@@ -50,6 +55,9 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
         this.output = output;
 
         this.id = holder.id();
+        this.requiresBellows = false;
+
+
     }
 
     public static void parseFurnaceRecipes(EmiRegistry registry){
@@ -182,6 +190,21 @@ public class KilnSmeltingEmiRecipe implements EmiRecipe {
         //center
 
         widgets.add(new MILFEmiArrowWidget(EmiProgressArrow.KILN, 61, 22, time));
+
+        if(requiresBellows){
+
+            widgets.addTexture(
+                    MILostFavor.locate("textures/gui/kiln_bellows_pipe_emi.png"),
+                    59,35,26,32,0,0, 26, 32, 26, 32
+            ).tooltip((something, noIdea) -> Collections.singletonList(
+                    ClientTooltipComponent.create(
+                            Component.translatable("emi.category.milf.clay_crucible_kiln.requires_bellows").getVisualOrderText()
+                    )
+            ));
+
+            widgets.add(new MILFEmiSlotWidget(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67, EmiSlot.BELLOWS).catalyst(true));
+
+        }
 
     }
 }

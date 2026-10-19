@@ -11,9 +11,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.items.ItemStackHandler;
+
+import java.util.List;
 
 public class KilnBlockEntityRenderer implements BlockEntityRenderer<KilnBlockEntity> {
 
@@ -33,13 +36,19 @@ public class KilnBlockEntityRenderer implements BlockEntityRenderer<KilnBlockEnt
         ItemStack stack = itemHandler.getStackInSlot(0);
 
         if(!stack.isEmpty() && stack.getItem() instanceof BlockItem blockItem){
+            Block block = blockItem.getBlock();
 
-            BlockState blockToRender = blockItem.getBlock().defaultBlockState();
+            BlockState blockToRender = block.defaultBlockState();
 
             poseStack.pushPose();
 
             poseStack.translate(0.1875, 0.625, 0.1875);
             poseStack.scale(0.625f, 0.625f, 0.625F);
+
+            List<RenderType> renderTypes = blockRenderDispatcher.getBlockModel(blockToRender).getRenderTypes(blockToRender, randomSource, ModelData.EMPTY).asList();
+
+
+            RenderType renderType = renderTypes.isEmpty() ? RenderType.solid() : renderTypes.getFirst();
 
             Level level = blockEntity.getLevel();
             BlockPos pos = blockEntity.getBlockPos();
@@ -51,13 +60,13 @@ public class KilnBlockEntityRenderer implements BlockEntityRenderer<KilnBlockEnt
                         blockToRender,
                         pos,
                         poseStack,
-                        bufferSource.getBuffer(RenderType.solid()),
+                        bufferSource.getBuffer(renderType),
                         false,
                         randomSource,
                         109109,
                         packedOverlay,
                         ModelData.EMPTY,
-                        RenderType.solid()
+                        renderType
                 );
             }
 

@@ -157,11 +157,11 @@ public class ClayCrucibleKilnEmiRecipe implements EmiRecipe {
                     59,35,26,32,0,0, 26, 32, 26, 32
             ).tooltip((something, noIdea) -> Collections.singletonList(
                     ClientTooltipComponent.create(
-                        Component.translatable("emi.category.milf.clay_crucible_kiln.requires_bellows", time /20).getVisualOrderText()
+                        Component.translatable("emi.category.milf.clay_crucible_kiln.requires_bellows").getVisualOrderText()
                     )
             ));
 
-            widgets.add(new MILFEmiSlotWidget(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67, EmiSlot.BELLOWS).recipeContext(this));
+            widgets.add(new MILFEmiSlotWidget(EmiStack.of(MILFBlocks.POT_BELLOWS.asItem()), 63,67, EmiSlot.BELLOWS).catalyst(true));
 
         }
     }
