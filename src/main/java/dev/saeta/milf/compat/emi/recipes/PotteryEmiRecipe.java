@@ -82,13 +82,13 @@ public class PotteryEmiRecipe implements EmiRecipe {
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 67,5, EmiSlot.CLAY).drawBack(false).recipeContext(this));
 
-        widgets.add(new NumberTextWidget(45.5f,19.5f, 0xa0a7b8, () -> topHits).centered()).tooltip(((something, noIdea) -> Collections.singletonList(
+        widgets.add(new NumberTextWidget(45.5f,19.5f, 0xFFa0a7b8, () -> topHits).centered()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.chisel.top_hits", String.valueOf(topHits)).getVisualOrderText()
                 )
         )));
 
-        widgets.add(new NumberTextWidget(22.5f,42.5f, 0xa0a7b8, () -> sideHits).centered()).tooltip(((something, noIdea) -> Collections.singletonList(
+        widgets.add(new NumberTextWidget(22.5f,42.5f, 0xFFa0a7b8, () -> sideHits).centered()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.chisel.side_hits", String.valueOf(sideHits)).getVisualOrderText()
                 )

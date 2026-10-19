@@ -5,9 +5,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.api.widget.WidgetTooltipHolder;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.saeta.milf.MILostFavor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -66,7 +68,7 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
     private int getWidth(){
         Number number = numberSupplier.get();
 
-        String numberString = String.valueOf(number);
+        String numberString = format(number);
 
         if(stripIntegerPart){
             numberString = numberString.substring(numberString.indexOf('.'));
@@ -77,9 +79,7 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
         return numberString.length() * 4;
     }
 
-    @Override
-    public void render(GuiGraphics draw, int mouseX, int mouseY, float delta) {
-        Number number = numberSupplier.get();
+    private String format(Number number){
 
         double value = number.doubleValue();
 
@@ -96,6 +96,17 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
             numberString = numberString.substring(numberString.indexOf('.') + 1);
         }
 
+        return numberString;
+
+
+    }
+
+    @Override
+    public void render(GuiGraphics draw, int mouseX, int mouseY, float delta) {
+        Number number = numberSupplier.get();
+
+        String numberString = format(number);
+
         float drawX = isCentered ? x - (float) getWidth() / 2 : x;
 
         float r = ((color >> 16) & 0xFF) / 255f;
@@ -103,11 +114,12 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
         float b = (color & 0xFF) / 255f;
         float a = ((color >> 24) & 0xFF) / 255f;
 
-        RenderSystem.setShaderColor(r,g,b,a);
+        EmiDrawContext context = EmiDrawContext.wrap(draw);
+        context.resetColor();
 
-        PoseStack poseStack = draw.pose();
+        context.setColor(r,g,b,a);
 
-
+        //PoseStack poseStack = draw.pose();
 
         for (int i = 0; i < numberString.length(); i++) {
             char c = numberString.charAt(i);
@@ -123,20 +135,19 @@ public class NumberTextWidget extends Widget implements WidgetTooltipHolder<Numb
                 continue;
             }
 
-            poseStack.pushPose();
+            context.push();
+            //context.matrices().pushPose();
 
-            poseStack.translate(drawX, y, 0);
+            context.matrices().translate(drawX, y, 0);
 
             int u = 1 + index * 4;
-            draw.blit(NUMBERS_TEXTURE, 0, 0, u, 1, 3, 5, 45, 7);
+            context.drawTexture(NUMBERS_TEXTURE, 0, 0, 3, 7, u, 1, 3, 7, 45, 7);
             drawX += (c == '.') ? 3 : 4;
 
-            poseStack.popPose();
+            context.pop();
         }
 
-
-
-        RenderSystem.setShaderColor(1,1,1,1);
+        context.resetColor();
     }
 
     @Override

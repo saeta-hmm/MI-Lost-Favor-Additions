@@ -316,7 +316,7 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
 
                 ClayCrucibleKilnRecipe clayCrucibleKilnRecipe = optionalClayCrucibleKilnRecipeRecipeHolder.get().value();
 
-                FluidStack fluidStack = clayCrucibleKilnRecipe.output();
+                FluidStack fluidStack = clayCrucibleKilnRecipe.output().copy();
 
                 fluidTank.setFluid(fluidStack);
 
@@ -357,7 +357,7 @@ public class ClayCrucibleBlockEntity extends ItemHandlerBlockEntity implements F
 
                 ClayCrucibleRecipe clayCrucibleRecipe = optionalClayCrucibleRecipeRecipeHolder.get().value();
 
-                FluidStack fluidStack = clayCrucibleRecipe.output();
+                FluidStack fluidStack = clayCrucibleRecipe.output().copy();
 
                 fluidTank.setFluid(fluidStack);
 
