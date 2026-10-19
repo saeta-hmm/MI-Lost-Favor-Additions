@@ -93,12 +93,6 @@ public class FirePitBlock extends ItemHandlerBlock implements CapabilityProvider
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
-    }
-
-    @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
         BlockState stateAbove = level.getBlockState(pos.above());

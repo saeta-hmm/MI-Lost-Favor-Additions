@@ -1,5 +1,6 @@
 package dev.saeta.milf.blocks.fire_pit;
 
+import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.blocks.AbstractBEItemHandler;
 import dev.saeta.milf.blocks.FlammableBlockEntity;
 import dev.saeta.milf.blocks.ItemHandlerBlockEntity;
@@ -37,6 +38,7 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
     private boolean isLit;
 
     private final List<Integer> burnOrder = new ArrayList<>();
+    private boolean imDead = false;
 
     private final AbstractBEItemHandler itemHandler = new AbstractBEItemHandler(LOG_SLOTS_COUNT + 1) {
         @Override
@@ -85,7 +87,11 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
             if (level != null && !level.isClientSide()) {
                 BlockState state = getBlockState();
 
-                level.setBlock(worldPosition, state.setValue(FirePitBlock.LOGS, getLogCount()), Block.UPDATE_NONE);
+                if(state.is(MILFBlocks.FIRE_PIT) && !imDead) {
+                    //MILostFavor.LOGGER.info("mushroom ━┳━　━┳━");
+                    level.setBlock(worldPosition, state.setValue(FirePitBlock.LOGS, getLogCount()), Block.UPDATE_NONE);
+                }
+
 
             }
         }
@@ -113,6 +119,12 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
     @Override
     public boolean shouldDropContent() {
         return true;
+    }
+
+    @Override
+    public void dropContent(BlockPos pos, Level level) {
+        imDead = true;
+        super.dropContent(pos, level);
     }
 
     @Override
