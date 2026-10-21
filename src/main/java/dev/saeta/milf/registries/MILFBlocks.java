@@ -22,6 +22,8 @@ import dev.saeta.milf.blocks.clay_molds.small.fire_pit.FirePitPlateBlock;
 import dev.saeta.milf.blocks.clay_molds.small.fired.ClayMoldBlock;
 import dev.saeta.milf.blocks.clay_molds.small.fired.ClayPlateBlock;
 import dev.saeta.milf.blocks.clay_molds.small.unfired.UnfiredClayPlateBlock;
+import dev.saeta.milf.blocks.everburning.EverburningRootsBlock;
+import dev.saeta.milf.blocks.everburning.EverburningRootsVineMultifaceBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlockItem;
 import dev.saeta.milf.blocks.kiln.fired.KilnBlock;
@@ -57,6 +59,34 @@ import java.util.function.Supplier;
 public class MILFBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MILostFavor.MOD_ID);
+
+    public static final DeferredBlock<EverburningRootsBlock> EVERBURNING_ROOTS = registerBlock("everburning_roots", () ->
+            new EverburningRootsBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_ROOTS)
+            )
+    );
+    public static final DeferredBlock<EverburningRootsBlock> EVERBURNING_ROOTS_VINE_BLOCK = registerBlock("everburning_roots_vine_block", () ->
+            new EverburningRootsBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_ROOTS)
+            )
+    );
+    public static final DeferredBlock<Block> EVERBURNING_ROOTS_HEART = registerBlock("everburning_roots_heart", () ->
+            new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_ROOTS)
+                            .lightLevel(state -> 15)
+            )
+    );
+    public static final DeferredBlock<Block> EVERBURNING_ROOTS_VEINS = registerBlock("everburning_roots_veins", () ->
+            new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_ROOTS)
+                            .lightLevel(state -> 6)
+
+            )
+    );
+
+    public static final DeferredBlock<EverburningRootsVineMultifaceBlock> EVERBURNING_ROOTS_VINE = registerBlock("everburning_roots_vine", () ->
+            new EverburningRootsVineMultifaceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN))
+    );
 
     public static final DeferredBlock<Block> BURNING_COAL = registerBlock("burning_coal_block", () -> new Block(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<Block> POTTERY_CLAY = registerBlock("pottery_clay", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD)));

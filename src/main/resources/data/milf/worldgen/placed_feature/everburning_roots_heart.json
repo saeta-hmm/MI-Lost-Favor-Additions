@@ -1,0 +1,12 @@
+{
+  "feature": "milf:everburning_roots_heart",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 701
+    },
+    {
+      "type": "minecraft:in_square"
+    }
+  ]
+}

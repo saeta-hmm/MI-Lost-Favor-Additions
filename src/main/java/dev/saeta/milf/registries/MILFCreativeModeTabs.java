@@ -118,6 +118,12 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFBlocks.STONE_BASIN);
                         output.accept(MILFBlocks.STONE_POLE);
 
+                        output.accept(MILFBlocks.EVERBURNING_ROOTS);
+                        output.accept(MILFBlocks.EVERBURNING_ROOTS_VINE_BLOCK);
+                        output.accept(MILFBlocks.EVERBURNING_ROOTS_HEART);
+                        output.accept(MILFBlocks.EVERBURNING_ROOTS_VEINS);
+                        output.accept(MILFBlocks.EVERBURNING_ROOTS_VINE);
+
                         output.accept(MILFItems.CLUNKY_DRILL);
                         output.accept(MILFItems.BIG_BULKY_DRILL);
 

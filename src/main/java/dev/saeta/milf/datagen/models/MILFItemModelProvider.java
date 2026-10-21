@@ -73,6 +73,7 @@ public class MILFItemModelProvider extends ItemModelProvider {
         basicItem(MILFBlocks.ROASTING_CONTRAPTION.get().asItem());
 
         withExistingParent(MILFBlocks.UNFIRED_CLAY_CRUCIBLE.getId().toString(), mcLoc("item/generated")).texture("layer0", MILostFavor.locate("item/unfired_clay_bucket"));
+        withExistingParent(MILFBlocks.EVERBURNING_ROOTS_VINE.getId().toString(), mcLoc("item/generated")).texture("layer0", MILostFavor.locate("block/everburning_roots_vine"));
 
         handheldItem(MILFItems.POTSHERD.get());
         handheldItem(MILFItems.BIG_BULKY_DRILL.get());

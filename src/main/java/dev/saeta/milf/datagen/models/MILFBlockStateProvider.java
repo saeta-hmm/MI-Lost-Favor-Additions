@@ -10,15 +10,14 @@ import dev.saeta.milf.blocks.clay_molds.medium.mold_base.fired.AbstractFiredMold
 import dev.saeta.milf.blocks.clay_molds.medium.mold_base.unfired.UnfiredMoldBaseBlock;
 import dev.saeta.milf.blocks.fire_pit.FirePitBlock;
 import dev.saeta.milf.registries.MILFBlocks;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -95,6 +94,14 @@ public class MILFBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(MILFBlocks.POTTERY_CLAY.get(), cubeAll(MILFBlocks.POTTERY_CLAY.get()));
         simpleBlockWithItem(MILFBlocks.FIRE_CLAY.get(), cubeAll(MILFBlocks.FIRE_CLAY.get()));
 
+        simpleBlockWithItem(MILFBlocks.EVERBURNING_ROOTS.get(), cubeAll(MILFBlocks.EVERBURNING_ROOTS.get()));
+        simpleBlockWithItem(MILFBlocks.EVERBURNING_ROOTS_VEINS.get(), cubeAll(MILFBlocks.EVERBURNING_ROOTS_VEINS.get()));
+        simpleBlockWithItem(MILFBlocks.EVERBURNING_ROOTS_HEART.get(), cubeAll(MILFBlocks.EVERBURNING_ROOTS_HEART.get()));
+
+        simpleBlockWithItem(MILFBlocks.EVERBURNING_ROOTS_VINE_BLOCK.get(), models().leaves(MILFBlocks.EVERBURNING_ROOTS_VINE_BLOCK.getId().getPath(), MILostFavor.locate("block/everburning_roots_vine" )).renderType("cutout"));
+
+        everburningRootsVine(MILFBlocks.EVERBURNING_ROOTS_VINE);
+
         simpleBlockWithItem(MILFBlocks.FIRE_PIT_PLATE.get(),
                 models().withExistingParent(MILFBlocks.FIRE_PIT_PLATE.getId().getPath(), MILostFavor.locate("block/clay_plate"))
         );
@@ -137,6 +144,39 @@ public class MILFBlockStateProvider extends BlockStateProvider {
         unfiredAnvilHalfMold(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF);
 
 
+    }
+
+    private void everburningRootsVine(DeferredBlock<? extends Block> block){
+        ModelFile everburningRootsVine = models().withExistingParent("everburning_roots_vine", mcLoc("block/glow_lichen")).texture("glow_lichen", MILostFavor.locate("block/everburning_roots_vine")).renderType("cutout");
+
+        MultiPartBlockStateBuilder builder = getMultipartBuilder(block.get());
+
+        for (Direction direction : Direction.values()){
+            int rotationX=0;
+            int rotationY=0;
+
+            switch (direction){
+                case DOWN -> {
+                    rotationX=90;
+                }
+                case UP -> {
+                    rotationX=270;
+                }
+                case NORTH -> {
+                }
+                case SOUTH -> {
+                    rotationY=180;
+                }
+                case WEST -> {
+                    rotationY=270;
+                }
+                case EAST -> {
+                    rotationY=90;
+                }
+            }
+
+            builder.part().modelFile(everburningRootsVine).rotationY(rotationY).rotationX(rotationX).addModel().condition(MultifaceBlock.getFaceProperty(direction) ,true).end();
+        }
     }
 
     private void unfiredAnvilHalfMold(DeferredBlock<? extends Block> block){
