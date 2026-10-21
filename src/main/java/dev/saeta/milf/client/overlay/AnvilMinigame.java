@@ -104,7 +104,7 @@ public class AnvilMinigame {
             BlockState blockState = level.getBlockState(pos);
 
             if (blockState.is(MILFBlockTags.ANVILS) && minecraft.player.getMainHandItem().is(MILFItemTags.HAMMERS)) {
-                if(level.getBlockEntity(pos) instanceof AbstractAnvilBlockEntity anvilBlockEntity && anvilBlockEntity.hasItem()){
+                if(level.getBlockEntity(pos) instanceof AbstractAnvilBlockEntity anvilBlockEntity && anvilBlockEntity.hasRecipe()){
                     return pos;
                 }
             }

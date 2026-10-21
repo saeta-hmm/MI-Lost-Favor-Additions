@@ -28,7 +28,8 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
     protected final AnvilItemHandler itemHandler = new AnvilItemHandler(1);
     private final Predicate<RecipeHolder<AnvilRecipe>> recipePredicate;
 
-    private float currentRecipeMaxHit = 0.35f;
+    private float currentRecipeMaxHit = 0;
+    private int currentRecipeInputCount = 64;
 
     public AbstractAnvilBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, Predicate<RecipeHolder<AnvilRecipe>> recipePredicate) {
         super(type, pos, blockState);
@@ -39,8 +40,9 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
         return itemHandler;
     }
 
-    public boolean hasItem(){
-        return !itemHandler.getStackInSlot(ITEM_SLOT).isEmpty();
+    public boolean hasRecipe(){
+        return !itemHandler.getStackInSlot(ITEM_SLOT).isEmpty() &&
+                itemHandler.getStackInSlot(ITEM_SLOT).getCount() == currentRecipeInputCount;
     }
 
     public ItemStack insertAnywhere(ItemStack stack) {
@@ -81,6 +83,8 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
 
         tag.putFloat("maxHit", currentRecipeMaxHit);
 
+        tag.putInt("currentRecipeInputCount", currentRecipeInputCount);
+
     }
 
     @Override
@@ -89,6 +93,10 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
 
         if(tag.contains("maxHit")){
             currentRecipeMaxHit = tag.getFloat("maxHit");
+        }
+
+        if(tag.contains("currentRecipeInputCount")){
+            currentRecipeInputCount = tag.getInt("currentRecipeInputCount");
         }
 
     }
@@ -121,18 +129,18 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
 
         @Override
         public int getSlotLimit(int slot) {
-            return 1;
+            return currentRecipeInputCount;
         }
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty() || level == null) return false;
 
-            var recipe = getValidRecipe(new SingleRecipeInput(stack));
+            var recipe = getValidRecipe(new SingleRecipeInput(stack.copyWithCount(64)));
 
             if(recipe.isPresent()){
                 currentRecipeMaxHit = recipe.get().value().maxHit();
-                //MILostFavor.LOGGER.info(String.valueOf(currentRecipeMaxHit));
+                currentRecipeInputCount = recipe.get().value().input().count();
                 return true;
             }
 
@@ -144,14 +152,28 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
             if(level == null) return super.insertItem(slot, stack, simulate);
+            int seed =  level.random.nextInt(109, 109109);
+            if(!getStackInSlot(slot).isEmpty()) seed = getStackInSlot(slot).getOrDefault(MILFDataComponents.RANDOM_SEED, seed);
             ItemStack toInsert = stack.copy();
-            toInsert.set(MILFDataComponents.RANDOM_SEED, level.random.nextInt(109, 109109));
+            toInsert.set(MILFDataComponents.RANDOM_SEED,seed);
             return super.insertItem(slot, toInsert, simulate);
 
         }
 
         @Override
         protected void onContentsChanged(int slot) {
+
+            ItemStack stack = getStackInSlot(slot);
+            var recipe = getValidRecipe(new SingleRecipeInput(stack));
+
+            if(recipe.isPresent()){
+                currentRecipeMaxHit = recipe.get().value().maxHit();
+                currentRecipeInputCount = recipe.get().value().input().count();
+            } else {
+                currentRecipeMaxHit = 0;
+                currentRecipeInputCount = 64;
+            }
+
             setChanged();
         }
 
@@ -172,7 +194,7 @@ public abstract class AbstractAnvilBlockEntity extends ItemHandlerBlockEntity {
         public void extractAndDropResult(int slot){
             if (level == null) return;
 
-            ItemStack stack = getResult(extractItem(slot, 1, false)) ;
+            ItemStack stack = getResult(extractItem(slot, currentRecipeInputCount, false)) ;
 
             Block.popResourceFromFace(level, worldPosition, Direction.UP, stack);
         }

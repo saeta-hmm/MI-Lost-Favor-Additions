@@ -92,7 +92,7 @@ public class StoneAnvilEmiRecipe implements EmiRecipe {
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 39,25, EmiSlot.STONE).recipeContext(this));
 
-        widgets.add(new NumberTextWidget(26,34, 0x48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
+        widgets.add(new NumberTextWidget(26,34, 0xFF48393d, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.anvil.max_hit", String.format("%.0f", maxHit * 100)).getVisualOrderText()
                 )

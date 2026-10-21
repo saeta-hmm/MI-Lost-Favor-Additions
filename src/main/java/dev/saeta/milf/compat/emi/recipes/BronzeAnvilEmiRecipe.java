@@ -90,7 +90,7 @@ public class BronzeAnvilEmiRecipe implements EmiRecipe {
         widgets.add(new MILFEmiSlotWidget(getCatalysts().get(0), 23,2, EmiSlot.BRONZE).recipeContext(this));
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 39,25, EmiSlot.BRONZE).recipeContext(this));
 
-        widgets.add(new NumberTextWidget(26,34,0x4e2d16, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
+        widgets.add(new NumberTextWidget(26,34,0xFF4e2d16, () -> maxHit).onlyPercentages()).tooltip(((something, noIdea) -> Collections.singletonList(
                 ClientTooltipComponent.create(
                         Component.translatable("emi.category.milf.anvil.max_hit", String.format("%.0f", maxHit * 100)).getVisualOrderText()
                 )
