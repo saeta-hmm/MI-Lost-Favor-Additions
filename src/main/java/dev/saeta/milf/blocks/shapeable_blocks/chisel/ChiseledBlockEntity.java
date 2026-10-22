@@ -3,6 +3,7 @@ package dev.saeta.milf.blocks.shapeable_blocks.chisel;
 import dev.saeta.milf.blocks.shapeable_blocks.AbstractShapeableBlockEntity;
 import dev.saeta.milf.recipes.shaping.ShapingRecipeInput;
 import dev.saeta.milf.registries.MILFBlockEntities;
+import dev.saeta.milf.registries.MILFItemTags;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -215,6 +216,22 @@ public class ChiseledBlockEntity extends AbstractShapeableBlockEntity {
                         0.1
                 );
             }
+        }
+
+        var hammer = player.getOffhandItem();
+
+        if (hammer.is(MILFItemTags.HAMMERS)) {
+            hammer.hurtAndBreak(1, serverLevel, player, item -> {
+                player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(hammer));
+            });
+        }
+
+        var chisel = player.getMainHandItem();
+
+        if (chisel.is(MILFItemTags.CHISELS)) {
+            chisel.hurtAndBreak(1, serverLevel, player, item -> {
+                player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(chisel));
+            });
         }
 
         updateOutput();

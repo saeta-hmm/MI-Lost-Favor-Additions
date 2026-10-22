@@ -10,14 +10,21 @@ import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItemTags;
+import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +41,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)
@@ -47,24 +55,34 @@ public class Chiseling {
     private static int hammerHitTicks = 0;
     private static int prevHammerHitTicks = 0;
 
-    private static boolean isChiseling(){
-        Minecraft minecraft = Minecraft.getInstance();
-        Player player = minecraft.player;
-        if (player == null) return false;
-
-        return player.getOffhandItem().is(MILFItemTags.HAMMERS) && player.getMainHandItem().is(MILFItemTags.CHISELS);
-    }
+    private static float prepareAnimationProgress = 0;
+    private static float prevPrepareAnimationProgress = 0;
+    private static boolean isPrimed = false;
 
     @SubscribeEvent
     public static void handleClick(InputEvent.MouseButton.Pre event){
 
-        if(event.getButton() == InputConstants.MOUSE_BUTTON_LEFT && event.getAction() == InputConstants.PRESS){
+        if(event.getButton() == InputConstants.MOUSE_BUTTON_RIGHT ){
 
-            if(isChiseling()) {
+            if(event.getAction() == InputConstants.PRESS){
+
+                if(isChiseling()) isPrimed = true;
+
+
+            } else if (event.getAction() == InputConstants.RELEASE){
+                if(isPrimed) {
+                    isPrimed = false;
+                    prepareAnimationProgress = 0;
+                }
+            }
+
+        }else if(event.getButton() == InputConstants.MOUSE_BUTTON_LEFT && event.getAction() == InputConstants.PRESS){
+
+            if(isPrimed) {
 
                 Minecraft minecraft = Minecraft.getInstance();
                 Player player = minecraft.player;
-                if (player == null || !player.isUsingItem()) return;
+                if (player == null) return;
 
                 HitResult hitResult = minecraft.hitResult;
 
@@ -72,6 +90,8 @@ public class Chiseling {
 
                     Level level= minecraft.level;
                     BlockPos pos = blockHitResult.getBlockPos();
+
+                    //MILostFavor.LOGGER.info("WAHT");
 
                     if(hammerHitTicks == 0) {
                         hammerHitTicks = HAMMER_MAX_TICKS;
@@ -85,11 +105,22 @@ public class Chiseling {
 
                     }
 
+                    event.setCanceled(true);
+
                 }
 
             }
         }
 
+    }
+
+
+    @SubscribeEvent
+    public static void handleInteractions(InputEvent.MouseButton.InteractionKeyMappingTriggered event){
+        if(isPrimed) {
+            event.setSwingHand(false);
+            event.setCanceled(true);
+        }
     }
 
     private static BlockPos getChiseledBlockPos(){
@@ -116,138 +147,146 @@ public class Chiseling {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Pre event){
+        prevPrepareAnimationProgress = prepareAnimationProgress;
         prevHammerHitTicks = hammerHitTicks;
+        if(isPrimed){
+
+            prepareAnimationProgress = Mth.approach(prepareAnimationProgress, 1, 0.1f);
+
+        }
         if(hammerHitTicks != 0) {
 
             hammerHitTicks--;
         }
     }
 
+    private static boolean isChiseling(){
+        Minecraft minecraft = Minecraft.getInstance();
+        LocalPlayer player = minecraft.player;
+        if(player == null) return false;
+        if(!player.getMainHandItem().is(MILFItemTags.CHISELS)) return false;
+        return player.getOffhandItem().is(MILFItemTags.HAMMERS);
+    }
+
     @SubscribeEvent
     public static void onRenderHand(RenderHandEvent event) {
+        if (!isPrimed) return;
+
         ItemStack stack = event.getItemStack();
         if(stack.is(MILFItemTags.CHISELS) || stack.is(MILFItemTags.HAMMERS)) {
 
-            if (!isChiseling()) return;
-            event.setCanceled(true);
-
-            if(stack.is(MILFItemTags.CHISELS)) {
-                renderChiselHand(
-                        event.getPoseStack(),
-                        event.getMultiBufferSource(),
-                        stack,
-                        event.getPackedLight(),
-                        event.getPartialTick()
-                );
-            } else {
-                renderHammerHand(
-                        event.getPoseStack(),
-                        event.getMultiBufferSource(),
-                        stack,
-                        event.getPackedLight(),
-                        event.getPartialTick()
-                );
+            if(!isChiseling()) {
+                isPrimed = false;
+                prepareAnimationProgress = 0;
+                return;
             }
 
+            event.setCanceled(true);
+
+            renderHands(
+                    event.getPoseStack(),
+                    event.getMultiBufferSource(),
+                    stack,
+                    event.getPackedLight(),
+                    event.getPartialTick(),
+                    event.getEquipProgress(),
+                    event.getSwingProgress()
+            );
+
         }
 
     }
 
-    private static void renderChiselHand(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemToRender, int packedLight, float partialTick){
-
+    private static void renderHands(
+            PoseStack poseStack,
+            MultiBufferSource bufferSource,
+            ItemStack itemToRender,
+            int packedLight,
+            float partialTick,
+            float equipProgress,
+            float swingProgress
+    ){
         Minecraft minecraft = Minecraft.getInstance();
-        Player player = minecraft.player;
+        LocalPlayer player = minecraft.player;
 
-        assert player != null;
+        if(player == null) return;
+
+        EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
+
+        float interpolatedPrepareAnimationProgress = Mth.lerp(partialTick, prevPrepareAnimationProgress, prepareAnimationProgress);
+        float easedPrepareAnimationProgress = RenderUtil.EasingFunctions.easeInQuadOutExpo(interpolatedPrepareAnimationProgress);
+
+        float prevHammerProgress = (float) prevHammerHitTicks / HAMMER_MAX_TICKS;
+        float hammerProgress = (float) hammerHitTicks / HAMMER_MAX_TICKS;
+        hammerProgress = Mth.lerp(partialTick, prevHammerProgress, hammerProgress);
+        hammerProgress = RenderUtil.EasingFunctions.easeInBack(hammerProgress);
 
         poseStack.pushPose();
 
-        poseStack.translate(0.5, -0.55, -0.75);
+        ItemDisplayContext context;
+        if(itemToRender.is(MILFItemTags.CHISELS)) {
 
-        if (player.isUsingItem()) {
+            context = ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
 
-            float prevHammerProgress = (float) prevHammerHitTicks / HAMMER_MAX_TICKS;
-            float hammerProgress = (float) hammerHitTicks / HAMMER_MAX_TICKS;
+            applyItemArmAttackTransform(poseStack, HumanoidArm.RIGHT, swingProgress);
+            applyItemArmTransform(poseStack, HumanoidArm.RIGHT, equipProgress);
 
-            hammerProgress = Mth.lerp( partialTick, prevHammerProgress, hammerProgress);
+            poseStack.translate(0, easedPrepareAnimationProgress * 0.22, easedPrepareAnimationProgress * -0.3 + -0.05 * hammerProgress);
 
-            hammerProgress = RenderUtil.EasingFunctions.easeInBack(hammerProgress);
+            poseStack.mulPose(Axis.XN.rotationDegrees(easedPrepareAnimationProgress * 35));
+            poseStack.mulPose(Axis.ZN.rotationDegrees(easedPrepareAnimationProgress * 15));
+            poseStack.mulPose(Axis.XN.rotationDegrees(easedPrepareAnimationProgress * 75));
 
+        } else {
 
+            context = ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
 
-            poseStack.translate(0, 0.22, -0.3 + -0.05 * hammerProgress);
+            applyItemArmAttackTransform(poseStack, HumanoidArm.LEFT, swingProgress);
+            applyItemArmTransform(poseStack, HumanoidArm.LEFT, equipProgress);
 
-            poseStack.mulPose(Axis.XN.rotationDegrees(35));
-
-
-        }
-
-        poseStack.mulPose(Axis.ZN.rotationDegrees(15));
-
-        poseStack.mulPose(Axis.XN.rotationDegrees(75));
-
-        minecraft.getEntityRenderDispatcher().getItemInHandRenderer().renderItem(
-                player, itemToRender,
-                ItemDisplayContext.FIRST_PERSON_RIGHT_HAND,
-                false,
-                poseStack,
-                bufferSource,
-                packedLight
-        );
-
-        poseStack.popPose();
-    }
-
-    private static void renderHammerHand(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemToRender, int packedLight, float partialTick){
-
-        Minecraft minecraft = Minecraft.getInstance();
-        Player player = minecraft.player;
-
-        assert player != null;
-
-        poseStack.pushPose();
-
-
-
-        poseStack.translate(0.3, -0.3, -0.7);
-
-
-        if (player.isUsingItem()) {
-
-            float prevHammerProgress = (float) prevHammerHitTicks / HAMMER_MAX_TICKS;
-            float hammerProgress = (float) hammerHitTicks / HAMMER_MAX_TICKS;
-
-            hammerProgress = Mth.lerp( partialTick, prevHammerProgress, hammerProgress);
-
-            hammerProgress = RenderUtil.EasingFunctions.easeInOutExpo(hammerProgress);
+            //l/r  u/d f/b
+            poseStack.translate(easedPrepareAnimationProgress* 0.94, easedPrepareAnimationProgress*0.04, easedPrepareAnimationProgress*0.08);
 
             poseStack.translate(0, 0, -0.11 * hammerProgress);
-
             poseStack.mulPose(Axis.XN.rotationDegrees(12 * hammerProgress));
 
-            poseStack.mulPose(Axis.ZN.rotationDegrees(15));
-
+            poseStack.mulPose(Axis.ZN.rotationDegrees(easedPrepareAnimationProgress*15));
+            poseStack.mulPose(Axis.ZN.rotationDegrees(easedPrepareAnimationProgress*45));
+            poseStack.mulPose(Axis.XN.rotationDegrees(easedPrepareAnimationProgress*15));
         }
 
-        poseStack.mulPose(Axis.ZN.rotationDegrees(45));
 
-        poseStack.mulPose(Axis.XN.rotationDegrees(15));
-
-
-        minecraft.getEntityRenderDispatcher().getItemInHandRenderer().renderItem(
-                player, itemToRender,
-                ItemDisplayContext.FIRST_PERSON_RIGHT_HAND,
-                false,
+        entityRenderDispatcher.getItemInHandRenderer().renderItem(
+                player,
+                itemToRender,
+                context,
+                context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND,
                 poseStack,
                 bufferSource,
                 packedLight
         );
 
         poseStack.popPose();
+    }
+
+    //from ItemInHandRenderer
+    private static void applyItemArmAttackTransform(PoseStack poseStack, HumanoidArm hand, float swingProgress) {
+        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
+        float f = Mth.sin(swingProgress * swingProgress * (float) Math.PI);
+        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * (45.0F + f * -20.0F)));
+        float f1 = Mth.sin(Mth.sqrt(swingProgress) * (float) Math.PI);
+        poseStack.mulPose(Axis.ZP.rotationDegrees((float)i * f1 * -20.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(f1 * -80.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * -45.0F));
+    }
+
+    private static void applyItemArmTransform(PoseStack poseStack, HumanoidArm hand, float equippedProg) {
+        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
+        poseStack.translate((float)i * 0.56F, -0.52F, -0.72F);
     }
 
     public static void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker){
-        if(!isChiseling()) return;
+        if(!isPrimed) return;
         BlockPos pos = getChiseledBlockPos();
         if(pos != null) {
 

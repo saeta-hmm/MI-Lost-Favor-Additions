@@ -15,29 +15,29 @@ public class ChiselItem extends Item {
         super(properties);
     }
 
-    @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-
-        return  stack;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-
-        if(player.getOffhandItem().is(MILFItemTags.HAMMERS)) player.startUsingItem(hand);
-
-        return InteractionResultHolder.consume(stack);
-    }
-
-    @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.NONE;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return Integer.MAX_VALUE;
-    }
+//    @Override
+//    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
+//
+//        return  stack;
+//    }
+//
+//    @Override
+//    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+//        ItemStack stack = player.getItemInHand(hand);
+//
+//        if(player.getOffhandItem().is(MILFItemTags.HAMMERS)) player.startUsingItem(hand);
+//
+//        return InteractionResultHolder.consume(stack);
+//    }
+//
+//    @Override
+//    public UseAnim getUseAnimation(ItemStack stack) {
+//        return UseAnim.NONE;
+//    }
+//
+//    @Override
+//    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+//        return Integer.MAX_VALUE;
+//    }
 
 }

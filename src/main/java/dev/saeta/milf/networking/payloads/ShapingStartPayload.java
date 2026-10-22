@@ -6,10 +6,13 @@ import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
 import dev.saeta.milf.networking.data.ShapingType;
 import dev.saeta.milf.recipes.SingleRecipeInput;
 import dev.saeta.milf.registries.MILFBlocks;
+import dev.saeta.milf.registries.MILFItemTags;
 import dev.saeta.milf.registries.MILFRecipeTypes;
 import dev.saeta.milf.util.RecipeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,11 +21,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 
 public record ShapingStartPayload(BlockPos pos, Direction face, ShapingType shapingType) implements CustomPacketPayload {
@@ -77,7 +85,50 @@ public record ShapingStartPayload(BlockPos pos, Direction face, ShapingType shap
                     var chiselHitRecipe = RecipeUtil.getValidRecipe(level, MILFRecipeTypes.CHISEL_HIT, recipeInput);
 
                     if(chiselHitRecipe.isPresent()){
-                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                        BlockState replaceState = Blocks.AIR.defaultBlockState();
+                        ItemStack outputBlockItem = chiselHitRecipe.get().value().outputBlock();
+                        if(!outputBlockItem.isEmpty() && outputBlockItem.getItem() instanceof BlockItem blockItem){
+                            replaceState = blockItem.getBlock().getStateForPlacement(new BlockPlaceContext(
+                                    level,
+                                    player,
+                                    InteractionHand.MAIN_HAND,
+                                    new ItemStack(outputBlockItem.getItem()),
+                                    new BlockHitResult(
+                                            new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5),
+                                            payload.face,
+                                            pos,
+                                            false
+                                    )
+                            ));
+
+                            if(replaceState == null) replaceState = blockItem.getBlock().defaultBlockState();
+                        }
+                        level.setBlock(pos, replaceState, Block.UPDATE_ALL);
+
+                        level.sendParticles(
+                                new BlockParticleOption(ParticleTypes.BLOCK, state),
+                                pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                                35,
+                                0.2, 0.2, 0.2,
+                                0.4
+                        );
+
+                        var hammer = player.getOffhandItem();
+
+                        if (hammer.is(MILFItemTags.HAMMERS)) {
+                            hammer.hurtAndBreak(1, level, player, item -> {
+                                player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(hammer));
+                            });
+                        }
+
+                        var chisel = player.getMainHandItem();
+
+                        if (chisel.is(MILFItemTags.CHISELS)) {
+                            chisel.hurtAndBreak(1, level, player, item -> {
+                                player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(chisel));
+                            });
+                        }
+
                         level.playSound(null, pos, SoundEvents.BASALT_BREAK, SoundSource.BLOCKS);
                         Block.popResource(level, pos, chiselHitRecipe.get().value().assemble(recipeInput, level.registryAccess()));
                     }

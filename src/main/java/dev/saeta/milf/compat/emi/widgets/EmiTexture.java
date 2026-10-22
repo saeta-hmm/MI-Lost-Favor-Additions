@@ -18,9 +18,8 @@ public enum EmiTexture {
     STONE_BASIN(96, 64, MILostFavor.locate("textures/gui/stone_basin_emi.png")),
     STONE_BASIN_EMI_ARROW(96, 32, MILostFavor.locate("textures/gui/stone_basin_emi_arrow.png")),
     WORLD_PLACEMENT(64, 64, MILostFavor.locate("textures/gui/world_placement_emi.png")),
-    CHISEL_HIT(80, 48, MILostFavor.locate("textures/gui/chisel_hit_emi.png"))
-
-
+    CHISEL_HIT(80, 48, MILostFavor.locate("textures/gui/chisel_hit_emi.png")),
+    CHISEL_HIT_BLOCK(80, 48, MILostFavor.locate("textures/gui/chisel_hit_block_emi.png"))
 
     ;
 

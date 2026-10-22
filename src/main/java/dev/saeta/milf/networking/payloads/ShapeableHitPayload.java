@@ -46,21 +46,7 @@ public record ShapeableHitPayload(BlockPos pos, Direction face) implements Custo
 
             switch (level.getBlockEntity(payload.pos)){
                 case ChiseledBlockEntity chiseledBlockEntity -> {
-                    var hammer = player.getOffhandItem();
 
-                    if (hammer.is(MILFItemTags.HAMMERS)) {
-                        hammer.hurtAndBreak(1, level, player, item -> {
-                            player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(hammer));
-                        });
-                    }
-
-                    var chisel = player.getMainHandItem();
-
-                    if (chisel.is(MILFItemTags.CHISELS)) {
-                        chisel.hurtAndBreak(1, level, player, item -> {
-                            player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(chisel));
-                        });
-                    }
                 }
 
                 case MoldedBlockEntity moldedBlockEntity -> {

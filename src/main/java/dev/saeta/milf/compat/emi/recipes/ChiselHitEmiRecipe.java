@@ -25,6 +25,7 @@ public class ChiselHitEmiRecipe implements EmiRecipe {
 
     public final SizedIngredient input;
     public final ItemStack output;
+    public final ItemStack outputBlock;
 
     public final ResourceLocation id;
 
@@ -34,6 +35,7 @@ public class ChiselHitEmiRecipe implements EmiRecipe {
         this.input = pitFiringRecipe.input();
 
         this.output = pitFiringRecipe.output();
+        this.outputBlock = pitFiringRecipe.outputBlock();
 
         this.id = holder.id();
     }
@@ -69,6 +71,7 @@ public class ChiselHitEmiRecipe implements EmiRecipe {
     public List<EmiStack> getOutputs() {
         List<EmiStack> outputs = new ArrayList<>();
         outputs.add(EmiStack.of(output));
+        if(!outputBlock.isEmpty()) outputs.add(EmiStack.of(outputBlock));
         return outputs;
     }
 
@@ -93,6 +96,12 @@ public class ChiselHitEmiRecipe implements EmiRecipe {
         widgets.add(new MILFEmiSlotWidget(getInputs().get(0), 28,28, EmiSlot.STONE));
 
         widgets.add(new MILFEmiSlotWidget(getOutputs().get(0), 52,4, EmiSlot.STONE).recipeContext(this));
+
+        if(!outputBlock.isEmpty()){
+            widgets.add(new MILFEmiTextureWidget(EmiTexture.CHISEL_HIT_BLOCK, 0, 0));
+            widgets.add(new MILFEmiSlotWidget(getOutputs().get(1), 52,28, EmiSlot.STONE).recipeContext(this));
+
+        }
 
     }
 }
