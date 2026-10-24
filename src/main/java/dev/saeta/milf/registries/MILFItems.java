@@ -1,10 +1,7 @@
 package dev.saeta.milf.registries;
 
 import dev.saeta.milf.MILostFavor;
-import dev.saeta.milf.items.ChiselItem;
-import dev.saeta.milf.items.FirestarterItem;
-import dev.saeta.milf.items.PotsherdItem;
-import dev.saeta.milf.items.WaterskinItem;
+import dev.saeta.milf.items.*;
 import dev.saeta.milf.items.mi.BigBulkyDrillItem;
 import dev.saeta.milf.items.mi.ClunkyDrillItem;
 import net.minecraft.world.item.Item;
@@ -57,6 +54,10 @@ public class MILFItems {
     public static final DeferredItem<WaterskinItem> WATERSKIN = ITEMS.register("waterskin", () -> new WaterskinItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> FIRESTARTER = ITEMS.register("firestarter", () -> new FirestarterItem(new Item.Properties().stacksTo(1).durability(8)));
+    public static final DeferredItem<Item> FIRE_STRIKER = ITEMS.register("fire_striker", () -> new FireStrikerItem(new Item.Properties().stacksTo(1).durability(32)));
+
+
+
     public static final DeferredItem<Item> STONE_HAMMER = ITEMS.register("stone_hammer", () -> new Item(new Item.Properties().stacksTo(1).durability(109)));
     public static final DeferredItem<Item> FLINT_CHISEL = ITEMS.register("flint_chisel", () -> new ChiselItem(new Item.Properties().stacksTo(1).durability(64)));
 

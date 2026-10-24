@@ -1,8 +1,8 @@
 package dev.saeta.milf;
 
-import dev.saeta.milf.client.items.SteamDrillTooltipComponent;
+import dev.saeta.milf.client.items.drill.SteamDrillTooltipComponent;
 import dev.saeta.milf.client.notifications.NotificationManager;
-import dev.saeta.milf.client.overlay.AnvilMinigame;
+import dev.saeta.milf.client.blocks.anvil.AnvilMinigame;
 import dev.saeta.milf.client.shaping.Chiseling;
 import dev.saeta.milf.client.shaping.Pottery;
 import dev.saeta.milf.items.mi.MILFSteamDrillTooltipData;
@@ -61,13 +61,4 @@ public class MILostFavorClient {
         event.registerAboveAll(NotificationManager.ID, NotificationManager::render);
     }
 
-    @SubscribeEvent
-    private static void registerMouseInputHandlers(InputEvent.MouseButton.Pre inputEvent){
-        AnvilMinigame.handleClick(inputEvent);
-    }
-
-    @SubscribeEvent
-    private static void registerClientTickHandlers(ClientTickEvent.Pre event){
-        AnvilMinigame.onClientTick(event);
-    }
 }

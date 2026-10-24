@@ -71,6 +71,8 @@ public class MILFItemModelProvider extends ItemModelProvider {
         basicItem(MILFBlocks.UNFIRED_BLOOMERY_BASE.get().asItem());
         basicItem(MILFBlocks.CLAY_PLATE.get().asItem());
         basicItem(MILFBlocks.ROASTING_CONTRAPTION.get().asItem());
+        basicItem(MILFItems.FIRE_STRIKER.get());
+
 
         withExistingParent(MILFBlocks.UNFIRED_CLAY_CRUCIBLE.getId().toString(), mcLoc("item/generated")).texture("layer0", MILostFavor.locate("item/unfired_clay_bucket"));
         withExistingParent(MILFBlocks.EVERBURNING_ROOTS_VINE.getId().toString(), mcLoc("item/generated")).texture("layer0", MILostFavor.locate("block/everburning_roots_vine"));
@@ -79,6 +81,7 @@ public class MILFItemModelProvider extends ItemModelProvider {
         handheldItem(MILFItems.BIG_BULKY_DRILL.get());
         handheldItem(MILFItems.CLUNKY_DRILL.get());
         handheldItem(MILFItems.FIRESTARTER.get());
+
         handheldItem(MILFItems.STONE_HAMMER.get());
         handheldItem(MILFItems.FLINT_CHISEL.get());
 

@@ -38,72 +38,24 @@ public class FirestarterItem extends Item {
 
         if(!(livingEntity instanceof Player player)) return stack;
 
-        double reachDistance = player.blockInteractionRange();
+        BlockHitResult hitResult = FireStartingItem.getHitResult(serverLevel, player);
+        BlockPos hitResultBlockPos = FireStartingItem.getBlockPos(hitResult);
 
-        BlockHitResult hitResult = level.clip(new ClipContext(
-                player.getEyePosition(),
-                player.getEyePosition().add(player.getViewVector(1).scale(reachDistance)),
-                ClipContext.Block.OUTLINE,
-                ClipContext.Fluid.NONE,
-                player
-        ));
+        if(hitResultBlockPos != null && FireStartingItem.tryIgnite(serverLevel, hitResultBlockPos)){
 
-        if(hitResult.getType() == HitResult.Type.BLOCK){
-            BlockPos blockPos = hitResult.getBlockPos();
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            level.playSound(null, hitResultBlockPos, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1,1);
 
-            if(blockEntity instanceof FlammableBlockEntity flammableBlockEntity){
+            stack.hurtAndBreak(1, serverLevel, player, item -> {
+                player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(stack));
+            });
 
-                if(!flammableBlockEntity.canBeIgnited()) return stack;
-
-                stack.hurtAndBreak(1, serverLevel, player, item -> {
-                    player.onEquippedItemBroken(item, player.getEquipmentSlotForItem(stack));
-                });
-
-                level.playSound(null, blockPos, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1,1);
-
-                flammableBlockEntity.ignite();
-
-                return stack;
-            }
-
+            return stack;
 
         }
 
         if(!player.getMainHandItem().is(MILFItems.FIRESTARTER)) return stack;
 
-        //totally not FlintAndSteelItem.useOn() (‾◡◝)
-
-        UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, hitResult);
-
-        BlockPos blockpos = context.getClickedPos();
-        BlockState blockstate = level.getBlockState(blockpos);
-        BlockState blockstate2 = blockstate.getToolModifiedState(context, net.neoforged.neoforge.common.ItemAbilities.FIRESTARTER_LIGHT, false);
-        if (blockstate2 == null) {
-            BlockPos blockpos1 = blockpos.relative(context.getClickedFace());
-            if (BaseFireBlock.canBePlacedAt(level, blockpos1, context.getHorizontalDirection())) {
-                level.playSound(null, blockpos1, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1, level.getRandom().nextFloat() * 0.4f + 0.8f);
-                BlockState blockstate1 = BaseFireBlock.getState(level, blockpos1);
-                level.setBlock(blockpos1, blockstate1, 11);
-                level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-                ItemStack itemstack = context.getItemInHand();
-                if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, blockpos1, itemstack);
-                    itemstack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
-                }
-
-                return itemstack;
-            } else {
-                return stack;
-            }
-        } else {
-            level.playSound(null, blockpos, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1, level.getRandom().nextFloat() * 0.4f + 0.8f);
-            level.setBlock(blockpos, blockstate2, 11);
-            level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockpos);
-            context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
-
-            return stack;
-        }
+        return FireStartingItem.trySetOnFire(stack, hitResult, player, serverLevel);
 
     }
 

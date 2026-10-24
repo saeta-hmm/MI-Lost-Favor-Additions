@@ -3,6 +3,7 @@ package dev.saeta.milf.util;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -50,6 +52,22 @@ public class RenderUtil {
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
         return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    //from ItemInHandRenderer
+    public static void applyItemArmAttackTransform(PoseStack poseStack, HumanoidArm hand, float swingProgress) {
+        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
+        float f = Mth.sin(swingProgress * swingProgress * (float) Math.PI);
+        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * (45.0F + f * -20.0F)));
+        float f1 = Mth.sin(Mth.sqrt(swingProgress) * (float) Math.PI);
+        poseStack.mulPose(Axis.ZP.rotationDegrees((float)i * f1 * -20.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(f1 * -80.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * -45.0F));
+    }
+
+    public static void applyItemArmTransform(PoseStack poseStack, HumanoidArm hand, float equippedProg) {
+        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
+        poseStack.translate((float)i * 0.56F, -0.52F, -0.72F);
     }
 
     public static void renderCuboidFromBlockItemStack(

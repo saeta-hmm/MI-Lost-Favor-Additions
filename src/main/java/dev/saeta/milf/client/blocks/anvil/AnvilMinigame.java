@@ -1,4 +1,4 @@
-package dev.saeta.milf.client.overlay;
+package dev.saeta.milf.client.blocks.anvil;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,12 +22,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)
 public class AnvilMinigame {
 
     public final static ResourceLocation ID = MILostFavor.locate("anvil_minigame");
@@ -113,6 +117,7 @@ public class AnvilMinigame {
         return null;
     }
 
+    @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Pre event){
         BlockPos pos = getAnvilPos();
         if(pos != null){
@@ -145,6 +150,7 @@ public class AnvilMinigame {
         }
     }
 
+    @SubscribeEvent
     public static void handleClick(InputEvent.MouseButton.Pre event){
 
         if(event.getButton() == InputConstants.MOUSE_BUTTON_RIGHT && event.getAction() == InputConstants.PRESS){

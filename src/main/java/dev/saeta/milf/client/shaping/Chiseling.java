@@ -10,17 +10,13 @@ import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
 import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.registries.MILFItemTags;
-import dev.saeta.milf.registries.MILFItems;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -41,8 +37,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.network.PacketDistributor;
+
+import static dev.saeta.milf.util.RenderUtil.applyItemArmAttackTransform;
+import static dev.saeta.milf.util.RenderUtil.applyItemArmTransform;
 
 @EventBusSubscriber(modid = MILostFavor.MOD_ID, value = Dist.CLIENT)
 public class Chiseling {
@@ -267,22 +265,6 @@ public class Chiseling {
         );
 
         poseStack.popPose();
-    }
-
-    //from ItemInHandRenderer
-    private static void applyItemArmAttackTransform(PoseStack poseStack, HumanoidArm hand, float swingProgress) {
-        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
-        float f = Mth.sin(swingProgress * swingProgress * (float) Math.PI);
-        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * (45.0F + f * -20.0F)));
-        float f1 = Mth.sin(Mth.sqrt(swingProgress) * (float) Math.PI);
-        poseStack.mulPose(Axis.ZP.rotationDegrees((float)i * f1 * -20.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(f1 * -80.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees((float)i * -45.0F));
-    }
-
-    private static void applyItemArmTransform(PoseStack poseStack, HumanoidArm hand, float equippedProg) {
-        int i = hand == HumanoidArm.RIGHT ? 1 : -1;
-        poseStack.translate((float)i * 0.56F, -0.52F, -0.72F);
     }
 
     public static void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker){

@@ -1,4 +1,4 @@
-package dev.saeta.milf.client.items;
+package dev.saeta.milf.client.items.drill;
 
 import aztech.modern_industrialization.client.machines.gui.MachineScreen;
 import aztech.modern_industrialization.client.machines.guicomponents.ProgressBarClient;

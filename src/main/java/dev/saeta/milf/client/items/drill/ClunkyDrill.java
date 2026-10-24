@@ -1,4 +1,4 @@
-package dev.saeta.milf.client.items;
+package dev.saeta.milf.client.items.drill;
 
 import dev.saeta.milf.MILostFavor;
 import dev.saeta.milf.client.notifications.Notification;

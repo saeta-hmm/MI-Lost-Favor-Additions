@@ -1,4 +1,4 @@
-package dev.saeta.milf.client.basin;
+package dev.saeta.milf.client.blocks.basin;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;

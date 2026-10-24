@@ -99,6 +99,8 @@ public class MILFCreativeModeTabs {
                         output.accept(MILFItems.WATERSKIN);
 
                         output.accept(MILFItems.FIRESTARTER);
+                        output.accept(MILFItems.FIRE_STRIKER);
+
                         output.accept(MILFItems.STONE_HAMMER);
                         output.accept(MILFItems.FLINT_CHISEL);
 

@@ -1,4 +1,4 @@
-package dev.saeta.milf.client.potsherd;
+package dev.saeta.milf.client.items.potsherd;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
