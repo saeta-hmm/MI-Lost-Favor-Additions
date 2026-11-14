@@ -64,12 +64,18 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 
+            int countBefore = getStackInSlot(slot).getCount();
+
             ItemStack returnStack = super.insertItem(slot, stack, simulate);
 
-            if(returnStack.isEmpty()){
-                if(!simulate && slot < LOG_SLOTS_COUNT){
+            // A partial insert returns a non-empty remainder but still puts logs in the pit,
+            // so track what actually landed in the slot rather than the remainder.
+            if(!simulate && slot < LOG_SLOTS_COUNT){
+                int inserted = getStackInSlot(slot).getCount() - countBefore;
+
+                for (int i = 0; i < inserted; i++) {
                     if(getLogCount() == 1){
-                        currentLogBurnTime =getLogBurnTime(stack);
+                        currentLogBurnTime = getLogBurnTime(getStackInSlot(slot));
                     }
                     burnOrder.add(slot);
                 }
@@ -153,6 +159,13 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
         return itemHandler.getStackInSlot(COAL_SLOT).getCount();
     }
 
+    private void rebuildBurnOrder(){
+        burnOrder.clear();
+        for (int i = 0; i < LOG_SLOTS_COUNT; i++) {
+            if(!itemHandler.getStackInSlot(i).isEmpty()) burnOrder.add(i);
+        }
+    }
+
     public void increaseBurnTicks(int amount){
         if(!isLit) {
 
@@ -187,9 +200,13 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
             return;
         }
         if(burnOrder.isEmpty()){
-            burnTime = 0;
-            setLit(false);
-            return;
+            rebuildBurnOrder();
+
+            if(burnOrder.isEmpty()){
+                burnTime = 0;
+                setLit(false);
+                return;
+            }
         }
 
         burnTime++;
@@ -218,6 +235,8 @@ public class FirePitBlockEntity extends ItemHandlerBlockEntity implements Flamma
             burnTime =0;
 
             if(getLogCount() > 0){
+                if(burnOrder.isEmpty()) rebuildBurnOrder();
+
                 ItemStack nextLog = itemHandler.getStackInSlot(burnOrder.getFirst()) ;
 
                 currentLogBurnTime = getLogBurnTime(nextLog);
