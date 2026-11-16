@@ -4,7 +4,9 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.saeta.milf.MILostFavor;
+import dev.saeta.milf.blocks.shapeable_blocks.AbstractShapeableBlock;
 import dev.saeta.milf.blocks.shapeable_blocks.clay.MoldedBlockEntity;
+import dev.saeta.milf.client.render_stuff.GenericNumberTextWidget;
 import dev.saeta.milf.networking.data.ShapingType;
 import dev.saeta.milf.networking.payloads.ShapeableHitPayload;
 import dev.saeta.milf.networking.payloads.ShapingStartPayload;
@@ -13,12 +15,14 @@ import dev.saeta.milf.registries.MILFBlocks;
 import dev.saeta.milf.util.RenderUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -43,6 +47,12 @@ public class Pottery {
     public final static ResourceLocation ID = MILostFavor.locate("pottery_overlay");
 
     private final static ResourceLocation GUI_TEXTURE = MILostFavor.locate("textures/gui/pottery_gui.png");
+    private final static ResourceLocation QM_TEXTURE = MILostFavor.locate("textures/gui/shaping_output_qm.png");
+
+
+    private final static int TEXT_COLOR = 0xFFa0a7b8;
+    private final static GenericNumberTextWidget hitsWidget = new GenericNumberTextWidget(0xFFa0a7b8).centered();
+
     private final static int MAX_USE_TICKS = 10;
 
 
@@ -260,10 +270,11 @@ public class Pottery {
             if(blockEntity instanceof MoldedBlockEntity moldedBlockEntity){
 
                 BlockState currentOutputBlockState = moldedBlockEntity.getCurrentOutputBlock().defaultBlockState();
+                BlockState blockState = Minecraft.getInstance().level.getBlockState(pos);
 
-                if(!currentOutputBlockState.isAir() && !Minecraft.getInstance().player.isShiftKeyDown()){
-                    renderOutput(guiGraphics, deltaTracker, screenPos, currentOutputBlockState.getBlock());
-                }
+                renderOutput(guiGraphics, deltaTracker, screenPos, currentOutputBlockState, blockState);
+
+
             }
 
 
@@ -271,23 +282,57 @@ public class Pottery {
         }
     }
 
-    private static void renderOutput(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Vec3 screenPos, Block blockToRender){
+    private static void renderOutput(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Vec3 screenPos, BlockState stateToRender, BlockState state){
 
+
+        float r = ((TEXT_COLOR >> 16) & 0xFF) / 255f;
+        float g = ((TEXT_COLOR >> 8) & 0xFF) / 255f;
+        float b = (TEXT_COLOR & 0xFF) / 255f;
+        float a = ((TEXT_COLOR >> 24) & 0xFF) / 255f;
+
+
+        Font font = Minecraft.getInstance().font;
         PoseStack poseStack = guiGraphics.pose();
 
         poseStack.pushPose();
-
         poseStack.translate(screenPos.x, screenPos.y, screenPos.z);
 
         guiGraphics.blit(GUI_TEXTURE, 0,-64,64,64,0,0, 64, 64, 64, 64);
 
-        poseStack.translate(32, -32, 0);
+        guiGraphics.setColor(r,g,b,a);
 
-        poseStack.scale(2,2,1);
+        poseStack.pushPose();
 
-        guiGraphics.renderFakeItem(new ItemStack(blockToRender),  -8, -8);
+        poseStack.translate(32.5, font.lineHeight - 64 - 1, 0);
+
+        hitsWidget.render(0,0, guiGraphics, 0, state.getValue(AbstractShapeableBlock.TOP_LAYERS_CHIPPED));
+
+        poseStack.translate(0, 43, 0);
+
+        hitsWidget.render(0,0, guiGraphics, 0, state.getValue(AbstractShapeableBlock.SIDE_LAYERS_CHIPPED));
+
+
+        guiGraphics.setColor(1,1,1,1);
+
+        poseStack.popPose();
+
+
+
+        if(!stateToRender.isAir() && !Minecraft.getInstance().player.isShiftKeyDown()){
+            poseStack.translate(32, -32, 0);
+            poseStack.scale(2,2,1);
+            guiGraphics.renderFakeItem(new ItemStack(stateToRender.getBlock()),  -8, -8);
+        } else {
+            guiGraphics.setColor(r,g,b,a);
+
+            guiGraphics.blit(QM_TEXTURE, 0,-64,64,64,0,0, 64, 64, 64, 64);
+
+            guiGraphics.setColor(1,1,1,1);
+        }
+
 
         poseStack.popPose();
 
     }
+
 }
