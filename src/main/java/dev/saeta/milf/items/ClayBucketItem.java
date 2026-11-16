@@ -83,8 +83,16 @@ public class ClayBucketItem extends BlockItem implements CapabilityProvider {
             }
 
         } else if (fluidStack.getAmount() >= FluidType.BUCKET_VOLUME) {
+
             BlockState targetState = level.getBlockState(pos);
-            BlockPos placementPos = (targetState.getBlock() instanceof LiquidBlockContainer) ? pos : offsetPos;
+            BlockPos placementPos = offsetPos;
+
+            if(targetState.getBlock() instanceof LiquidBlockContainer){
+                placementPos = pos;
+            } else if(!level.getFluidState(pos).isEmpty()){
+                BlockHitResult newHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+                placementPos = newHitResult.getBlockPos().relative(newHitResult.getDirection());
+            }
 
             FluidActionResult placeResult = FluidUtil.tryPlaceFluid(player, level, hand, placementPos, stack, fluidStack);
             if (placeResult.isSuccess()) {
