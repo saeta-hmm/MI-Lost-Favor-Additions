@@ -112,7 +112,7 @@ public class ClayMoldBlock extends AbstractClayPlateBlock implements CastableMol
             int capacity = clayMoldItem.getCapacity();
             if(level.getBlockEntity(pos) instanceof ClayMoldBlockEntity clayMoldBlockEntity){
                 clayMoldBlockEntity.setCapacity(capacity);
-
+                clayMoldBlockEntity.tryStartSolidifying(level);
             }
         }
 

@@ -4,7 +4,10 @@ import dev.saeta.milf.blocks.ItemHandlerBlock;
 import dev.saeta.milf.capabilities.CapabilityProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -13,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractClayPlateBlock extends ItemHandlerBlock implements CapabilityProvider {
 
@@ -43,5 +47,4 @@ public abstract class AbstractClayPlateBlock extends ItemHandlerBlock implements
 
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
-
 }

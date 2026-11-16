@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -68,19 +69,7 @@ public abstract class AbstractCastableMoldBlockEntity extends AbstractClayMoldBl
         protected void onContentsChanged() {
             if(level == null) return;
 
-            RecipeManager recipeManager = level.getRecipeManager();
-            CastingRecipeInput castingRecipeInput = new CastingRecipeInput(new ItemStack(getBlockState().getBlock()), fluidTank.getFluid());
-
-            var recipe = recipeManager.getRecipeFor(MILFRecipeTypes.CASTING, castingRecipeInput, level);
-
-            if(recipe.isPresent() && !isSolidifying){
-                isSolidifying = true;
-                castingMaxTicks = recipe.get().value().time();
-                currentOutput = recipe.get().value().assemble(castingRecipeInput, level.registryAccess());
-                moldRemains = recipe.get().value().moldRemains().copy();
-            }
-
-            setChanged();
+            tryStartSolidifying(level);
         }
 
         @Override
@@ -94,6 +83,22 @@ public abstract class AbstractCastableMoldBlockEntity extends AbstractClayMoldBl
             return super.drain(maxDrain, action);
         }
     };
+
+    public void tryStartSolidifying(Level level){
+        RecipeManager recipeManager = level.getRecipeManager();
+        CastingRecipeInput castingRecipeInput = new CastingRecipeInput(new ItemStack(getBlockState().getBlock()), fluidTank.getFluid());
+
+        var recipe = recipeManager.getRecipeFor(MILFRecipeTypes.CASTING, castingRecipeInput, level);
+
+        if(recipe.isPresent() && !isSolidifying){
+            isSolidifying = true;
+            castingMaxTicks = recipe.get().value().time();
+            currentOutput = recipe.get().value().assemble(castingRecipeInput, level.registryAccess());
+            moldRemains = recipe.get().value().moldRemains().copy();
+        }
+
+        setChanged();
+    }
 
     public AbstractCastableMoldBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
