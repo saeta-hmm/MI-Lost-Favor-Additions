@@ -81,7 +81,7 @@ public class MILFBlockLootSubProvider extends BlockLootSubProvider {
         dropSelf(MILFBlocks.EVERBURNING_ROOTS_VINE_BLOCK.get());
         dropSelf(MILFBlocks.EVERBURNING_ROOTS_VINE.get());
 
-        dropWhenSilkTouch(MILFBlocks.STONE_ANVIL.get());
+        dropSelf(MILFBlocks.STONE_ANVIL.get());
 
         dropOther(MILFBlocks.FIRE_PIT.get(), Blocks.DIRT);
 
