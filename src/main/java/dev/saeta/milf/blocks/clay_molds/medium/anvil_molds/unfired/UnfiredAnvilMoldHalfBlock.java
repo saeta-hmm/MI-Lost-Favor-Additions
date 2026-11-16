@@ -7,7 +7,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -78,10 +80,10 @@ public class UnfiredAnvilMoldHalfBlock extends UnfiredMoldBaseBlock {
             BlockPos placePos = blockPlaceContext.getClickedPos();
 
             if(level.getBlockState(placePos).is(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF)){
-                placeAnvilMold(level, placePos);
+                placeAnvilMold(level, placePos, context.getPlayer(), context.getItemInHand());
                 return level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
             } else if(level.getBlockState(context.getClickedPos()).is(MILFBlocks.UNFIRED_CLAY_MOLD_ANVIL_HALF)){
-                placeAnvilMold(level, context.getClickedPos());
+                placeAnvilMold(level, context.getClickedPos(), context.getPlayer(), context.getItemInHand());
                 return level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
             }
 
@@ -91,7 +93,7 @@ public class UnfiredAnvilMoldHalfBlock extends UnfiredMoldBaseBlock {
 
         }
 
-        private static void placeAnvilMold(Level level, BlockPos placePos) {
+        private static void placeAnvilMold(Level level, BlockPos placePos, Player player, ItemStack itemStack) {
 
             if(!level.isClientSide){
                 BlockState state = level.getBlockState(placePos);
@@ -105,6 +107,7 @@ public class UnfiredAnvilMoldHalfBlock extends UnfiredMoldBaseBlock {
                         Block.UPDATE_ALL
                 );
                 level.playSound(null, placePos, SoundEvents.MUD_PLACE, SoundSource.BLOCKS);
+                if(!player.isCreative()) itemStack.shrink(1);
             }
 
         }
