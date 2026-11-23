@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.saeta.milf.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ArsCraftingTerminalMenuMixin",
+    "ArsCraftingTerminalScreenMixin",
+    "CraftingTerminalMenuAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -50,6 +50,27 @@ repositories {
 
         }
     }
+
+    maven {
+        url = 'https://maven.blamejared.com'
+    }
+
+    maven {
+        name = "Curios"
+        url = "https://maven.theillusivec4.top/"
+    }
+
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
+
+    maven {
+        url = 'https://maven.minecraftforge.net/'
+    }
 }
 
 base {
@@ -147,6 +168,8 @@ dependencies {
 
     localRuntime compileOnly("curse.maven:jade-324717:${project.jade_file_id}")
 
+    localRuntime compileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_version}")
+    compileOnly "com.hollingsworth.nuggets:nuggets-neoforge-1.21.1:${nuggets_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
