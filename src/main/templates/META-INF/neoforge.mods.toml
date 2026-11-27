@@ -49,10 +49,16 @@ config="${mod_id}.mixins.json"
     ordering = "AFTER"
     side = "BOTH"
 
-
 [[dependencies."${mod_id}"]]
     modId = "embers"
     type = "required"
     versionRange = "[1.21.1-1.5.9,)"
     ordering = "AFTER"
     side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "emi"
+    type = "required"
+    versionRange = "[1.1.24,)"
+    ordering = "AFTER"
+    side = "CLIENT"

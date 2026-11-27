@@ -5,9 +5,11 @@ import com.hollingsworth.arsnouveau.api.documentation.DocAssets;
 import com.hollingsworth.arsnouveau.api.documentation.DocClientUtils;
 import com.hollingsworth.arsnouveau.client.container.CraftingTerminalMenu;
 import com.hollingsworth.arsnouveau.client.container.CraftingTerminalScreen;
+import com.hollingsworth.arsnouveau.client.container.IAutoFillTerminal;
 import com.hollingsworth.arsnouveau.client.container.SlotStorage;
 import com.hollingsworth.arsnouveau.client.gui.NoShadowTextField;
 import com.hollingsworth.arsnouveau.client.gui.TerminalScrollSlider;
+import dev.emi.emi.api.EmiApi;
 import dev.saeta.milf.Config;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -24,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -73,9 +76,17 @@ public abstract class ArsCraftingTerminalScreenMixin extends AbstractContainerSc
     protected boolean expanded;
     @Shadow
     protected TerminalScrollSlider scrollSlider;
+    @Shadow
+    protected int searchType;
+    @Shadow
+    private String searchLast;
 
     @Unique
     private int milf$extraRows;
+    @Unique
+    private boolean milf$pulledFromViewer;
+    @Unique
+    private boolean milf$storedSearchPending;
 
     public ArsCraftingTerminalScreenMixin(CraftingTerminalMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -205,6 +216,61 @@ public abstract class ArsCraftingTerminalScreenMixin extends AbstractContainerSc
             int stripTop = guiTopIn - this.milf$extraRows * MILF_ROW_HEIGHT;
             cir.setReturnValue(mouseX < guiLeftIn || mouseY < stripTop || mouseX >= guiLeftIn + this.imageWidth || mouseY >= guiTopIn + this.imageHeight);
         }
+    }
+
+    @Inject(method = "containerTick", at = @At("HEAD"))
+    private void milf$pullEmiSearch(CallbackInfo ci) {
+        if (this.searchType != 1) {
+            return;
+        }
+        String viewer = EmiApi.getSearchText();
+        String current = this.searchField.getValue().trim();
+        if (!this.milf$storedSearchPending && !this.searchLast.equals(current)) {
+            return;
+        }
+        this.milf$storedSearchPending = false;
+        if (viewer.trim().equals(current)) {
+            return;
+        }
+        this.searchField.setValue(viewer);
+        this.milf$pulledFromViewer = true;
+    }
+
+    @Redirect(
+            method = "updateSearch",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/hollingsworth/arsnouveau/client/container/IAutoFillTerminal;sync(Ljava/lang/String;)V"
+            )
+    )
+    private void milf$skipViewerEcho(String searchString) {
+        if (!this.milf$pulledFromViewer) {
+            IAutoFillTerminal.sync(searchString);
+            return;
+        }
+        for (IAutoFillTerminal.ISearchHandler handler : IAutoFillTerminal.updateSearch) {
+            String viewer = handler.getSearch();
+            if (viewer == null || !viewer.trim().equals(searchString)) {
+                handler.setSearch(searchString);
+            }
+        }
+    }
+
+    @Inject(method = "updateSearch", at = @At("TAIL"))
+    private void milf$clearPullFlag(CallbackInfo ci) {
+        this.milf$pulledFromViewer = false;
+    }
+
+    @Inject(
+            method = "onPacket",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/hollingsworth/arsnouveau/client/gui/NoShadowTextField;setValue(Ljava/lang/String;)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void milf$noteStoredSearch(CallbackInfo ci) {
+        this.milf$storedSearchPending = true;
     }
 
     @ModifyArg(
