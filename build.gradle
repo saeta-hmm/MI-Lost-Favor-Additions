@@ -170,6 +170,11 @@ dependencies {
 
     localRuntime compileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_version}")
     compileOnly "com.hollingsworth.nuggets:nuggets-neoforge-1.21.1:${nuggets_version}"
+
+    implementation "curse.maven:embers-re-ignited-1579725:9130942"
+
+    // Ars pulls Curios 9.3.1 transitively; Embers refuses anything below 9.5.1.
+    localRuntime "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
