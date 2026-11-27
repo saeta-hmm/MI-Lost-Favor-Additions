@@ -10,7 +10,8 @@
   "client": [
     "ArsCraftingTerminalMenuMixin",
     "ArsCraftingTerminalScreenMixin",
-    "CraftingTerminalMenuAccessor"
+    "CraftingTerminalMenuAccessor",
+    "ArsEmiLecternRecipeHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
