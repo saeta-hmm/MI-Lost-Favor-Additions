@@ -15,8 +15,8 @@ description='''
 Some additional stuff for the MI:LF modpack.
 '''
 
-#[[mixins]]
-#config="${mod_id}.mixins.json"
+[[mixins]]
+config="${mod_id}.mixins.json"
 
 #[[accessTransformers]]
 #file="META-INF/accesstransformer.cfg"
@@ -41,3 +41,24 @@ Some additional stuff for the MI:LF modpack.
     versionRange = "${modern_industrialization_version_range}"
     ordering = "AFTER"
     side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "ars_nouveau"
+    type = "required"
+    versionRange = "[5.13.5,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "embers"
+    type = "required"
+    versionRange = "[1.21.1-1.5.9,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "emi"
+    type = "required"
+    versionRange = "[1.1.24,)"
+    ordering = "AFTER"
+    side = "CLIENT"

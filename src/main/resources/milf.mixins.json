@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "dev.saeta.milf.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "FluidTargetPathAccessor",
+    "PipeNetworkUtilFluidFilterMixin",
+    "PipeStepAccessor"
+  ],
+  "client": [
+    "ArsCraftingTerminalMenuMixin",
+    "ArsCraftingTerminalScreenMixin",
+    "CraftingTerminalMenuAccessor",
+    "ArsEmiLecternRecipeHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

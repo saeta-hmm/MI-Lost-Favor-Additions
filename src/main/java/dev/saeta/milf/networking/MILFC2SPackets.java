@@ -25,6 +25,8 @@ public class MILFC2SPackets {
 
         registrar.playToServer(FireStrikerUsePayload.TYPE, FireStrikerUsePayload.CODEC, FireStrikerUsePayload.getPayloadHandler());
 
+        registrar.playToServer(LecternCraftPayload.TYPE, LecternCraftPayload.CODEC, LecternCraftPayload.getPayloadHandler());
+
     }
 
 }
